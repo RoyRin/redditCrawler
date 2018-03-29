@@ -20,11 +20,11 @@ def increaseCount(auth):
         global userDictionary
         global popularUserCounts
         if(auth in userDictionary):
-                count = userDictionary[auth] +1
-                userDictionary[auth] = count
+            count = userDictionary[auth] +1
+            userDictionary[auth] = count
         else:
-             	userDictionary[auth] = 1
-                count = 1
+            userDictionary[auth] = 1
+            count = 1
         return
 
 def createSubList(top = 50):
@@ -70,16 +70,16 @@ def createSubList(top = 50):
            'justneckbeardthings', 'traaaaaaannnnnnnnnns']
     subs = []
     subsDict = {}
-    for i in range(top/2):
+    for i in range(int(top/2)):
         a = topSubsbySubscribers[i]
-        if(a not in subsDict)
+        if(a not in subsDict):
             subs.append(a)
             subsDict['a'] = 1
         a = topSubsByRecentActivity[i]
-        if(a not in subsDict)
-            subs.append()
+        if(a not in subsDict):
+            #subs.append(a)
             subsDict['a'] = 1
-        subs.append(a)
+            subs.append(a)
 
     return subs 
 
@@ -89,13 +89,18 @@ def getSubredditName(js):
     end = perma.find('/',3)
     return perma[3:end]
 
+def makeDirectoriesForSubs(subs):
+    for i in subs:
+        if not os.path.exists("data/"+"d_"+i):
+            os.makedirs("data/"+"d_"+i)
 # add a certain comment to the script for a subreddit if it is (seperate text file for each subreddit, for each month).
 def addToSubredditScript(js,filename):
     sub = getSubredditName(js)
-    printOut(sub+filename, js['body'] + " \n || zz xx cc vv bb nn || \n")
+    printOut("data_"+sub+"/"+sub+ filename, js['body'] + " \n || zz xx cc vv bb nn || \n")
     return
 
-
+s= createSubList()
+makeDirectoriesForSubs(s)
 
 def printDictionary(toFile):
         global userDictionary
@@ -133,7 +138,7 @@ def getAllCountsForAllFilenames():
 #userCountByFilename("RC_2017-01.txt")
 #printDictionary("textTest_RC_2015-01.txt")
 
-getAllCountsForAllFilenames()
+#getAllCountsForAllFilenames()
 
 
 

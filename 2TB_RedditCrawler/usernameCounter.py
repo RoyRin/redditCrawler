@@ -85,8 +85,10 @@ def createSubList(top = 50):
 
 # for each subreddit, make a directory (rooted in data/), in order to store the script of their writings
 def makeDirectoriesForSubs(subs):
+    
     for i in subs:
         if not os.path.exists("data/"+"d_"+i):
+            #print(i)
             os.makedirs("data/"+"d_"+i)
 
 
@@ -155,8 +157,8 @@ def getAllSubredditScriptsForAllFilenames(subsDict):
 s= createSubList()
 subs = s[0]
 subsDic = s[1]
-makeDirectoriesForSubs(s)
-subredditScriptWriter(subsDic)
+makeDirectoriesForSubs(subs)
+#getAllSubredditScriptsForAllFilenames(subsDic)
 
 #printDictionary("textfile.txt")
 

@@ -1,0 +1,14 @@
+2	['Awesome', 'http://i.imgur.com/ZRR3y8h.jpg', 'The most beautiful animal I\'ve ever seen. I give you "Boogie" resident Jaguar in the Tbilisi zoo', 1.1956521739130435]
+ ==== 
+0	['Coffee', 'https://www.reddit.com/r/Coffee/comments/5nxd2u/an_update_for_you_pretentious_fucks/', 'An update for you pretentious fucks', 1.7752808988764044]
+ ==== 
+1	['Coffee', 'http://imgur.com/gallery/f9Hki', "10 things you may not know about coffee. I'm a coffee roaster and barista. If you guys like this, I'll do an AMA.", 2.456140350877193]
+ ==== 
+2	['Coffee', 'https://www.reddit.com/r/Coffee/comments/7anryf/hey_guys_its_been_44_days_since_hurricane_maria/', "Hey guys, it's been 44 days since hurricane Maria pass through Puerto Rico. I just got power back, our coffee industry got destroyed : (", 2.027027027027027]
+ ==== 
+0	['Ask Women Advice ', 'https://www.reddit.com/r/askwomenadvice/comments/6x3kny/someone_on_this_thread_mentioned_a_great_trick/', 'Someone on this thread mentioned a great trick for sex in the missionary position...', 2.5]
+ ==== 
+1	['Ask Women Advice ', 'https://www.reddit.com/r/askwomenadvice/comments/7r9p74/husband_is_getting_praised_at_work_for_being/', 'Husband is getting praised at work for being asked out, and criticized for turning the woman down', 1.2]
+ ==== 
+2	['Ask Women Advice ', 'https://www.reddit.com/r/askwomenadvice/comments/78t2t1/how_can_i_show_my_wife_how_much_she_means_to_me/', 'How can I show my wife how much she means to me?', 1.2083333333333333]
+ ==== 

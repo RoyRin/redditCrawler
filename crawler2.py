@@ -4,6 +4,7 @@
 # secret: tlw8bWkchLbs7Czw-8TOTBKl9VM
 import praw
 import os
+import datetime
 
 reddit = praw.Reddit(user_agent='isBot-bot2018' ,
                      client_id='dzRrCBgGfZ6qCw', client_secret="tlw8bWkchLbs7Czw-8TOTBKl9VM",
@@ -149,7 +150,6 @@ def printDepthFirstScript2(submission,writeTo, minRatio):
 			print(comment.body)
 			stack.extend(comment.replies) 
 			ratios.append([float((commentCount*1.)/(len(users[-1])*1.)), commentCount, len(users[-1])])
-			#
 
 	commonThreads = 0
 
@@ -169,6 +169,46 @@ def printDepthFirstScript2(submission,writeTo, minRatio):
 	
 
 
+def get_random_user():
+	return 1
+
+	# gets a list of users from a subreddit
+def get_users_from_subreddit(subreddit,submissions, usersPerSubmission):
+	userList = []
+	users = {}
+	count = 0
+	for submission in subreddit.top(limit=submissions):
+		comments = submission.comments[:]
+		for i in comments:
+			if(i.author not in users):
+				count+=1
+				userList.append(i.author)
+				users[i.author] = 1
+			if(count>usersPerSubmission):
+				break
+	return userList
+def get_date(submission):
+	time = submission.created
+	return datetime.datetime.fromtimestamp(time)
+def print_date(submission):
+	time = datetime.datetime.fromtimestamp(submission.created)
+	print(str(time.month)+"/"+str(time.day)+"/"+str(time.year)+" ")
+	#return datetime.datetime.fromtimestamp(time)
+
+
+def get_user_script(user):
+	s = ""
+	currentMonth = 0
+	currentYear = 0
+	for i in user.comments.new():
+		time = datetime.datetime.fromtimestamp(i.created)
+		if(time.month > currentMonth or time.year > currentYear):
+			currentMonth = time.month
+			currentYear = time.year
+			s += "==========================\n"
+		s+= str(time)+"\n"+i.body
+	return s
+
 
 
 printOut(filename, "\n=================\n")
@@ -182,21 +222,7 @@ for j in range(20):
 	for submission in r.top(limit=lim):
 		print("submission " + submission.title)
 		#printBreadthFirstScript(submission,str(path)+"/feb4_2018_script_3.txt", 2.0 )
-		printDepthFirstScript2(submission,str(path)+"/feb24_2018_DFS_7.txt", 2.0 )
-'''
-for j in range(20):
-	r= getRandomSubreddit()
-	print("subreddit: " + str(r.title))
-	topSubmissions = getTopSubmission(r, False,True,False,False,False,False,3)
-	print(len(topSubmissions))
-	for i in range(len(topSubmissions)):
-		print(str(i) +"\t" + str(topSubmissions[i])+ "\t \n ==== \n")
-		printOut(filename,(str(topSubmissions[i][3])+ " :\n" +"\t\t\t\t\t" + str(topSubmissions[i])+ "\n ==== "))
-
-'''
-'''for i in range(10):
-	printOut(str(path)+"/text.txt", "hello!" + str(i))
-'''
+		printDepthFirstScript2(submission,str(path)+"/feb27_2018_DFS_7.txt", 2.0 )
 
 
 

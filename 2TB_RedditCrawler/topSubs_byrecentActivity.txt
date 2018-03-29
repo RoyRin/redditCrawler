@@ -1,0 +1,375 @@
+1
+i
+AskReddit 18,923,344
+2
+i
+politics 3,735,589
+3
+i
+The_Donald 590,766
+4
+i
+worldnews 18,445,924
+5
+i
+nba 1,022,069
+6
+i
+videos 17,533,269
+7
+i
+funny 19,154,288
+8
+i
+todayilearned 18,569,596
+9
+i
+soccer 887,023
+10
+i
+CFB 366,221
+11
+i
+pics 18,382,729
+12
+i
+gaming 17,838,745
+13
+i
+movies 17,317,811
+14
+i
+news 15,825,668
+15
+i
+gifs 15,910,425
+16
+i
+nfl 758,051
+17
+i
+BlackPeopleTwitter 1,521,996
+18
+i
+mildlyinteresting 14,047,136
+19
+i
+leagueoflegends 1,379,997
+20
+i
+aww 16,865,276
+21
+i
+WTF 5,064,886
+22
+i
+Showerthoughts 13,777,474
+23
+i
+relationships 1,054,129
+24
+i
+me_irl 1,058,182
+25
+i
+technology 6,006,937
+26
+i
+dankmemes 956,944
+27
+i
+DestinyTheGame 497,142
+28
+i
+Overwatch 1,156,188
+29
+i
+television 14,316,685
+30
+i
+hockey 526,058
+31
+i
+Bitcoin 780,451
+32
+i
+Jokes 13,386,791
+33
+i
+MMA 482,825
+34
+i
+SquaredCircle 328,769
+35
+i
+hearthstone 657,476
+36
+i
+marvelstudios 302,425
+37
+i
+interestingasfuck 1,975,215
+38
+i
+Games 1,021,600
+39
+i
+science 18,440,784
+40
+i
+CringeAnarchy 331,514
+41
+i
+PrequelMemes 519,921
+42
+i
+conspiracy 607,725
+43
+i
+AdviceAnimals 4,550,480
+44
+i
+fantasyfootball 306,766
+45
+i
+wow 542,934
+46
+i
+OldSchoolCool 12,699,183
+47
+i
+Tinder 820,320
+48
+i
+pcmasterrace 1,344,518
+49
+i
+europe 1,676,866
+50
+i
+sports 13,166,907
+51
+i
+trashy 656,836
+52
+i
+PoliticalHumor 351,156
+53
+i
+IAmA 17,829,756
+54
+i
+DotA2 415,961
+55
+i
+NintendoSwitch 527,885
+56
+i
+hiphopheads 733,767
+57
+i
+Rainbow6 348,321
+58
+i
+StarWarsBattlefront 145,163
+59
+i
+GlobalOffensive 622,996
+60
+i
+FireEmblemHeroes 99,995
+61
+i
+Unexpected 1,235,633
+62
+i
+dbz 158,250
+63
+i
+2007scape 197,484
+64
+i
+NatureIsFuckingLit 965,568
+65
+i
+oddlysatisfying 1,446,841
+66
+i
+iamverysmart 637,676
+67
+i
+niceguys 410,065
+68
+i
+ChapoTrapHouse 25,781
+69
+i
+legaladvice 371,922
+70
+i
+CrappyDesign 950,034
+71
+i
+arrow 79,541
+72
+i
+Android 1,100,145
+73
+i
+Documentaries 12,936,549
+74
+i
+anime 644,533
+75
+i
+MurderedByWords 417,382
+76
+i
+PUBATTLEGROUNDS 528,417
+77
+i
+baseball 651,593
+78
+i
+hmmm 624,730
+79
+i
+youtubehaiku 642,095
+80
+i
+4chan 877,052
+81
+i
+LivestreamFail 221,521
+82
+i
+rupaulsdragrace 153,645
+83
+i
+MovieDetails 576,857
+84
+i
+trees 1,110,522
+85
+i
+TwoXChromosomes 11,610,917
+86
+i
+WWII 113,425
+87
+i
+JusticeServed 353,650
+88
+i
+explainlikeimfive 15,392,620
+89
+i
+JUSTNOMIL 184,784
+90
+i
+h3h3productions 349,495
+91
+i
+ComedyCemetery 247,734
+92
+i
+personalfinance 12,796,400
+93
+i
+MrRobot 130,881
+94
+i
+ProgrammerHumor 484,818
+95
+i
+teenagers 368,269
+96
+i
+books 14,353,975
+97
+i
+insanepeoplefacebook 438,596
+98
+i
+mildlyinfuriating 828,355
+99
+i
+starterpacks 422,848
+100
+i
+formula1 307,959
+101
+i
+de 102,183
+102
+i
+apple 610,143
+103
+i
+canada 349,492
+104
+i
+LateStageCapitalism 270,660
+105
+i
+therewasanattempt 485,926
+106
+i
+MaliciousCompliance 363,573
+107
+i
+Animemes 105,134
+108
+i
+Ice_Poseidon 72,766
+109
+i
+reactiongifs 1,339,133
+110
+i
+tumblr 320,139
+111
+i
+xboxone 669,587
+112
+i
+tifu 13,119,961
+113
+i
+FlashTV 111,429
+114
+i
+woahdude 1,664,345
+115
+i
+Cricket 66,012
+116
+i
+KotakuInAction 92,045
+117
+i
+Futurology 12,895,202
+118
+i
+Sneakers 363,663
+119
+i
+blackpeoplegifs 295,068
+120
+i
+RoastMe 759,594
+121
+i
+HighQualityGifs 733,031
+122
+i
+facepalm 1,152,121
+123
+i
+freefolk 338,857
+124
+i
+justneckbeardthings 353,972
+125
+i
+traaaaaaannnnnnnnnns 32,349

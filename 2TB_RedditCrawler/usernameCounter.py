@@ -81,7 +81,14 @@ def createSubList(top = 50):
             subsDict['a'] = 1
             subs.append(a)
 
-    return subs 
+    return [subs , subsDict]
+
+# for each subreddit, make a directory (rooted in data/), in order to store the script of their writings
+def makeDirectoriesForSubs(subs):
+    for i in subs:
+        if not os.path.exists("data/"+"d_"+i):
+            os.makedirs("data/"+"d_"+i)
+
 
 #extract the name of subreddit from the json
 def getSubredditName(js):
@@ -89,18 +96,11 @@ def getSubredditName(js):
     end = perma.find('/',3)
     return perma[3:end]
 
-def makeDirectoriesForSubs(subs):
-    for i in subs:
-        if not os.path.exists("data/"+"d_"+i):
-            os.makedirs("data/"+"d_"+i)
 # add a certain comment to the script for a subreddit if it is (seperate text file for each subreddit, for each month).
 def addToSubredditScript(js,filename):
     sub = getSubredditName(js)
     printOut("data_"+sub+"/"+sub+ filename, js['body'] + " \n || zz xx cc vv bb nn || \n")
     return
-
-s= createSubList()
-makeDirectoriesForSubs(s)
 
 def printDictionary(toFile):
         global userDictionary
@@ -109,21 +109,37 @@ def printDictionary(toFile):
                         text = str(i) +  " : "+ str(userDictionary[i] )+"\n"
                         #print(text,file = f)
                         f.write(text)
+
+def subredditScriptWriter(filename, subsDict):
+    count = 0
+    with open(filename) as f:
+            while True:
+                count +=1
+                if(count%100000 ==0):
+                    print(count)
+                line = f.readline()
+                if(not line):
+                        break
+                jstext =json.loads(line)
+                sr = getSubredditName(jstext)
+                if(sr in subsDict):
+                    addToSubredditScript(js,filename)
+
 def userCountByFilename(filename):
-        count = 0
-        with open(filename) as f:
-                while True:
-                        count +=1
-                        #               if(count > 10830000):
-                        #   break
-                        if(count%10000 ==0):
-                                print(count)
-                        line = f.readline()
-                        if(not line):
-                                break
-                        jstext =json.loads(line)
-                        auth = jstext['author']
-                        increaseCount(auth)
+    count = 0
+    with open(filename) as f:
+        while True:
+            count +=1
+                #               if(count > 10830000):
+                                    #   break
+            if(count%10000 ==0):
+                print(count)                
+            line = f.readline()
+            if(not line):
+                break
+            jstext =json.loads(line)
+            auth = jstext['author']
+            increaseCount(auth)
 
 
 def getAllCountsForAllFilenames():
@@ -132,6 +148,15 @@ def getAllCountsForAllFilenames():
                 userDictionary = {}
                 userCountByFilename(filename)
                 printDictionary(filename[:-4]+"_usernameCount.txt")
+def getAllSubredditScriptsForAllFilenames(subsDict):
+        for filename in glob.glob('*.txt'):
+                subredditScriptWriter(filename,subsDict)
+
+s= createSubList()
+subs = s[0]
+subsDic = s[1]
+makeDirectoriesForSubs(s)
+subredditScriptWriter(subsDic)
 
 #printDictionary("textfile.txt")
 

@@ -158,7 +158,7 @@ s= createSubList()
 subs = s[0]
 subsDic = s[1]
 makeDirectoriesForSubs(subs)
-#getAllSubredditScriptsForAllFilenames(subsDic)
+getAllSubredditScriptsForAllFilenames(subsDic)
 
 #printDictionary("textfile.txt")
 

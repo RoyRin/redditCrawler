@@ -80,7 +80,10 @@ def createSubList(top = 50):
             #subs.append(a)
             subsDict['a'] = 1
             subs.append(a)
-
+    print("subs are ")
+    print(subs)
+    print("subs dict")
+    print(subsDict)
     return [subs , subsDict]
 
 # for each subreddit, make a directory (rooted in data/), in order to store the script of their writings

@@ -129,6 +129,7 @@ def subredditScriptWriter(filename, subsDict):
                 jstext =json.loads(line)
                 #print(jstext)
                 sr = getSubredditName(jstext)
+                print(sr)
                 if(sr in subsDict):
                     count2 +=1
                     print("in here wrote to" +sr)

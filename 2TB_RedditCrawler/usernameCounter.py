@@ -131,6 +131,7 @@ def subredditScriptWriter(filename, subsDict):
                 sr = getSubredditName(jstext)
                 if(sr in subsDict):
                     count2 +=1
+                    print("in here wrote to" +sr)
                     if(count2%500000 == 0):
                         print("wrote to"+sr)
                     addToSubredditScript(js,filename)

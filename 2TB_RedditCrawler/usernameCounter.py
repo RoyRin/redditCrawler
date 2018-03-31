@@ -100,10 +100,11 @@ def getSubredditName(js):
         return perma[3:end]
     elif('subreddit' in js):
         return js['subreddit']
+
 # add a certain comment to the script for a subreddit if it is (seperate text file for each subreddit, for each month).
 def addToSubredditScript(js,filename):
     sub = getSubredditName(js)
-    printOut("data_"+sub+"/"+sub+ filename, js['body'] + " \n || zz xx cc vv bb nn || \n")
+    printOut("data/"+"d_"+sub+ filename, js['body'] + " \n || zz xx cc vv bb nn || \n")
     return
 
 def printDictionary(toFile):
@@ -116,6 +117,7 @@ def printDictionary(toFile):
 
 def subredditScriptWriter(filename, subsDict):
     count = 0
+    count2 = 0
     with open(filename) as f:
             while True:
                 count +=1
@@ -128,6 +130,9 @@ def subredditScriptWriter(filename, subsDict):
                 #print(jstext)
                 sr = getSubredditName(jstext)
                 if(sr in subsDict):
+                    count2 +=1
+                    if(count2%500000 == 0):
+                        print("wrote to"+sr)
                     addToSubredditScript(js,filename)
 
 def userCountByFilename(filename):

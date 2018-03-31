@@ -94,10 +94,12 @@ def makeDirectoriesForSubs(subs):
 
 #extract the name of subreddit from the json
 def getSubredditName(js):
-    perma = js['permalink']
-    end = perma.find('/',3)
-    return perma[3:end]
-
+    if('permalink' in js):
+        perma = js['permalink']
+        end = perma.find('/',3)
+        return perma[3:end]
+    elif('subreddit' in js):
+        return js['subreddit']
 # add a certain comment to the script for a subreddit if it is (seperate text file for each subreddit, for each month).
 def addToSubredditScript(js,filename):
     sub = getSubredditName(js)

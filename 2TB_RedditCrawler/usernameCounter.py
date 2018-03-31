@@ -166,7 +166,7 @@ def getAllCountsForAllFilenames():
 def getAllSubredditScriptsForAllFilenames(subsDict):
         for filename in glob.glob('*.txt'):
                 subredditScriptWriter(filename,subsDict)
-
+                printOut("finishedWith.txt", filename) # keeps a log of the files that have been finished
 s= createSubList()
 subs = s[0]
 subsDic = s[1]

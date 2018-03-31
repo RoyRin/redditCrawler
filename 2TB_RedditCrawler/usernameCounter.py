@@ -125,7 +125,7 @@ def subredditScriptWriter(filename, subsDict):
                 if(not line):
                         break
                 jstext =json.loads(line)
-                print(jstext)
+                #print(jstext)
                 sr = getSubredditName(jstext)
                 if(sr in subsDict):
                     addToSubredditScript(js,filename)

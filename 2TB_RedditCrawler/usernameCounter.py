@@ -12,8 +12,8 @@ userDictionary = {}
 def printOut(toFile, text):
         with open(toFile, 'a') as f:
                 #print(text, file=f)
-                f.write(text)
-
+                #f.write(unicode(text, errors= ignore))
+                f.write(text.encode('utf-8'))
 
 
 def increaseCount(auth):
@@ -138,7 +138,7 @@ def subredditScriptWriter(filename, subsDict):
                     print("in here wrote to" +sr)
                     if(count2%500000 == 0):
                         print("wrote to"+sr)
-                    addToSubredditScript(js,filename)
+                    addToSubredditScript(jstext,filename)
 
 def userCountByFilename(filename):
     count = 0

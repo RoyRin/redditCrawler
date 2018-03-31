@@ -74,11 +74,11 @@ def createSubList(top = 50):
         a = topSubsbySubscribers[i]
         if(a not in subsDict):
             subs.append(a)
-            subsDict['a'] = 1
+            subsDict[a] = 1
         a = topSubsByRecentActivity[i]
         if(a not in subsDict):
             #subs.append(a)
-            subsDict['a'] = 1
+            subsDict[a] = 1
             subs.append(a)
     print("subs are ")
     print(subs)
@@ -132,7 +132,7 @@ def subredditScriptWriter(filename, subsDict):
                 jstext =json.loads(line)
                 #print(jstext)
                 sr = getSubredditName(jstext)
-                print(sr)
+                #print(sr)
                 if(sr in subsDict):
                     count2 +=1
                     print("in here wrote to" +sr)

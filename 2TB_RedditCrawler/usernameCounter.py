@@ -168,11 +168,14 @@ def getAllSubredditScriptsForAllFilenames(subsDict):
         count =0
         lastRead = ""
         with open("finishedWith.txt") as f:
-            l = f.readline()
-            print(l)
-            subsWritten[l] = count
-            count +=1
-            lastRead = l
+            while True:
+                l = f.readline()[:-1]
+                if(not line):
+                    break
+                print(l)
+                subsWritten[l] = count
+                count +=1
+                lastRead = l
         print(subsWritten)
         print(str(count)+" files read")
         for filename in glob.glob('*.txt'):

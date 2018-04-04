@@ -160,13 +160,25 @@ def userCountByFilename(filename):
 def getAllCountsForAllFilenames():
         global userDictionary
         for filename in glob.glob('*.txt'):
-                userDictionary = {}
-                userCountByFilename(filename)
-                printDictionary(filename[:-4]+"_usernameCount.txt")
+            userDictionary = {}
+            userCountByFilename(filename)
+            printDictionary(filename[:-4]+"_usernameCount.txt")
 def getAllSubredditScriptsForAllFilenames(subsDict):
+        subsWritten = {}
+        count =0
+        lastRead = ""
+        with open("finishedWith.txt") as f:
+            l = f.readline()
+            subsWritten[l] = count
+            count +=1
+            lastRead = l
+
         for filename in glob.glob('*.txt'):
-                subredditScriptWriter(filename,subsDict)
-                printOut("finishedWith.txt", filename) # keeps a log of the files that have been finished
+            if((filename in subsWritten) and filename != lastRead):
+                print(filename+"  already written (except for last one")
+                continue
+            subredditScriptWriter(filename,subsDict)
+            printOut("finishedWith.txt", filename +"\n") # keeps a log of the files that have been finished
 s= createSubList()
 subs = s[0]
 subsDic = s[1]

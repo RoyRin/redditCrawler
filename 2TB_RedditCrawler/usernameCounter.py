@@ -172,11 +172,13 @@ def getAllSubredditScriptsForAllFilenames(subsDict):
             subsWritten[l] = count
             count +=1
             lastRead = l
-
+        print(str(count)+" files read")
         for filename in glob.glob('*.txt'):
             if((filename in subsWritten) and filename != lastRead):
                 print(filename+"  already written (except for last one")
                 continue
+            count+=1
+            print(str(count)+" files read")
             subredditScriptWriter(filename,subsDict)
             printOut("finishedWith.txt", filename +"\n") # keeps a log of the files that have been finished
 s= createSubList()

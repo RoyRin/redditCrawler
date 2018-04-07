@@ -15,25 +15,25 @@ print(sys.argv[1])
 dataDir ='/beegfs/avt237/data/data'
 
 def printOut(toFile, text):
-        with open(toFile, 'a') as f:
-                f.write(text.encode('utf-8'))
+	with open(toFile, 'a') as f:
+		f.write(text.encode('utf-8'))
 
 # returns a list of the names of the subreddit folder names
 def getSubredditFolders():
 	global dataDir
-    folders = next(os.walk(dataDir))[1]
-    subs = []
-    for i in range(len(folders)):
-    	if(folders[i] == "total"):
-    		continue
-    	subs.append(folders[i]) # the names are originally of form "d_pics", and must become "pics"
+	folders = next(os.walk(dataDir))[1]
+	subs = []
+	for i in range(len(folders)):
+		if(folders[i] == "total"):
+			continue
+		subs.append(folders[i]) # the names are originally of form "d_pics", and must become "pics"
     return subs
 
 def getSubreddits():
-    global dataDir
-    folders = next(os.walk(dataDir))[1]
-    subs = []
-    for i in range(len(folders)):
+	global dataDir
+	folders = next(os.walk(dataDir))[1]
+	subs = []
+	for i in range(len(folders)):
     	if(folders[i] == "total"):
     		continue
     	subs.append(folders[i][2:]) # the names are originally of form "d_pics", and must become "pics"

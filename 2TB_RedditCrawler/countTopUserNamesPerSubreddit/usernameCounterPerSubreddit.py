@@ -26,9 +26,12 @@ def getSubredditFolders():
 
 def getSubreddits():
     global dataDir
-    subs = next(os.walk(dataDir))[1]
-    for i in range(len(subs)):
-    	subs[i] = subs[i][2:] # the names are originally of form "d_pics", and must become "pics"
+    folders = next(os.walk(dataDir))[1]
+    subs = []
+    for i in range(len(folders)):
+    	if(folders[i] == "total"):
+    		continue
+    	subs.append(folders[i][2:]) # the names are originally of form "d_pics", and must become "pics"
     return subs
  
  #create a folder which counts the number of usernames will be stored
@@ -56,7 +59,7 @@ def getSubredditName(js):
 def usernameDictionaryToString(usernameDict):
 	a = ""
 	for key, value in usernameDict.items():
-		a += str(key)+" : " str(value)+"\n"
+		a += str(key)+" : "+ str(value)+"\n"
 		#a.append([key,value])
 	return a
 

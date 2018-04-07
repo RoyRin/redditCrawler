@@ -10,6 +10,7 @@ popularUserCounts = []
 userDictionary = {}
 
 dataDir ='/beegfs/avt237/data/data'
+
 # First we need to look through each popular subreddit and find the most popular posters
     #Algorithm - look through all files with a certain subreddit
             # make list of top users by number of comment(print out )
@@ -24,17 +25,19 @@ def printOut(toFile, text):
         with open(toFile, 'a') as f:
                 f.write(text.encode('utf-8'))
 
-
+# returns a list of the names of the subreddit folder names
 def getSubredditFolders():
     global dataDir
     subs = next(os.walk(dataDir))[1]
     return subs
 
+# for a specific subreddit folder name, returns the list of names of the text files related to them
 def getFilesForSubReddit(subFolderName):
     global dataDir
     fileNames = glob.glob(dataDir+'/' + subFolderName + "*")
     return fileNames
-   
+ 
+#returns the name of the author of a json   
 def getAuthor(js):
     return js['author']
 
@@ -47,7 +50,7 @@ def getSubredditName(js):
     elif('subreddit' in js):
         return js['subreddit']
 
-
+# 
 def createUserNameDirectoriesForSubreddit(subredditFolderName, listOfTopPosters):
     global dataDir
     for i in listOfTopPosters:
@@ -63,8 +66,17 @@ def addToUserNameScript(js, subredditFolder, filename): # provided that it is a 
     printOut(dataDir+"/"+subredditFolder+"/"+ author+"/"+author+"-"+filename, js['body'] + " \n || zz xx cc vv bb nn || \n")
     return
 
+def usernameScriptWriter(subreddit, subredditFolderName, listOfFiles, dictOfUsers):
+    for fil in listOfFiles:
+        with open(fil) as f:
+            while True:
+                line = f.readline()
+                if(not line):
+                    break               
+                #jstext = json.loads(line)
 
 
+    return 1
 def subredditScriptWriter(filename, subsDict):
     count = 0
     count2 = 0
@@ -127,7 +139,7 @@ def topUsersForSub(subFolderName, top = 50):
     users = list(dictionary)
     users = [i[0] for i in users]
     return users[:top]
-    
+
 def getAllCountsForAllFilenames():
         global userDictionary
         for filename in glob.glob('*.txt'):
@@ -171,7 +183,6 @@ getAllSubredditScriptsForAllFilenames(subsDic)
 #printDictionary("textTest_RC_2015-01.txt")
 
 #getAllCountsForAllFilenames()
-
 
 
 

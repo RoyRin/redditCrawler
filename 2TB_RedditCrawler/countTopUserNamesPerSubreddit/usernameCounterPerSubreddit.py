@@ -85,15 +85,15 @@ def usernameCountFullFile(filename,subreddits,subredditUsernameDictionary):
 	subsDict = set(subreddits)
 	with open(filename) as f:
 		while True:
-            line = f.readline()
-            if(not line):
-                break
-            jstext = json.loads(line)
-            sr = getSubredditName(jstext)
-            if(sr in subsDict):
-            	auth = getAuthor(jstext)
-            	increaseCount(auth, subredditUsernameDictionary[sr])
-            	increaseCount(auth,subredditUsernameDictionary['total'])
+			line = f.readline()
+			if(not line):
+				break
+			jstext = json.loads(line)
+			sr = getSubredditName(jstext)
+			if(sr in subsDict):
+				auth = getAuthor(jstext)
+				increaseCount(auth, subredditUsernameDictionary[sr])
+				increaseCount(auth,subredditUsernameDictionary['total'])
 
         	#for each line in the file, read the line, and add the username to their username count, if that username if posting in a top subreddit
 	

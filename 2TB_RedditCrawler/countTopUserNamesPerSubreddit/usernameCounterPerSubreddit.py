@@ -100,7 +100,7 @@ def usernameCountFullFile(filename,subreddits,subredditUsernameDictionary):
 	#once the file has been read through - print out the data to the place that has been allotted for username Counts
 	for i in range(len(subreddits)):
 		userNameList = usernameDictionaryToList(subredditUsernameDictionary[subreddits[i]])
-		printOut(dataDir+"/d_"+subsDict[i]+"/userNameCounts/"+ subreddits[i]+"_"+filename, userNameList)	
+		printOut(dataDir+"/d_"+subreddits[i]+"/userNameCounts/"+ subreddits[i]+"_"+filename, userNameList)	
 	totalDict = usernameDictionaryToList(subredditUsernameDictionary['total'])
 	printOut(dataDir+"/totalUserNameCounts/"+ "usernameCount_"+filename, totalDict)
 

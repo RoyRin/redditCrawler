@@ -113,7 +113,7 @@ if __name__ == '__main__':
 	subredditUsernameDictionary = {}
 	subredditUsernameDictionary["total"] = {}
 	for i in range(len(subreddits)):
-		subredditUsernameDictionary[subreddits] = {} # create a dictionary of username counts for each subreddit
+		subredditUsernameDictionary[subreddits[i]] = {} # create a dictionary of username counts for each subreddit
 	# create a place to store the counts (if not already created)
 	createUserNameCountFolder(subredditFolderNames) 
 	#only run on the one file that you are given as an argument (this allows to run in parrallel with all the other files)

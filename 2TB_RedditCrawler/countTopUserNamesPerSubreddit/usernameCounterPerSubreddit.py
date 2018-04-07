@@ -34,19 +34,19 @@ def getSubreddits():
 	folders = next(os.walk(dataDir))[1]
 	subs = []
 	for i in range(len(folders)):
-    	if(folders[i] == "total"):
-    		continue
-    	subs.append(folders[i][2:]) # the names are originally of form "d_pics", and must become "pics"
+		if(folders[i] == "total"):
+			continue
+		subs.append(folders[i][2:]) # the names are originally of form "d_pics", and must become "pics"
 	return subs
  
  #create a folder which counts the number of usernames will be stored
 def createUserNameCountFolder(subredditFolderNames):
-    global dataDir
-    if not os.path.exists(dataDir+"/totalUserNameCounts"):
-    	os.makedirs(dataDir+"/totalUserNameCounts")
-    for i in subredditFolderNames:
-        if not os.path.exists(dataDir+"/"+i+"/"+"userNameCounts"):
-            os.makedirs(dataDir+"/"+i+"/"+"userNameCounts")
+	global dataDir
+	if not os.path.exists(dataDir+"/totalUserNameCounts"):
+		os.makedirs(dataDir+"/totalUserNameCounts")
+	for i in subredditFolderNames:
+		if not os.path.exists(dataDir+"/"+i+"/"+"userNameCounts"):
+			os.makedirs(dataDir+"/"+i+"/"+"userNameCounts")
 
 #returns the name of the author of a json   
 def getAuthor(js):
@@ -54,12 +54,12 @@ def getAuthor(js):
 
 #extract the name of subreddit from the json
 def getSubredditName(js):
-    if('permalink' in js):
-        perma = js['permalink']
-        end = perma.find('/',3)
-        return perma[3:end]
-    elif('subreddit' in js):
-        return js['subreddit']
+	if('permalink' in js):
+		perma = js['permalink']
+		end = perma.find('/',3)
+		return perma[3:end]
+	elif('subreddit' in js):
+		return js['subreddit']
 
 def usernameDictionaryToString(usernameDict):
 	a = ""
@@ -69,25 +69,25 @@ def usernameDictionaryToString(usernameDict):
 	return a
 
 # add a certain comment to the script for a subreddit if it is (seperate text file for each subreddit, for each month).
-def writeUsernameCount(userNameCounts, subredditFolder, usernameCountList): # provided that it is a top user, add their writings to their script
-    global dataDir
-    s = ""
-    for i in usernameCountList:
-    	s+= i+"\n"
-    sub = getSubredditName(js)
-    author = getAuthor(js)
-    folder = "d_" + sub
-    printOut(dataDir+"/"+subredditFolder+"/"+ author+"/"+author+"-"+filename, js['body'] + " \n || zz xx cc vv bb nn || \n")
-    return
+	def writeUsernameCount(userNameCounts, subredditFolder, usernameCountList): # provided that it is a top user, add their writings to their script
+	global dataDir
+	s = ""
+	for i in usernameCountList:
+		s+= i+"\n"
+	sub = getSubredditName(js)
+	author = getAuthor(js)
+	folder = "d_" + sub
+	printOut(dataDir+"/"+subredditFolder+"/"+ author+"/"+author+"-"+filename, js['body'] + " \n || zz xx cc vv bb nn || \n")
+	return
 
-def increaseCount(auth, userDictionary):
-    if(auth in userDictionary):
-        count = userDictionary[auth] +1
-        userDictionary[auth] = count
-    else:
-        userDictionary[auth] = 1
-        count = 1
-    return
+	def increaseCount(auth, userDictionary):
+	if(auth in userDictionary):
+		count = userDictionary[auth] +1
+		userDictionary[auth] = count
+	else:
+		userDictionary[auth] = 1
+		count = 1
+	return
 
 #subredditUserNameDictionary is a dictionary of the dictionaries that contain the username counts for each subreddit
 def usernameCountFullFile(filename,subreddits,subredditUsernameDictionary): 

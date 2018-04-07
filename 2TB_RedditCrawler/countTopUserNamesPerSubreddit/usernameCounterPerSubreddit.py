@@ -50,7 +50,7 @@ def createUserNameCountFolder(subredditFolderNames):
 
 #returns the name of the author of a json   
 def getAuthor(js):
-    return js['author']
+	return js['author']
 
 #extract the name of subreddit from the json
 def getSubredditName(js):
@@ -81,13 +81,13 @@ def writeUsernameCount(userNameCounts, subredditFolder, usernameCountList): # pr
     return
 
 def increaseCount(auth, userDictionary):
-        if(auth in userDictionary):
-            count = userDictionary[auth] +1
-            userDictionary[auth] = count
-        else:
-            userDictionary[auth] = 1
-            count = 1
-        return
+    if(auth in userDictionary):
+        count = userDictionary[auth] +1
+        userDictionary[auth] = count
+    else:
+        userDictionary[auth] = 1
+        count = 1
+    return
 
 #subredditUserNameDictionary is a dictionary of the dictionaries that contain the username counts for each subreddit
 def usernameCountFullFile(filename,subreddits,subredditUsernameDictionary): 

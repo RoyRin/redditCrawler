@@ -6,6 +6,8 @@ import sys
 
 print(sys.version)
 
+dataDir ='/beegfs/avt237/data/data'
+
 popularUserCounts = []
 userDictionary = {}
 
@@ -188,11 +190,44 @@ def getAllSubredditScriptsForAllFilenames(subsDict):
             print(str(count)+" files read" + "  - reading "+ filename)
             subredditScriptWriter(filename,subsDict)
             printOut("finishedWith.txt", filename +"\n") # keeps a log of the files that have been finished
-s= createSubList()
-subs = s[0]
-subsDic = s[1]
-makeDirectoriesForSubs(subs)
-getAllSubredditScriptsForAllFilenames(subsDic)
+def writeOneSubredditScript(filename, subsDict):
+    subsWritten = {}
+    count =0
+    lastRead = ""
+    with open("finishedWith.txt") as f:
+        while True:
+            l = f.readline()[:-1]
+            if(not l):
+                break
+            print(l, "count ", count)
+            subsWritten[l] = count
+            count +=1
+            lastRead = l
+    #print(subsWritten)
+    # know which ones have already been written
+    print(str(count)+" files read")
+    
+    if(filename == "finishedWith.txt"):
+        continue
+    if((filename in subsWritten) and filename != lastRead):
+        print(filename+"  already written (except for last one")
+        return
+
+        count+=1
+        print(str(count)+" files read" + "  - reading "+ filename)
+        
+        subredditScriptWriter(filename,subsDict)
+        printOut("finishedWith.txt", filename +"\n") # keeps a log of the files that have been finished
+
+if __main__ == '__main__':
+    s= createSubList()
+    subs = s[0]
+    subsDic = s[1]
+    makeDirectoriesForSubs(subs)
+    
+    fileToScrape = sys.argv[1]
+    writeOneSubredditScript(fileToScrape, subsDic):
+
 
 #printDictionary("textfile.txt")
 

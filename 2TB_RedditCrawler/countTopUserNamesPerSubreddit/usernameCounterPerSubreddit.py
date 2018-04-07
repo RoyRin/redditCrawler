@@ -20,8 +20,13 @@ def printOut(toFile, text):
 
 # returns a list of the names of the subreddit folder names
 def getSubredditFolders():
-    global dataDir
-    subs = next(os.walk(dataDir))[1]
+	global dataDir
+    folders = next(os.walk(dataDir))[1]
+    subs = []
+    for i in range(len(folders)):
+    	if(folders[i] == "total"):
+    		continue
+    	subs.append(folders[i]) # the names are originally of form "d_pics", and must become "pics"
     return subs
 
 def getSubreddits():

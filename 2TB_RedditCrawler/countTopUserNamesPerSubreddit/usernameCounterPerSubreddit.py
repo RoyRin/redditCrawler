@@ -69,7 +69,7 @@ def usernameDictionaryToString(usernameDict):
 	return a
 
 # add a certain comment to the script for a subreddit if it is (seperate text file for each subreddit, for each month).
-	def writeUsernameCount(userNameCounts, subredditFolder, usernameCountList): # provided that it is a top user, add their writings to their script
+def writeUsernameCount(userNameCounts, subredditFolder, usernameCountList): # provided that it is a top user, add their writings to their script
 	global dataDir
 	s = ""
 	for i in usernameCountList:
@@ -80,7 +80,7 @@ def usernameDictionaryToString(usernameDict):
 	printOut(dataDir+"/"+subredditFolder+"/"+ author+"/"+author+"-"+filename, js['body'] + " \n || zz xx cc vv bb nn || \n")
 	return
 
-	def increaseCount(auth, userDictionary):
+def increaseCount(auth, userDictionary):
 	if(auth in userDictionary):
 		count = userDictionary[auth] +1
 		userDictionary[auth] = count
@@ -92,6 +92,7 @@ def usernameDictionaryToString(usernameDict):
 #subredditUserNameDictionary is a dictionary of the dictionaries that contain the username counts for each subreddit
 def usernameCountFullFile(filename,subreddits,subredditUsernameDictionary): 
 	subsDict = set(subreddits)
+	print(subsDict)
 	with open(filename) as f:
 		while True:
 			line = f.readline()
@@ -118,7 +119,7 @@ if __name__ == '__main__':
 	subredditFolderNames = getSubredditFolders()
 	#get a list of the subreddits that we care about
 	subreddits = getSubreddits()
-
+	print(subreddits)
 	subredditUsernameDictionary = {}
 	subredditUsernameDictionary["total"] = {}
 	for i in range(len(subreddits)):

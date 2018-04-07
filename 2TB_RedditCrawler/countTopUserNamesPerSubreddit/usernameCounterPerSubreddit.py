@@ -53,10 +53,11 @@ def getSubredditName(js):
     elif('subreddit' in js):
         return js['subreddit']
 
-def usernameDictionaryToList(usernameDict):
-	a = []
+def usernameDictionaryToString(usernameDict):
+	a = ""
 	for key, value in usernameDict.items():
-		a.append([key,value])
+		a += str(key)+" : " str(value)+"\n"
+		#a.append([key,value])
 	return a
 
 # add a certain comment to the script for a subreddit if it is (seperate text file for each subreddit, for each month).
@@ -99,7 +100,7 @@ def usernameCountFullFile(filename,subreddits,subredditUsernameDictionary):
 	
 	#once the file has been read through - print out the data to the place that has been allotted for username Counts
 	for i in range(len(subreddits)):
-		userNameList = usernameDictionaryToList(subredditUsernameDictionary[subreddits[i]])
+		userNameList = usernameDictionaryToString(subredditUsernameDictionary[subreddits[i]])
 		printOut(dataDir+"/d_"+subreddits[i]+"/userNameCounts/"+ subreddits[i]+"_"+filename, userNameList)	
 	totalDict = usernameDictionaryToList(subredditUsernameDictionary['total'])
 	printOut(dataDir+"/totalUserNameCounts/"+ "usernameCount_"+filename, totalDict)

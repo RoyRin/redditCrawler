@@ -24,7 +24,7 @@ def getSubredditFolders():
 	folders = next(os.walk(dataDir))[1]
 	subs = []
 	for i in range(len(folders)):
-		if(folders[i] == "total"):
+		if(folders[i] == "totalUserNameCounts"):
 			continue
 		subs.append(folders[i]) # the names are originally of form "d_pics", and must become "pics"
 	return subs
@@ -34,7 +34,7 @@ def getSubreddits():
 	folders = next(os.walk(dataDir))[1]
 	subs = []
 	for i in range(len(folders)):
-		if(folders[i] == "total"):
+		if(folders[i] == "totalUserNameCounts"):
 			continue
 		subs.append(folders[i][2:]) # the names are originally of form "d_pics", and must become "pics"
 	return subs
@@ -110,8 +110,9 @@ def usernameCountFullFile(filename,subreddits,subredditUsernameDictionary):
 	#once the file has been read through - print out the data to the place that has been allotted for username Counts
 	for i in range(len(subreddits)):
 		userNameList = usernameDictionaryToString(subredditUsernameDictionary[subreddits[i]])
+		print(subreddits[i])
 		printOut(dataDir+"/d_"+subreddits[i]+"/userNameCounts/"+ subreddits[i]+"_"+filename, userNameList)	
-	totalDict = usernameDictionaryToList(subredditUsernameDictionary['total'])
+	totalDict = usernameDictionaryToString(subredditUsernameDictionary['total'])
 	printOut(dataDir+"/totalUserNameCounts/"+ "usernameCount_"+filename, totalDict)
 
 if __name__ == '__main__':

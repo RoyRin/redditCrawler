@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=subredditCrawler
+#SBATCH --job-name=redditCrawler
 #SBATCH --nodes=2
 #SBATCH --cpus-per-task= 25
 #SBATCH --mem=10Gb
@@ -14,4 +14,3 @@ done
 
 wait
 
-/beegfs/avt237/data/redditCrawler/2TB_RedditCrawler/writeSubredditScripts

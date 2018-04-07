@@ -27,7 +27,7 @@ def getSubredditFolders():
 		if(folders[i] == "total"):
 			continue
 		subs.append(folders[i]) # the names are originally of form "d_pics", and must become "pics"
-    return subs
+	return subs
 
 def getSubreddits():
 	global dataDir
@@ -37,7 +37,7 @@ def getSubreddits():
     	if(folders[i] == "total"):
     		continue
     	subs.append(folders[i][2:]) # the names are originally of form "d_pics", and must become "pics"
-    return subs
+	return subs
  
  #create a folder which counts the number of usernames will be stored
 def createUserNameCountFolder(subredditFolderNames):

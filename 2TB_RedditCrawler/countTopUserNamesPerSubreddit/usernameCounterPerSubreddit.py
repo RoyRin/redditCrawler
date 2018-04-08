@@ -13,10 +13,22 @@ print(sys.argv[1])
 
 
 dataDir ='/beegfs/avt237/data/data'
-
+'''
 def printOut(toFile, text):
 	with open(toFile, 'a') as f:
 		f.write(text.encode('utf-8'))
+
+'''
+def printOut(toFile, text):
+    if os.path.exists(filename):
+        append_write = 'a' # append if already exists
+    else:
+        append_write = 'w' # make a new file if not
+    with open(toFile, append_write) as f:
+                #print(text, file=f)
+                #f.write(unicode(text, errors= ignore))
+            f.write(text.encode('utf-8'))
+
 
 # returns a list of the names of the subreddit folder names
 def getSubredditFolders():

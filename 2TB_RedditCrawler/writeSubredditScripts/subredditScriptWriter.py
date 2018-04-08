@@ -12,10 +12,17 @@ popularUserCounts = []
 userDictionary = {}
 
 def printOut(toFile, text):
-        with open(toFile, 'a') as f:
+    if os.path.exists(filename):
+        append_write = 'a' # append if already exists
+    else:
+        append_write = 'w' # make a new file if not
+    with open(toFile, append_write) as f:
                 #print(text, file=f)
                 #f.write(unicode(text, errors= ignore))
-                f.write(text.encode('utf-8'))
+            f.write(text.encode('utf-8'))
+
+
+
 
 
 def increaseCount(auth):
@@ -207,8 +214,6 @@ def writeOneSubredditScript(filename, subsDict):
     # know which ones have already been written
     print(str(count)+" files read")
     
-    if(filename == "finishedWith.txt"):
-        continue
     if((filename in subsWritten) and filename != lastRead):
         print(filename+"  already written (except for last one")
         return
@@ -218,7 +223,7 @@ def writeOneSubredditScript(filename, subsDict):
         
         subredditScriptWriter(filename,subsDict)
         printOut("finishedWith.txt", filename +"\n") # keeps a log of the files that have been finished
-
+    return 
 if __main__ == '__main__':
     s= createSubList()
     subs = s[0]
@@ -226,7 +231,7 @@ if __main__ == '__main__':
     makeDirectoriesForSubs(subs)
     
     fileToScrape = sys.argv[1]
-    writeOneSubredditScript(fileToScrape, subsDic):
+    writeOneSubredditScript(fileToScrape, subsDic)
 
 
 #printDictionary("textfile.txt")

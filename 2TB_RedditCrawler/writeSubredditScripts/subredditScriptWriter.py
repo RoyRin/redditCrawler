@@ -12,7 +12,7 @@ popularUserCounts = []
 userDictionary = {}
 
 def printOut(toFile, text):
-    if os.path.exists(filename):
+    if os.path.exists(toFile):
         append_write = 'a' # append if already exists
     else:
         append_write = 'w' # make a new file if not
@@ -218,13 +218,11 @@ def writeOneSubredditScript(filename, subsDict):
         print(filename+"  already written (except for last one")
         return
 
-        count+=1
-        print(str(count)+" files read" + "  - reading "+ filename)
-        
-        subredditScriptWriter(filename,subsDict)
-        printOut("finishedWith.txt", filename +"\n") # keeps a log of the files that have been finished
+    print("  - reading "+ filename)
+    subredditScriptWriter(filename,subsDict)
+    printOut("finishedWith.txt", filename +"\n") # keeps a log of the files that have been finished
     return 
-if __main__ == '__main__':
+if __name__ == '__main__':
     s= createSubList()
     subs = s[0]
     subsDic = s[1]

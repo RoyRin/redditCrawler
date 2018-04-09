@@ -20,7 +20,7 @@ def printOut(toFile, text):
 
 '''
 def printOut(toFile, text):
-    if os.path.exists(filename):
+    if os.path.exists(toFile):
         append_write = 'a' # append if already exists
     else:
         append_write = 'w' # make a new file if not

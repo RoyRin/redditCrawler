@@ -81,6 +81,8 @@ def readAllFiles(subredditFolder ,usernameDictionary):
 	files = glob.glob("/beegfs/avt237/data/data/"+subredditFolder+"/userNameCounts/*.txt")
 
 	for i in range(len(files)):
+		if(files[i][:-len("TOTALUSERS.txt")] =="TOTALUSERS.txt" ):
+			continue
 		print("adding up:"+ files[i])
 		readFile(files[i], usernameDictionary)
 	return dictionaryToList(usernameDictionary)

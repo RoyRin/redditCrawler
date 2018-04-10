@@ -64,7 +64,7 @@ def readFile(filename, userNameCounts):
 			count = line[ind+3:]
 			increaseCount(auth, count, userNameCounts)
 	print("read through the file"+str(a)+" lines")
-	
+
 	return
 def dictionaryToList(dictionary):
 	l = []
@@ -101,7 +101,8 @@ if __name__ == '__main__':
 	usernameDict = {}
 	readAllFiles(subFolders[i],usernameDict) # read and count all the files
 	printTopNUsers(dictionaryToList(usernameDict),numberUsers, "/beegfs/avt237/data/data/"+subFolders[index]+"/userNameCounts/"+subFolders[index]+"TOTALUSERS.txt" ) # print Out the top users
-
+	print("should have printed to:")
+	print("/beegfs/avt237/data/data/"+subFolders[index]+"/userNameCounts/"+subFolders[index]+"TOTALUSERS.txt" )
 
 
 

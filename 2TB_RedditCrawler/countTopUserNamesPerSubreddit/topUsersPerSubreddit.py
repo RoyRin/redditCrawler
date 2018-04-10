@@ -11,6 +11,11 @@ print(sys.argv[1])
 
 dataDir ='/beegfs/avt237/data/data'
 
+def overWrite(toFile, text):
+    with open(toFile, 'w') as f:
+                #print(text, file=f)
+                #f.write(unicode(text, errors= ignore))
+            f.write(text.encode('utf-8'))
 def printOut(toFile, text):
     if os.path.exists(toFile):
         append_write = 'a' # append if already exists
@@ -61,7 +66,7 @@ def readFile(filename, userNameCounts):
 			a+=1
 			ind = line.find(" : ")
 			auth = line[:ind]
-			count = line[ind+3:]
+			count = int(line[ind+3:])
 			increaseCount(auth, count, userNameCounts)
 	print("read through the file"+str(a)+" lines")
 
@@ -82,24 +87,25 @@ def readAllFiles(subredditFolder ,usernameDictionary):
 #/beegfs/avt237/data/data/d_food/userNameCounts
 
 def printTopNUsers(usersList, n, filename):
-	printOut(filename, str(usersList[0]) )
+	overWrite(filename, str(usersList[0]) )
 	s=""
 	for i in range(n):
 		if(i>len(usersList)):
 			break
-		s+=usersList[i]+"\n"
+		s+=str(usersList[i])+"\n"
 	printOut(filename, s)
 	return 
 
 if __name__ == '__main__':
 	subs = getSubreddits()
 	subFolders = getSubredditFolders()
-	index = sys.argv[1]
-	numberUsers = sys.argv[2]
+	print(subsFolders)
+	index = int(sys.argv[1])
+	numberUsers = int(sys.argv[2])
 	if(index >=len(subFolders)):
 		exit()
 	usernameDict = {}
-	readAllFiles(subFolders[i],usernameDict) # read and count all the files
+	readAllFiles(subFolders[index],usernameDict) # read and count all the files
 	printTopNUsers(dictionaryToList(usernameDict),numberUsers, "/beegfs/avt237/data/data/"+subFolders[index]+"/userNameCounts/"+subFolders[index]+"TOTALUSERS.txt" ) # print Out the top users
 	print("should have printed to:")
 	print("/beegfs/avt237/data/data/"+subFolders[index]+"/userNameCounts/"+subFolders[index]+"TOTALUSERS.txt" )

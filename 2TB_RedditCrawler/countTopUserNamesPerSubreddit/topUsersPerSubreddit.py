@@ -82,7 +82,7 @@ def printTopNUsers(usersList, n, filename):
 		if(i>len(usersList)):
 			break
 		s+=usersList[i]+"\n"
-	printOut(s, filename)
+	printOut(filename, s)
 	return 
 
 if __name__ == '__main__':
@@ -91,10 +91,10 @@ if __name__ == '__main__':
 	index = sys.argv[1]
 	numberUsers = sys.argv[2]
 	if(index >=len(subFolders)):
-		return
+		exit()
 	usernameDict = {}
 	readAllFiles(subFolders[i],usernameDict) # read and count all the files
-	printTopNUsers(dictionaryToList(usernameDict),numberUsers, dataDir+"/"+subFolders[index]+"/userNameCounts/"+subFolders[index]+"TOTALUSERS.txt" ) # print Out the top users
+	printTopNUsers(dictionaryToList(usernameDict),numberUsers, "/beegfs/avt237/data/data/"+subFolders[index]+"/userNameCounts/"+subFolders[index]+"TOTALUSERS.txt" ) # print Out the top users
 
 
 

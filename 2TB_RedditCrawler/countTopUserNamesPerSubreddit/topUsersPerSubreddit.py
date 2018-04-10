@@ -52,15 +52,19 @@ def increaseCount(auth, count, userDictionary):
 
 def readFile(filename, userNameCounts): 
 	#usernamecouts is a dictionary of all the username counts up to acertain point
+	a =0
 	with open(filename) as f:
 		while True:
 			line = f.readline()
 			if(not line):
 				break
+			a+=1
 			ind = line.find(" : ")
 			auth = line[:ind]
 			count = line[ind+3:]
 			increaseCount(auth, count, userNameCounts)
+	print("read through the file"+str(a)+" lines")
+	
 	return
 def dictionaryToList(dictionary):
 	l = []
@@ -70,7 +74,9 @@ def dictionaryToList(dictionary):
 	return l
 def readAllFiles(subredditFolder ,usernameDictionary):
 	files = glob.glob("/beegfs/avt237/data/data/"+subredditFolder+"/userNameCounts/*.txt")
+
 	for i in range(len(files)):
+		print("adding up:"+ files[i])
 		readFile(files[i], usernameDictionary)
 	return dictionaryToList(usernameDictionary)
 #/beegfs/avt237/data/data/d_food/userNameCounts

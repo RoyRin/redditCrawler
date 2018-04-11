@@ -81,7 +81,7 @@ def readAllFiles(subredditFolder ,usernameDictionary):
 	files = glob.glob("/beegfs/avt237/data/data/"+subredditFolder+"/userNameCounts/*.txt")
 
 	for i in range(len(files)):
-		if(files[i][:-len("TOTALUSERS.txt")] =="TOTALUSERS.txt" ):
+		if(files[i][-len("TOTALUSERS.txt"):] =="TOTALUSERS.txt" ):
 			continue
 		print("adding up:"+ files[i])
 		readFile(files[i], usernameDictionary)
@@ -101,7 +101,7 @@ def printTopNUsers(usersList, n, filename):
 if __name__ == '__main__':
 	subs = getSubreddits()
 	subFolders = getSubredditFolders()
-	print(subsFolders)
+	print(subFolders)
 	index = int(sys.argv[1])
 	numberUsers = int(sys.argv[2])
 	if(index >=len(subFolders)):

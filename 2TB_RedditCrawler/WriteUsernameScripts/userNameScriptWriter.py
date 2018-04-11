@@ -1,188 +1,110 @@
-#import numpy as np
+import numpy as np
 import os
 import glob
 import json
 import sys
 
 print(sys.version)
+print(sys.argv[1])
 
-popularUserCounts = []
-userDictionary = {}
+#So this will go in and take the top users of a subreddit (calculated already), 
+# it will read who they are, take the top n of them, and then compile a script for them 
+# each one will be individual - and it should be chronologically stored - it should store, for each username 
+# a different file for each 
 
-dataDir ='/beegfs/avt237/data/data'
 
-# First we need to look through each popular subreddit and find the most popular posters
-    #Algorithm - look through all files with a certain subreddit
-            # make list of top users by number of comment(print out )
+#directory which holds the the counts of the users:
+# /beegfs/avt237/data/data/d_###subredddit###/userNameCounts/
+# total user counts file: d_###subreddit###TOTALUSERS.txt
 
-# Then we need to make a directory for each popular poster inside their subreddit directory
-    # make a folder for 
-# then we need to write in each of those directories, the scripts of those users , by month/year etc.
-    #alg: llook through all files with a certain subreddit
-        # for each line, if it is one of the users that is a top user - write their comment to their text file
-
+#How will scripts be written to:
+#make folder for :
+# /beegfs/avt237/data/data/d_###subredddit###/#username#
+#in it: write #username#subreddit#_#filedrawnFrom#.txt
+#this allows for one writer to be writing from a different time
+#
+def overWrite(toFile, text):
+    with open(toFile, 'w') as f:
+                #print(text, file=f)
+                #f.write(unicode(text, errors= ignore))
+            f.write(text.encode('utf-8'))
 def printOut(toFile, text):
-        with open(toFile, 'a') as f:
-                f.write(text.encode('utf-8'))
+    if os.path.exists(toFile):
+        append_write = 'a' # append if already exists
+    else:
+        append_write = 'w' # make a new file if not
+    with open(toFile, append_write) as f:
+                #print(text, file=f)
+                #f.write(unicode(text, errors= ignore))
+            f.write(text.encode('utf-8'))
 
 # returns a list of the names of the subreddit folder names
 def getSubredditFolders():
-    global dataDir
-    subs = next(os.walk(dataDir))[1]
-    return subs
+	global dataDir
+	folders = next(os.walk(dataDir))[1]
+	subs = []
+	for i in range(len(folders)):
+		if(folders[i] == "totalUserNameCounts"):
+			continue
+		subs.append(folders[i]) # the names are originally of form "d_pics", and must become "pics"
+	return subs
 
-# for a specific subreddit folder name, returns the list of names of the text files related to them
-def getFilesForSubReddit(subFolderName):
-    global dataDir
-    fileNames = glob.glob(dataDir+'/' + subFolderName + "*")
-    return fileNames
- 
-#returns the name of the author of a json   
-def getAuthor(js):
-    return js['author']
+def getSubreddits():
+	global dataDir
+	folders = next(os.walk(dataDir))[1]
+	subs = []
+	for i in range(len(folders)):
+		if(folders[i] == "totalUserNameCounts"):
+			continue
+		subs.append(folders[i][2:]) # the names are originally of form "d_pics", and must become "pics"
+	return subs
 
-#extract the name of subreddit from the json
-def getSubredditName(js):
-    if('permalink' in js):
-        perma = js['permalink']
-        end = perma.find('/',3)
-        return perma[3:end]
-    elif('subreddit' in js):
-        return js['subreddit']
+#read in the usernames for the top n 
+def readUsernameCounts(filename, subredditName, n, dictionary):
+	count = 0
+	with open(filename) as f:
+		while True:
+			line = f.readline()
+			if(not line):
+				break
+			if(count>n):
+				break
+			count+=1
+			auth = line[2: line.find(",")-1]
+			count = line[line.find(",")+2:-1]
+			if(auth in dictionary):# one author could be a top poster in multiple subreddits
+				dictionary[auth].extend([subredditName])
+			else:
+				dictionary[auth] = [subredditName]
+	return
+			#['lookingforaproject', 367]
 
-# 
-def createUserNameDirectoriesForSubreddit(subredditFolderName, listOfTopPosters):
-    global dataDir
-    for i in listOfTopPosters:
-        if not os.path.exists(dataDir+"/"+subredditFolderName+"/"+i):
-            os.makedirs(dataDir+"/"+subredditFolderName+"/"+i)
+#look at each of list of top users for each of the subreddits, and add them to the dictionar of users
+def getAllTopUsers(subreddits, subredditFolders, n, dictionary):
+	#/beegfs/avt237/data/data/d_###subredddit###/userNameCounts/
+	#d_###subreddit###TOTALUSERS.txt
+	base = "/beegfs/avt237/data/data/"
+	for i in range(len(subredditFolders)):
+		filename= base+subredditFolders[i]+"/userNameCounts/"+subredditFolders[i]+"TOTALUSERS.txt"
+		readUsernameCounts(filename, subredditFolders[i][2:],n,dictionary)
 
-# add a certain comment to the script for a subreddit if it is (seperate text file for each subreddit, for each month).
-def addToUserNameScript(js, subredditFolder, filename): # provided that it is a top user, add their writings to their script
-    global dataDir
-    sub = getSubredditName(js)
-    author = getAuthor(js)
-    folder = "d_" + sub
-    printOut(dataDir+"/"+subredditFolder+"/"+ author+"/"+author+"-"+filename, js['body'] + " \n || zz xx cc vv bb nn || \n")
-    return
-
-def usernameScriptWriter(subreddit, subredditFolderName, listOfFiles, dictOfUsers):
-    for fil in listOfFiles:
-        with open(fil) as f:
-            while True:
-                line = f.readline()
-                if(not line):
-                    break               
-                #jstext = json.loads(line)
-
-
-    return 1
-def subredditScriptWriter(filename, subsDict):
-    count = 0
-    count2 = 0
-    with open(filename) as f:
-            while True:
-                count +=1
-                if(count%100000 ==0):
-                    print(count)
-                line = f.readline()
-                if(not line):
-                        break
-                jstext =json.loads(line)
-                #print(jstext)
-                sr = getSubredditName(jstext)
-                #print(sr)
-                if(sr in subsDict):
-                    count2 +=1
-                    #print("in here wrote to" +sr)
-                    if(count2%500000 == 0):
-                        print("wrote to"+sr)
-                    addToSubredditScript(jstext,filename)
+def makeProperFolders(usernameDictionary): # iterate through the username dictionary, and make a folder for each user
+	for user in d:
+		for subs in d[user]:
+			# /beegfs/avt237/data/data/d_###subredddit###/#username#
+			s= "/beegfs/avt237/data/data/d_"+subs+"/"+user
+			if not os.path.exists(s):
+				os.makedirs(s)
 
 
-### this part of the code is used to compile information about specific reddit users
-popularUserCounts = []
-userDictionary = {}
-
-def increaseCount(auth, userDictionary):
-        if(auth in userDictionary):
-            count = userDictionary[auth] +1
-            userDictionary[auth] = count
-        else:
-            userDictionary[auth] = 1
-            count = 1
-        return
-
-def userCountByFilename(filename, userDictionary):
-    count = 0
-
-    with open(filename) as f:
-        while True:
-            count +=1
-                #               if(count > 10830000):
-                                    #   break
-            if(count%10000 ==0):
-                print(count)                
-            line = f.readline()
-            if(not line):
-                break
-            jstext =json.loads(line)
-            auth = jstext['author']
-            increaseCount(auth,userDictionary)
-
-
-def topUsersForSub(subFolderName, top = 50):
-    textfiles = getFilesForSubReddit(subFolderName)
-    dictionary = {}
-    for i in textfiles:
-        userCountByFilename(i, dictionary)
-    users = list(dictionary)
-    users = [i[0] for i in users]
-    return users[:top]
-
-def getAllCountsForAllFilenames():
-        global userDictionary
-        for filename in glob.glob('*.txt'):
-            userDictionary = {}
-            userCountByFilename(filename)
-            printDictionary(filename[:-4]+"_usernameCount.txt")
-def getAllSubredditScriptsForAllFilenames(subsDict):
-        subsWritten = {}
-        count =0
-        lastRead = ""
-        with open("finishedWith.txt") as f:
-            while True:
-                l = f.readline()[:-1]
-                if(not l):
-                    break
-                print(l, "count ", count)
-                subsWritten[l] = count
-                count +=1
-                lastRead = l
-        print(subsWritten)
-        print(str(count)+" files read")
-        for filename in glob.glob('*.txt'):
-            if(filename == "finishedWith.txt"):
-                continue
-            if((filename in subsWritten) and filename != lastRead):
-                print(filename+"  already written (except for last one")
-                continue
-            count+=1
-            print(str(count)+" files read" + "  - reading "+ filename)
-            subredditScriptWriter(filename,subsDict)
-            printOut("finishedWith.txt", filename +"\n") # keeps a log of the files that have been finished
-s= createSubList()
-subs = s[0]
-subsDic = s[1]
-makeDirectoriesForSubs(subs)
-getAllSubredditScriptsForAllFilenames(subsDic)
-
-#printDictionary("textfile.txt")
-
-#userCountByFilename("RC_2017-01.txt")
-#printDictionary("textTest_RC_2015-01.txt")
-
-#getAllCountsForAllFilenames()
+if __name__ == '__main__'
 
 
 
+
+
+
+
+
+
+#

@@ -127,6 +127,8 @@ def usernameCountFullFile(filename,subreddits,subredditUsernameDictionary):
 	totalDict = usernameDictionaryToString(subredditUsernameDictionary['total'])
 	printOut(dataDir+"/totalUserNameCounts/"+ "usernameCount_"+filename, totalDict)
 
+def getRawDataTextFileFilenames():
+	#/beegfs/avt237/data
 if __name__ == '__main__':
 	#get a list of the subreddit folders
 	subredditFolderNames = getSubredditFolders()

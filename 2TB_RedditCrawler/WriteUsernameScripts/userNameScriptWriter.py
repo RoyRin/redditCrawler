@@ -23,6 +23,8 @@ print(sys.argv[1])
 #in it: write #username#subreddit#_#filedrawnFrom#.txt
 #this allows for one writer to be writing from a different time
 #
+dataDir ='/beegfs/avt237/data/data'
+
 def overWrite(toFile, text):
     with open(toFile, 'w') as f:
                 #print(text, file=f)
@@ -62,6 +64,8 @@ def getSubreddits():
 #read in the usernames for the top n 
 def readUsernameCounts(filename, subredditName, n, dictionary):
 	count = 0
+	if(not os.path.isfile(filename)):
+		return
 	with open(filename) as f:
 		while True:
 			line = f.readline()
@@ -135,7 +139,7 @@ def writeOneMonthsSubredditScript(filename, usernameDictionary):
 		while True:
 			l = f.readline()[:-1]
 			if(not l):
-		    	break
+				break
 			print(l, "count ", count)
 			subsWritten[l] = count
 			count +=1
@@ -144,10 +148,8 @@ def writeOneMonthsSubredditScript(filename, usernameDictionary):
 	if((filename in subsWritten) and filename != lastRead):
 		print(filename+"  already written (except for last one")
 		return
-
-    usernameScriptWriter(filename,usernameDictionary)
-
-    printOut("finishedWith.txt", filename +"\n")
+	usernameScriptWriter(filename,usernameDictionary)
+	printOut("finishedWith.txt", filename +"\n")
 
 def fileToRead(index):
 	#given an index, it will pop out a file to read

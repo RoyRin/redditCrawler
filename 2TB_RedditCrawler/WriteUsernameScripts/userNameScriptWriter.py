@@ -96,8 +96,79 @@ def makeProperFolders(usernameDictionary): # iterate through the username dictio
 			if not os.path.exists(s):
 				os.makedirs(s)
 
+def getAuthor(js):
+	return js['author']
 
-if __name__ == '__main__'
+#given a specific author, and their comment - will print that json to their respective subreddits
+def printScript(auth, usernameDictionary, line,filename):
+	subs = usernameDictionary[auth] # all the subreddits that that author belongs to
+	for i in range(len(subs)):
+		printTo = "/beegfs/avt237/data/data/d_" +subs[i]+"/"+auth+"/"auth+subs[i]+filename+".txt"
+		printOut(printTo, line)
+		#username#subreddit#_#filedrawnFrom#.txt
+
+# will read file, and then for each user which is one of the top users, will print to his folder
+def usernameScriptWriter(filename, usernameDictionary):
+	count =0
+	with open(filename) as f:
+		while True:
+			line = f.readline()
+			if(not line):
+				break
+			jstext = json.loads(line)
+			auth = getAuthor(jstext)
+			if(auth in usernameDictionary):
+				printScript(auth, usernameDictionary, line,filename)
+			count+=1
+			if(count%1000000==0):
+				print("read "+filename+a +" times")
+	print("read through the file"+str(a)+" lines")
+	printOut("finishedWith_usernameScriptVersion.txt", filename +"\n") 
+	return
+
+def writeOneMonthsSubredditScript(filename, usernameDictionary):
+	subsWritten = {}
+    count =0
+    lastRead = ""
+    #read which files have already been read, if it has been read from - ignore
+	with open("finishedWith_usernameScriptVersion.txt") as f:
+        while True:
+            l = f.readline()[:-1]
+            if(not l):
+                break
+            print(l, "count ", count)
+            subsWritten[l] = count
+            count +=1
+            lastRead = l
+
+    if((filename in subsWritten) and filename != lastRead):
+        print(filename+"  already written (except for last one")
+        return
+
+    usernameScriptWriter(filename,usernameDictionary)
+
+    printOut("finishedWith.txt", filename +"\n")
+
+def fileToRead(index):
+	#given an index, it will pop out a file to read
+	a = glob.glob('/beegfs/avt237/data/RC*.txt')
+	if(index> len(a)):
+		exit()
+	return a[i]
+
+if __name__ == '__main__':
+	index = int(sys.argv[1])
+	n = int(sys.argv[2])
+	
+	subs = getSubreddits() # get list of subreddits used
+	subFolders =getSubredditFolders() # get list of subreddit folders
+
+	dic = {} # create a dictionary
+	getAllTopUsers(subs,subFolders,n,dic) # create a dictionary containing all the top posters
+	makeProperFolders(dic) # make folders for the users, if they don't yet exist
+	fileToRead = fileToRead(index)
+	writeOneMonthsSubredditScript(fileToRead,dic)
+
 
 
 

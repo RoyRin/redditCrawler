@@ -1,4 +1,4 @@
-import numpy as np
+#import numpy as np
 import os
 import glob
 import json
@@ -93,8 +93,8 @@ def getAllTopUsers(subreddits, subredditFolders, n, dictionary):
 		readUsernameCounts(filename, subredditFolders[i][2:],n,dictionary)
 
 def makeProperFolders(usernameDictionary): # iterate through the username dictionary, and make a folder for each user
-	for user in d:
-		for subs in d[user]:
+	for user in usernameDictionary:
+		for subs in usernameDictionary[user]:
 			# /beegfs/avt237/data/data/d_###subredddit###/#username#
 			s= "/beegfs/avt237/data/data/d_"+subs+"/"+user
 			if not os.path.exists(s):
@@ -156,11 +156,13 @@ def fileToRead(index):
 	a = glob.glob('/beegfs/avt237/data/RC*.txt')
 	if(index> len(a)):
 		exit()
-	return a[i]
+	print("reading: " + a[index][len("/beegfs/avt237/data/"):])
+	return a[index][len("/beegfs/avt237/data/"):]
 
 if __name__ == '__main__':
 	index = int(sys.argv[1])
 	n = int(sys.argv[2])
+	print("index "+str(index)+" and number users"+ str(n))
 	
 	subs = getSubreddits() # get list of subreddits used
 	subFolders =getSubredditFolders() # get list of subreddit folders
@@ -169,8 +171,9 @@ if __name__ == '__main__':
 	getAllTopUsers(subs,subFolders,n,dic) # create a dictionary containing all the top posters
 	makeProperFolders(dic) # make folders for the users, if they don't yet exist
 	fileToRead = fileToRead(index)
+	print("beging reading process")
 	writeOneMonthsSubredditScript(fileToRead,dic)
-
+	print("done reading!")
 
 
 

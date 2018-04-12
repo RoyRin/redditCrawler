@@ -103,7 +103,7 @@ def getAuthor(js):
 def printScript(auth, usernameDictionary, line,filename):
 	subs = usernameDictionary[auth] # all the subreddits that that author belongs to
 	for i in range(len(subs)):
-		printTo = "/beegfs/avt237/data/data/d_" +subs[i]+"/"+auth+"/"auth+subs[i]+filename+".txt"
+		printTo = "/beegfs/avt237/data/data/d_" +subs[i]+"/"+auth+"/"+auth+subs[i]+filename+".txt"
 		printOut(printTo, line)
 		#username#subreddit#_#filedrawnFrom#.txt
 
@@ -128,22 +128,22 @@ def usernameScriptWriter(filename, usernameDictionary):
 
 def writeOneMonthsSubredditScript(filename, usernameDictionary):
 	subsWritten = {}
-    count =0
-    lastRead = ""
-    #read which files have already been read, if it has been read from - ignore
+	count =0
+	lastRead = ""
+	#read which files have already been read, if it has been read from - ignore
 	with open("finishedWith_usernameScriptVersion.txt") as f:
-        while True:
-            l = f.readline()[:-1]
-            if(not l):
-                break
-            print(l, "count ", count)
-            subsWritten[l] = count
-            count +=1
-            lastRead = l
+		while True:
+			l = f.readline()[:-1]
+			if(not l):
+		    	break
+			print(l, "count ", count)
+			subsWritten[l] = count
+			count +=1
+			lastRead = l
 
-    if((filename in subsWritten) and filename != lastRead):
-        print(filename+"  already written (except for last one")
-        return
+	if((filename in subsWritten) and filename != lastRead):
+		print(filename+"  already written (except for last one")
+		return
 
     usernameScriptWriter(filename,usernameDictionary)
 

@@ -63,19 +63,22 @@ def getSubreddits():
 
 #read in the usernames for the top n 
 def readUsernameCounts(filename, subredditName, n, dictionary):
-	count = 0
+	counter = 0
 	if(not os.path.isfile(filename)):
 		return
 	with open(filename) as f:
+		f.readline()#[deleted]
+		f.readline()#automoderator (ignore first 2 lines)
 		while True:
 			line = f.readline()
 			if(not line):
 				break
 			if(count>n):
 				break
-			count+=1
+			counter+=1
 			auth = line[2: line.find(",")-1]
 			count = line[line.find(",")+2:-1]
+
 			if(auth in dictionary):# one author could be a top poster in multiple subreddits
 				dictionary[auth].extend([subredditName])
 			else:
@@ -90,7 +93,7 @@ def getAllTopUsers(subreddits, subredditFolders, n, dictionary):
 	base = "/beegfs/avt237/data/data/"
 	for i in range(len(subredditFolders)):
 		filename= base+subredditFolders[i]+"/userNameCounts/"+subredditFolders[i]+"TOTALUSERS.txt"
-		readUsernameCounts(filename, subredditFolders[i][2:],n,dictionary)
+		readUsernameCounts(filename, subreddits[i],n,dictionary)
 
 def makeProperFolders(usernameDictionary): # iterate through the username dictionary, and make a folder for each user
 	for user in usernameDictionary:

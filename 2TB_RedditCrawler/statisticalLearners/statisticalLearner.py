@@ -195,12 +195,13 @@ def readAllUsernameText(subredditName,username, model):
 	usernameFiles.sort()
 	saveTo = "/beegfs/avt237/data/data/d_"+subredditName+"W2VModels/"+username+"/"
 	print(usernameFiles)
-	for i in range(len(subredditFiles)):
+	print("we are in the user namesss")
+	for i in range(len(usernameFiles)):
 		print("doing "+str(i)+" iterations of username")
 		if(i!=0):
 			#upload the previous model
 			model = Word2Vec.load(saveTo+str(i-1)+".txt")
-		readOneSubredditTextFile(subredditFiles[i], saveTo+"usernameModel"+str(i)+".txt", subredditName,model, i)
+		readOneUsernameTextFile(usernameFiles[i], saveTo+"usernameModel"+str(i)+".txt", subredditName,model, i)
 	return 
 
 
@@ -249,7 +250,7 @@ if __name__ == '__main__': # takes 3 arguements,
 		readAllSubredditText(subs[subredditIndex],model)
 	else:
 		usersInSubreddit = getUsersInSubreddit(subs[subredditIndex])
-		readAllUsernameText(subredditName[subredditIndex],usersInSubreddit[userIndex], model)
+		readAllUsernameText(subs[subredditIndex],usersInSubreddit[userIndex], model)
 
 	
 

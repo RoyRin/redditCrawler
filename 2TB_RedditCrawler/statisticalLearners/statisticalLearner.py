@@ -168,8 +168,9 @@ def readAllSubredditText(subredditName, model):
 	subredditFiles = glob.glob("/beegfs/avt237/data/data/d_"+subredditName+"RC*") # files to read to do w2v reading on
 	subredditFiles.sort()
 	saveTo = "/beegfs/avt237/data/data/d_"+subredditName+"W2VModels/"
-
+	print(subredditFiles)
 	for i in range(len(subredditFiles)):
+		print("doing "+str(i)+" iterations of suberddit")
 		if(i!=0):
 			#upload the previous model
 			model = Word2Vec.load(saveTo+str(i-1)+".txt")
@@ -193,8 +194,9 @@ def readAllUsernameText(subredditName,username, model):
 	usernameFiles = glob.glob("/beegfs/avt237/data/data/d_"+subredditName+"/"+username) # files to read to do w2v reading on
 	usernameFiles.sort()
 	saveTo = "/beegfs/avt237/data/data/d_"+subredditName+"W2VModels/"+username+"/"
-	
+	print(usernameFiles)
 	for i in range(len(subredditFiles)):
+		print("doing "+str(i)+" iterations of username")
 		if(i!=0):
 			#upload the previous model
 			model = Word2Vec.load(saveTo+str(i-1)+".txt")
@@ -216,7 +218,7 @@ if __name__ == '__main__': # takes 3 arguements,
 	userOrSubreddit = sys.argv[1]
 	subredditIndex = int(sys.argv[2]) # the index of the subreddit
 	userOrSubredditBool = True
-
+	print(userOrSubreddit)
 	if(userOrSubredditBool == "user"):
 		print("in user mode")
 		userOrSubredditBool= True
@@ -241,7 +243,8 @@ if __name__ == '__main__': # takes 3 arguements,
 
 	print("got to here")
 	model = Word2Vec(size=250, window=8, min_count=1, workers=4)
-	if(not userOrSubredditBool):
+	if(not userOrSubredditBool): #if in subreddit mode
+		print("doint the subreddit stuff")
 		readAllSubredditText(subs[subredditIndex],model)
 	else:
 		usersInSubreddit = getUsersInSubreddit(subs[subredditIndex])

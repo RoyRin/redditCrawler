@@ -136,16 +136,15 @@ def getSubredditFolders():
 	for i in range(len(folders)):
 		if(folders[i] == "totalUserNameCounts"):
 			continue
+		if(folders[i][-len("W2VModels"):] == "W2VModels"):
+			continue
 		subs.append(folders[i]) # the names are originally of form "d_pics", and must become "pics"
 	return subs
 
 def getSubreddits():
-	global dataDir
-	folders = next(os.walk(dataDir))[1]
-	subs = []
+	folders = getSubredditFolders()
+	subs =[]
 	for i in range(len(folders)):
-		if(folders[i] == "totalUserNameCounts"):
-			continue
 		subs.append(folders[i][2:]) # the names are originally of form "d_pics", and must become "pics"
 	return subs
 

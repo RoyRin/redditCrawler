@@ -17,51 +17,51 @@ import sys
 #and for the subreddit files, it stores only the body of the comment line by line, separated by "|| zz xx cc vv bb nn ||"
 
 class usernameSentenceIterator: # need to read every line's body
-    def __init__(self, inFile):
-        self.fId = open(inFile, "r")
-    def __iter__(self):
-        return self
-    def __next__(self):
-        line = self.fId.readline()
-        if not line:
-            self.fId.close()
-            raise StopIteration
-        js = json.loads(line)
-        sentences = gensim.summarization.textcleaner.split_sentences(js['body'])
-        sentencewords = [list(gensim.summarization.textcleaner.tokenize_by_word(sent)) for sent in sentences]
-        return sentencewords
-
-class subredditSentenceIterator: # need to read every other line
-	regex = re.compile("zz xx cc vv bb nn")
-    def __init__(self, inFile):
-        self.fId = open(inFile, "r")
-    def __iter__(self):
-        return self
-    def __next__(self):
-        line = self.fId.readline()
+	def __init__(self, inFile):
+		self.fId = open(inFile, "r")
+	def __iter__(self):
+		return self
+	def __next__(self):
+		line = self.fId.readline()
 		if not line:
 			self.fId.close()
 			raise StopIteration
-        line2 = self.fId.readline()
+		js = json.loads(line)
+		sentences = gensim.summarization.textcleaner.split_sentences(js['body'])
+		sentencewords = [list(gensim.summarization.textcleaner.tokenize_by_word(sent)) for sent in sentences]
+		return sentencewords
+
+class subredditSentenceIterator: # need to read every other line
+	regex = re.compile("zz xx cc vv bb nn")
+	def __init__(self, inFile):
+		self.fId = open(inFile, "r")
+	def __iter__(self):
+		return self
+	def __next__(self):
+		line = self.fId.readline()
+		if(not line):
+			self.fId.close()
+			raise StopIteration
+		line2 = self.fId.readline()
 		if not line2:
 			self.fId.close()
 			raise StopIteration
 		if(bool(regex.search(line2)) and not bool(regex.search(line))):
 			# if it is in the correct order (first line "")
-        	sentences = gensim.summarization.textcleaner.split_sentences(line)
-        	sentencewords = [list(gensim.summarization.textcleaner.tokenize_by_word(sent)) for sent in sentences]
-        else: 
-        	temp = line2
-        	line2 = line
-        	line = temp
-        	if(bool(regex.search(line2)) and not bool(regex.search(line))): #try flipping the order of the lines
+			sentences = gensim.summarization.textcleaner.split_sentences(line)
+			sentencewords = [list(gensim.summarization.textcleaner.tokenize_by_word(sent)) for sent in sentences]
+		else: 
+			temp = line2
+			line2 = line
+			line = temp
+			if(bool(regex.search(line2)) and not bool(regex.search(line))): #try flipping the order of the lines
 				# if it is in the correct order (first line "")
-        		sentences = gensim.summarization.textcleaner.split_sentences(line)
-        		sentencewords = [list(gensim.summarization.textcleaner.tokenize_by_word(sent)) for sent in sentences]
-        	else: # if this doesn't work either - return none
-        		print("neither lines contain zz xx cc vv bb nn, ABORT!")
-        		return None
-        return sentencewords
+				sentences = gensim.summarization.textcleaner.split_sentences(line)
+				sentencewords = [list(gensim.summarization.textcleaner.tokenize_by_word(sent)) for sent in sentences]
+			else: # if this doesn't work either - return none
+				print("neither lines contain zz xx cc vv bb nn, ABORT!")
+				return None
+		return sentencewords
 
 def readUsernameCounts(filename, subredditName, n, dictionary):
 	counter = 0
@@ -98,10 +98,10 @@ def getAllTopUsers(subreddits, subredditFolders, n, dictionary):
 
 
 def makeDirectoriesForSubredditModels(subs):
-    for i in subs:
-        if not os.path.exists("data/"+"d_"+i):
-            #print(i)
-            os.makedirs("data/"+"d_"+i+"W2VModels")
+	for i in subs:
+	if not os.path.exists("data/"+"d_"+i):
+		#print(i)
+		os.makedirs("data/"+"d_"+i+"W2VModels")
 
 def makeDirectoriesForUsernameModels(usernameDictionary): # iterate through the username dictionary, and make a folder for each user
 	for user in usernameDictionary:
@@ -117,14 +117,14 @@ def getUsersInSubreddit(subreddit):
 		users[i] = users[i][len("/beegfs/avt237/data/data/d_"+subreddit+"/"):]
 	return users
 def printOut(toFile, text):
-    if os.path.exists(toFile):
-        append_write = 'a' # append if already exists
-    else:
-        append_write = 'w' # make a new file if not
-    with open(toFile, append_write) as f:
-                #print(text, file=f)
-                #f.write(unicode(text, errors= ignore))
-            f.write(text.encode('utf-8'))
+	if os.path.exists(toFile):
+		append_write = 'a' # append if already exists
+	else:
+		append_write = 'w' # make a new file if not
+	with open(toFile, append_write) as f:
+		#print(text, file=f)
+		#f.write(unicode(text, errors= ignore))
+		f.write(text.encode('utf-8'))
 
 
 # returns a list of the names of the subreddit folder names
@@ -153,13 +153,13 @@ def readOneSubredditTextFile(filename,saveToFile, subreddit,model, c=0):
 
 	update = False
 	for batch in subredditSentenceIterator(filename):
-	    #a batch is a list of sentences
-	    #a sentence is a list of words.
-	    if c == 1:
-	        update = True # don't update the first model
-	    c += 1
-	    model.build_vocab(batch, update=update)
-	    model.train(batch, total_examples=model.corpus_count, epochs=100)
+		#a batch is a list of sentences
+		#a sentence is a list of words.
+		if c == 1:
+			update = True # don't update the first model
+		c += 1
+		model.build_vocab(batch, update=update)
+		model.train(batch, total_examples=model.corpus_count, epochs=100)
 	KeyedVectors.save_word2vec_format(model.wv, saveToFile , binary=False)
 	
 def readAllSubredditText(subredditName, model):
@@ -179,13 +179,13 @@ def readOneUsernameTextFile(filename,saveToFile, subreddit, username, model, c=0
 
 	update = False
 	for batch in usernameSentenceIterator(filename):
-	    #a batch is a list of sentences
-	    #a sentence is a list of words.
-	    if c == 1:
-	        update = True # don't update the first model
-	    c += 1
-	    model.build_vocab(batch, update=update)
-	    model.train(batch, total_examples=model.corpus_count, epochs=100)
+		#a batch is a list of sentences
+		#a sentence is a list of words.
+		if(c == 1):
+			update = True # don't update the first model
+		c += 1
+		model.build_vocab(batch, update=update)
+		model.train(batch, total_examples=model.corpus_count, epochs=100)
 	KeyedVectors.save_word2vec_format(model.wv, saveToFile , binary=False)
 
 def readAllUsernameText(subredditName,username, model):

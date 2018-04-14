@@ -73,7 +73,7 @@ def readUsernameCounts(filename, subredditName, n, dictionary):
 			line = f.readline()
 			if(not line):
 				break
-			if(count>n):
+			if(counter>n):
 				break
 			counter+=1
 			auth = line[2: line.find(",")-1]

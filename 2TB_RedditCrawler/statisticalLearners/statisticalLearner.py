@@ -114,8 +114,11 @@ def makeDirectoriesForUsernameModels(usernameDictionary): # iterate through the 
 
 def getUsersInSubreddit(subreddit):
 	users = glob.glob("/beegfs/avt237/data/data/d_"+subreddit+"/*")
+	retUsers= []
 	for i in range(len(users)):
-		users[i] = users[i][len("/beegfs/avt237/data/data/d_"+subreddit+"/"):]
+		if(users[i][-len("userNameCounts"):] == "userNameCounts"):
+			continue
+		retUsers.append(users[i][len("/beegfs/avt237/data/data/d_"+subreddit+"/"):])
 	return users
 def printOut(toFile, text):
 	if os.path.exists(toFile):
@@ -191,7 +194,7 @@ def readOneUsernameTextFile(filename,saveToFile, subreddit, username, model, c=0
 	KeyedVectors.save_word2vec_format(model.wv, saveToFile , binary=False)
 
 def readAllUsernameText(subredditName,username, model):
-	usernameFiles = glob.glob("/beegfs/avt237/data/data/d_"+subredditName+"/"+username) # files to read to do w2v reading on
+	usernameFiles = glob.glob("/beegfs/avt237/data/data/d_"+subredditName+"/"+username+"/*") # files to read to do w2v reading on
 	usernameFiles.sort()
 	saveTo = "/beegfs/avt237/data/data/d_"+subredditName+"W2VModels/"+username+"/"
 	print(usernameFiles)

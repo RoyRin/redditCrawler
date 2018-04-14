@@ -99,9 +99,9 @@ def getAllTopUsers(subreddits, subredditFolders, n, dictionary):
 
 def makeDirectoriesForSubredditModels(subs):
 	for i in subs:
-	if not os.path.exists("data/"+"d_"+i):
-		#print(i)
-		os.makedirs("data/"+"d_"+i+"W2VModels")
+		if not os.path.exists("data/"+"d_"+i):
+			#print(i)
+			os.makedirs("data/"+"d_"+i+"W2VModels")
 
 def makeDirectoriesForUsernameModels(usernameDictionary): # iterate through the username dictionary, and make a folder for each user
 	for user in usernameDictionary:

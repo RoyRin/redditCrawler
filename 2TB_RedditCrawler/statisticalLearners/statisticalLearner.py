@@ -164,9 +164,10 @@ def readOneSubredditTextFile(filename,saveToFile, subreddit,model, c=0):
 	KeyedVectors.save_word2vec_format(model.wv, saveToFile , binary=False)
 	
 def readAllSubredditText(subredditName, model):
-
+	print("subreddit name"+ subredditName)
 	subredditFiles = glob.glob("/beegfs/avt237/data/data/d_"+subredditName+"RC*") # files to read to do w2v reading on
 	subredditFiles.sort()
+	print("/beegfs/avt237/data/data/d_"+subredditName+"RC*")
 	saveTo = "/beegfs/avt237/data/data/d_"+subredditName+"W2VModels/"
 	print(subredditFiles)
 	for i in range(len(subredditFiles)):
@@ -219,7 +220,7 @@ if __name__ == '__main__': # takes 3 arguements,
 	subredditIndex = int(sys.argv[2]) # the index of the subreddit
 	userOrSubredditBool = True
 	print(userOrSubreddit)
-	if(userOrSubredditBool == "user"):
+	if(userOrSubreddit == "user"):
 		print("in user mode")
 		userOrSubredditBool= True
 		userIndex = int(sys.argv[3])%250 # the index of the user

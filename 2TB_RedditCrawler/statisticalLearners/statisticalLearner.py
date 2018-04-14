@@ -119,7 +119,7 @@ def getUsersInSubreddit(subreddit):
 		if(users[i][-len("userNameCounts"):] == "userNameCounts"):
 			continue
 		retUsers.append(users[i][len("/beegfs/avt237/data/data/d_"+subreddit+"/"):])
-	return users
+	return retUsers
 def printOut(toFile, text):
 	if os.path.exists(toFile):
 		append_write = 'a' # append if already exists
@@ -253,6 +253,7 @@ if __name__ == '__main__': # takes 3 arguements,
 		readAllSubredditText(subs[subredditIndex],model)
 	else:
 		usersInSubreddit = getUsersInSubreddit(subs[subredditIndex])
+		print(usersInSubreddit)
 		readAllUsernameText(subs[subredditIndex],usersInSubreddit[userIndex], model)
 
 	

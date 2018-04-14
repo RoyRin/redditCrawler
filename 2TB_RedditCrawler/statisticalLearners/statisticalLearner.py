@@ -213,25 +213,31 @@ if __name__ = '__main__': # takes 3 arguements,
 	#the point of args 2 and 3, is so that all these things can be run in parallel
 
 	userOrSubreddit = sys.argv[1]
+	subredditIndex = int(sys.argv[2]) # the index of the subreddit
 	userOrSubredditBool = True
+
 	if(userOrSubredditBool == "user"):
+		print("in user mode")
 		userOrSubredditBool= True
+		userIndex = int(sys.argv[3])%250 # the index of the user
 	else:
+		print("in subreddit mode")
 		userOrSubredditBool = False
 
-	subredditIndex = int(sys.argv[2]) # the index of the subreddit
-	userIndex = int(sys.argv[3])%250 # the index of the user
 
 	subs = getSubreddits() # get list of subreddits used
+	if(subredditIndex > len(subs)):
+		exit()	
 	subFolders =getSubredditFolders() # get list of subreddit folders
 	# make all the directories for the subreddits data for w2v models
 	makeDirectoriesForSubredditModels(subs)
+
 	dic = {} # create a dictionary
 	getAllTopUsers(subs,subFolders,n,dic) # create a dictionary containing all the top posters
 	# make all the directories for the usernames w2v models
 	makeDirectoriesForUsernameModels(dic) # make folders for the users, if they don't yet exist
 
-	
+
 	model = Word2Vec(size=250, window=8, min_count=1, workers=4)
 	if(not userOrSubredditBool):
 		readAllSubredditText(subs[subredditIndex])

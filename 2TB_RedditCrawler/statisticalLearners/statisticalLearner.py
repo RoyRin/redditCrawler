@@ -241,7 +241,8 @@ if __name__ == '__main__': # takes 3 arguements,
 	getAllTopUsers(subs,subFolders,n,dic) # create a dictionary containing all the top posters
 	# make all the directories for the usernames w2v models
 	makeDirectoriesForUsernameModels(dic) # make folders for the users, if they don't yet exist
-
+	print("all the subs "+ str(len(subs)))
+	print(subs)
 	print("got to here")
 	model = Word2Vec(size=250, window=8, min_count=1, workers=4)
 	if(not userOrSubredditBool): #if in subreddit mode

@@ -15,6 +15,7 @@ import sys
 
 # keep in mind that for the username text files - the entire JSONs are stores for each line
 #and for the subreddit files, it stores only the body of the comment line by line, separated by "|| zz xx cc vv bb nn ||"
+dataDir ='/beegfs/avt237/data/data'
 
 class usernameSentenceIterator: # need to read every line's body
 	def __init__(self, inFile):
@@ -167,7 +168,7 @@ def readAllSubredditText(subredditName, model):
 	subredditFiles = glob.glob("/beegfs/avt237/data/data/d_"+subredditName+"RC*") # files to read to do w2v reading on
 	subredditFiles.sort()
 	saveTo = "/beegfs/avt237/data/data/d_"+subredditName+"W2VModels/"
-	model = Word2Vec(size=250, window=8, min_count=1, workers=4)
+
 	for i in range(len(subredditFiles)):
 		if(i!=0):
 			#upload the previous model
@@ -192,7 +193,7 @@ def readAllUsernameText(subredditName,username, model):
 	usernameFiles = glob.glob("/beegfs/avt237/data/data/d_"+subredditName+"/"+username) # files to read to do w2v reading on
 	usernameFiles.sort()
 	saveTo = "/beegfs/avt237/data/data/d_"+subredditName+"W2VModels/"+username+"/"
-	model = Word2Vec(size=250, window=8, min_count=1, workers=4)
+	
 	for i in range(len(subredditFiles)):
 		if(i!=0):
 			#upload the previous model
@@ -205,7 +206,7 @@ def readAllUsernameText(subredditName,username, model):
 
 
 
-if __name__ = '__main__': # takes 3 arguements, 
+if __name__ == '__main__': # takes 3 arguements, 
 	#1st : "user" or "subreddit" #indicates which model it is training
 	#2nd: the index of the subreddit in question
 	#3rd: the index of the user in question
@@ -233,14 +234,15 @@ if __name__ = '__main__': # takes 3 arguements,
 	makeDirectoriesForSubredditModels(subs)
 
 	dic = {} # create a dictionary
+	n = 250
 	getAllTopUsers(subs,subFolders,n,dic) # create a dictionary containing all the top posters
 	# make all the directories for the usernames w2v models
 	makeDirectoriesForUsernameModels(dic) # make folders for the users, if they don't yet exist
 
-
+	print("got to here")
 	model = Word2Vec(size=250, window=8, min_count=1, workers=4)
 	if(not userOrSubredditBool):
-		readAllSubredditText(subs[subredditIndex])
+		readAllSubredditText(subs[subredditIndex],model)
 	else:
 		usersInSubreddit = getUsersInSubreddit(subs[subredditIndex])
 		readAllUsernameText(subredditName[subredditIndex],usersInSubreddit[userIndex], model)

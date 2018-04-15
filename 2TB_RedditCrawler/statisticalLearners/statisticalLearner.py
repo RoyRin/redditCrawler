@@ -1,5 +1,6 @@
 import random
 from gensim.models import Word2Vec, KeyedVectors
+import gensim
 import json
 import re
 import os
@@ -204,7 +205,7 @@ def readAllUsernameText(subredditName,username, model):
 		if(i!=0):
 			#upload the previous model
 			model = Word2Vec.load(saveTo+str(i-1)+".txt")
-		readOneUsernameTextFile(usernameFiles[i], saveTo+"usernameModel"+str(i)+".txt", subredditName,model, i)
+		readOneUsernameTextFile(usernameFiles[i], saveTo+"usernameModel"+str(i)+".txt", subredditName, username, model)
 	return 
 
 

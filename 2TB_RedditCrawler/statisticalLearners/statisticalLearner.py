@@ -154,7 +154,7 @@ def getSubreddits():
 
 def buildVocabForSubreddit(model, filename):
 	for batch in subredditSentenceIterator(filename):
-		model.build_vocab(batch, update=update)
+		model.build_vocab(batch, update=True)
 
 def readOneSubredditTextFile(filename,saveToFile_vectors, saveToFile_model, subreddit,model, c=0):
 
@@ -192,7 +192,7 @@ def readAllSubredditText(subredditName, model):
 
 def buildVocabForUsername(model, filename):
 	for batch in usernameSentenceIterator(filename):
-		model.build_vocab(batch, update=update)
+		model.build_vocab(batch, update=True)
 
 
 def readOneUsernameTextFile(filename,saveToFile_vectors, saveToFile_model, subreddit, username, model, c=0):

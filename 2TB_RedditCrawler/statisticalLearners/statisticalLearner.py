@@ -35,7 +35,7 @@ class usernameSentenceIterator: # need to read every line's body
 
 class subredditSentenceIterator: # need to read every other line
 	regex = re.compile("zz xx cc vv bb nn")
-	deleted = re.compile("[deleted]")
+	deleted = re.compile("\[deleted\]")
 	def __init__(self, inFile):
 		self.fId = open(inFile, "r")
 	def __iter__(self):
@@ -44,14 +44,17 @@ class subredditSentenceIterator: # need to read every other line
 		line = ""
 		while(True):
 			temp= self.fId.readline()
+			#print("temp is "+ temp)
 			if(not temp):
 				self.fId.close()
 				raise StopIteration
-			if(self.regex.search(temp)):
+			if(bool(self.regex.search(temp))):
 				break
-			if(self.deleted.search(temp[:len("[deleted]")+3])):
+			if(bool(self.deleted.search(temp[:len("[deleted]")+3]))):
+				#print("in here boy")
 				continue #ignore the [deleted] comments
-			line = line+" " + temp
+			line = line + " " + temp
+		print(line)
 		sentences = gensim.summarization.textcleaner.split_sentences(line)
 		sentencewords = [list(gensim.summarization.textcleaner.tokenize_by_word(sent)) for sent in sentences]
 		'''

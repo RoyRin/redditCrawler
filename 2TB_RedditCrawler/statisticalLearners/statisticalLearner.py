@@ -153,7 +153,7 @@ def getSubreddits():
 	return subs
 
 
-def readOneSubredditTextFile(filename,saveToFile, subreddit,model, c=0):
+def readOneSubredditTextFile(filename,saveToFile_vectors, saveToFile_model, subreddit,model, c=0):
 
 	update = False
 	for batch in subredditSentenceIterator(filename):
@@ -164,7 +164,9 @@ def readOneSubredditTextFile(filename,saveToFile, subreddit,model, c=0):
 		c += 1
 		model.build_vocab(batch, update=update)
 		model.train(batch, total_examples=model.corpus_count, epochs=100)
-	KeyedVectors.save_word2vec_format(model.wv, saveToFile , binary=False)
+	#KeyedVectors.save_word2vec_format(model.wv, saveToFile , binary=False)
+	KeyedVectors.save_word2vec_format(model.wv, saveToFile_vectors , binary=False)# save the vectors for ease of use
+	model.save(saveToFile_model) # save the model information
 	
 def readAllSubredditText(subredditName, model):
 	print("subreddit name"+ subredditName)
@@ -178,11 +180,12 @@ def readAllSubredditText(subredditName, model):
 		if(i!=0):
 			#upload the previous model
 			#model = Word2Vec.load(saveTo+"subredditModel"+str(i-1)+".txt")
-			model = KeyedVectors.load_word2vec_format(saveTo+"subredditModel"+str(i-1)+".txt", binary = False)
-		readOneSubredditTextFile(subredditFiles[i], saveTo+"subredditModel"+str(i)+".txt", subredditName,model, i)
+			Word2Vec.load(saveTo+"subreddit_model"+str(i)+".txt")
+			#model = KeyedVectors.load_word2vec_format(saveTo+"subredditModel"+str(i-1)+".txt", binary = False)
+		readOneSubredditTextFile(subredditFiles[i], saveTo+"subreddit_vectors"+str(i)+".txt",saveTo+"subreddit_model"+str(i)+".txt", subredditName,model, i)
 	return
 
-def readOneUsernameTextFile(filename,saveToFile, subreddit, username, model, c=0):
+def readOneUsernameTextFile(filename,saveToFile_vectors, saveToFile_model, subreddit, username, model, c=0):
 
 	update = False
 	for batch in usernameSentenceIterator(filename):
@@ -193,7 +196,8 @@ def readOneUsernameTextFile(filename,saveToFile, subreddit, username, model, c=0
 		c += 1
 		model.build_vocab(batch, update=update)
 		model.train(batch, total_examples=model.corpus_count, epochs=100)
-	KeyedVectors.save_word2vec_format(model.wv, saveToFile , binary=False)
+	KeyedVectors.save_word2vec_format(model.wv, saveToFile_vectors , binary=False)# save the vectors for ease of use
+	model.save(saveToFile_model) # save the model information
 
 
 def readAllUsernameText(subredditName,username, model):
@@ -206,9 +210,9 @@ def readAllUsernameText(subredditName,username, model):
 		print("doing "+str(i)+" iterations of username")
 		if(i!=0):
 			#upload the previous model
-			#model = Word2Vec.load(saveTo+"usernameModel"+str(i-1)+".txt")
-			model = KeyedVectors.load_word2vec_format(saveTo+"usernameModel"+str(i-1)+".txt",binary = False)
-		readOneUsernameTextFile(usernameFiles[i], saveTo+"usernameModel"+str(i)+".txt", subredditName, username, model)
+			model = Word2Vec.load(saveTo+"usernameModel"+str(i-1)+".txt")
+			#model = KeyedVectors.load_word2vec_format(saveTo+"usernameModel"+str(i-1)+".txt",binary = False)
+		readOneUsernameTextFile(usernameFiles[i], saveTo+"Username_vectors"+str(i)+".txt",saveTo+"model"+str(i)+".txt" ,  subredditName, username, model)
 	return 
 
 

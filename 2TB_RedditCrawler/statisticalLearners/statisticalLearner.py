@@ -177,7 +177,7 @@ def readAllSubredditText(subredditName, model):
 		print("doing "+str(i)+" iterations of suberddit")
 		if(i!=0):
 			#upload the previous model
-			model = Word2Vec.load(saveTo+str(i-1)+".txt")
+			model = Word2Vec.load(saveTo+"subredditModel"+str(i-1)+".txt")
 		readOneSubredditTextFile(subredditFiles[i], saveTo+"subredditModel"+str(i)+".txt", subredditName,model, i)
 	return
 
@@ -204,7 +204,7 @@ def readAllUsernameText(subredditName,username, model):
 		print("doing "+str(i)+" iterations of username")
 		if(i!=0):
 			#upload the previous model
-			model = Word2Vec.load(saveTo+str(i-1)+".txt")
+			model = Word2Vec.load(saveTo+"usernameModel"+str(i-1)+".txt")
 		readOneUsernameTextFile(usernameFiles[i], saveTo+"usernameModel"+str(i)+".txt", subredditName, username, model)
 	return 
 

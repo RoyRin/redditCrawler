@@ -204,7 +204,7 @@ def readAllSubredditText(subredditName, model):
 		if(i!=0):
 			#upload the previous model
 			#model = Word2Vec.load(saveTo+"subredditModel"+str(i-1)+".txt")
-			Word2Vec.load(saveTo+"subreddit_model"+str(i)+".txt")
+			model = Word2Vec.load(saveTo+"subreddit_model"+str(i)+".txt")
 			#model = KeyedVectors.load_word2vec_format(saveTo+"subredditModel"+str(i-1)+".txt", binary = False)
 		readOneSubredditTextFile(subredditFiles[i], saveTo+"subreddit_vectors"+str(i)+".txt",saveTo+"subreddit_model"+str(i)+".txt", subredditName,model, i)
 	return

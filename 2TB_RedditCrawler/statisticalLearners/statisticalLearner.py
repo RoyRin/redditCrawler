@@ -178,7 +178,7 @@ def readAllSubredditText(subredditName, model):
 		if(i!=0):
 			#upload the previous model
 			#model = Word2Vec.load(saveTo+"subredditModel"+str(i-1)+".txt")
-			model = KeyedVectors.load_word2vec_format(saveTo+"subredditModel"+str(i-1)+".txt")
+			model = KeyedVectors.load_word2vec_format(saveTo+"subredditModel"+str(i-1)+".txt", binary = False)
 		readOneSubredditTextFile(subredditFiles[i], saveTo+"subredditModel"+str(i)+".txt", subredditName,model, i)
 	return
 
@@ -207,7 +207,7 @@ def readAllUsernameText(subredditName,username, model):
 		if(i!=0):
 			#upload the previous model
 			#model = Word2Vec.load(saveTo+"usernameModel"+str(i-1)+".txt")
-			model = KeyedVectors.load_word2vec_format(saveTo+"usernameModel"+str(i-1)+".txt")
+			model = KeyedVectors.load_word2vec_format(saveTo+"usernameModel"+str(i-1)+".txt",binary = False)
 		readOneUsernameTextFile(usernameFiles[i], saveTo+"usernameModel"+str(i)+".txt", subredditName, username, model)
 	return 
 

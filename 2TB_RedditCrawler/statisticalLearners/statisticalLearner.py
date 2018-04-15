@@ -81,6 +81,21 @@ class subredditSentenceIterator: # need to read every other line
 				'''
 		return sentencewords
 
+def overWrite(toFile, text):
+    with open(toFile, 'w') as f:
+                #print(text, file=f)
+                #f.write(unicode(text, errors= ignore))
+            f.write(text.encode('utf-8'))
+def printOut(toFile, text):
+    if os.path.exists(toFile):
+        append_write = 'a' # append if already exists
+    else:
+        append_write = 'w' # make a new file if not
+    with open(toFile, append_write) as f:
+                #print(text, file=f)
+                #f.write(unicode(text, errors= ignore))
+            f.write(text.encode('utf-8'))
+
 def readUsernameCounts(filename, subredditName, n, dictionary):
 	counter = 0
 	if(not os.path.isfile(filename)):
@@ -303,7 +318,10 @@ if __name__ == '__main__': # takes 3 arguements,
 		usersInSubreddit = getUsersInSubreddit(subs[subredditIndex])
 		print(usersInSubreddit)
 		readAllUsernameText(subs[subredditIndex],usersInSubreddit[userIndex], model)
-
+	if(userOrSubredditBool):		
+		printOut("/beegfs/avt237/data/usernameStats.txt", str(subs[subredditIndex])+"_"+str(usersInSubreddit[userIndex])+"\n" )
+	else:
+		printOut("/beegfs/avt237/data/subredditStats.txt",str(subs[subredditIndex])+"\n" )
 	
 
 

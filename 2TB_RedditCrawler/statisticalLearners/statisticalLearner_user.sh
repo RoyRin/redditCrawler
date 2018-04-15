@@ -8,6 +8,8 @@
 #SBATCH --mail-type=END
 #SBATCH --mail-user=rr2635@nyu.edu
 
+module load tensorflow/python3.6/1.5.0
+
 for i in $(seq $1 $2) # takes 2 arguments, indexes from index 1 to index 2
 do
 	for j in $(seq $3 $4) # index for the usernames we do this learning process for (default 0 to 250)

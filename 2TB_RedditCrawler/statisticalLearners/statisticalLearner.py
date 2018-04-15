@@ -319,9 +319,9 @@ if __name__ == '__main__': # takes 3 arguements,
 		print(usersInSubreddit)
 		readAllUsernameText(subs[subredditIndex],usersInSubreddit[userIndex], model)
 	if(userOrSubredditBool):		
-		printOut("/beegfs/avt237/data/usernameStats.txt", str(subs[subredditIndex])+"_"+str(usersInSubreddit[userIndex])+"\n" )
+		printOut("/beegfs/avt237/data/finishedWithUsernameW2V.txt", str(subs[subredditIndex])+"_"+str(usersInSubreddit[userIndex])+"\n" )
 	else:
-		printOut("/beegfs/avt237/data/subredditStats.txt",str(subs[subredditIndex])+"\n" )
+		printOut("/beegfs/avt237/data/finishedWithSubredditW2V.txt",str(subs[subredditIndex])+"\n" )
 	
 
 

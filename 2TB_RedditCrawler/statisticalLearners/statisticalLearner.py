@@ -189,12 +189,15 @@ def readOneUsernameTextFile(filename,saveToFile_vectors, saveToFile_model, subre
 
 	update = False
 	for batch in usernameSentenceIterator(filename):
+		model.build_vocab(batch, update=update)
+
+	for batch in usernameSentenceIterator(filename):
 		#a batch is a list of sentences
 		#a sentence is a list of words.
 		if(c == 1):
 			update = True # don't update the first model
 		c += 1
-		model.build_vocab(batch, update=update)
+		#model.build_vocab(batch, update=update)
 		model.train(batch, total_examples=model.corpus_count, epochs=100)
 	KeyedVectors.save_word2vec_format(model.wv, saveToFile_vectors , binary=False)# save the vectors for ease of use
 	model.save(saveToFile_model) # save the model information

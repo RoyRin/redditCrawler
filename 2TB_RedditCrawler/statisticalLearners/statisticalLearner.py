@@ -210,9 +210,9 @@ def readAllUsernameText(subredditName,username, model):
 		print("doing "+str(i)+" iterations of username")
 		if(i!=0):
 			#upload the previous model
-			model = Word2Vec.load(saveTo+"usernameModel"+str(i-1)+".txt")
+			model = Word2Vec.load(saveTo+"username_model"+str(i-1)+".txt") # load the previous model from text
 			#model = KeyedVectors.load_word2vec_format(saveTo+"usernameModel"+str(i-1)+".txt",binary = False)
-		readOneUsernameTextFile(usernameFiles[i], saveTo+"Username_vectors"+str(i)+".txt",saveTo+"model"+str(i)+".txt" ,  subredditName, username, model)
+		readOneUsernameTextFile(usernameFiles[i], saveTo+"Username_vectors"+str(i)+".txt",saveTo+"username_model"+str(i)+".txt" ,  subredditName, username, model)
 	return 
 
 

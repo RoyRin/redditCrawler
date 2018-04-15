@@ -54,7 +54,7 @@ class subredditSentenceIterator: # need to read every other line
 				#print("in here boy")
 				continue #ignore the [deleted] comments
 			line = line + " " + temp
-		print(line)
+		#print(line)
 		sentences = gensim.summarization.textcleaner.split_sentences(line)
 		sentencewords = [list(gensim.summarization.textcleaner.tokenize_by_word(sent)) for sent in sentences]
 		'''
@@ -207,7 +207,7 @@ def readAllSubredditText(subredditName, model):
 		if(i!=0):
 			#upload the previous model
 			#model = Word2Vec.load(saveTo+"subredditModel"+str(i-1)+".txt")
-			model = Word2Vec.load(saveTo+"subreddit_model"+str(i)+".txt")
+			model = Word2Vec.load(saveTo+"subreddit_model"+str(i-1)+".txt")
 			#model = KeyedVectors.load_word2vec_format(saveTo+"subredditModel"+str(i-1)+".txt", binary = False)
 		readOneSubredditTextFile(subredditFiles[i], saveTo+"subreddit_vectors"+str(i)+".txt",saveTo+"subreddit_model"+str(i)+".txt", subredditName,model, i)
 	return

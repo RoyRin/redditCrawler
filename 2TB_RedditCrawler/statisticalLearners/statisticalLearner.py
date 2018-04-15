@@ -160,16 +160,18 @@ def buildVocabForSubreddit(model, filename, i ):
 			update = False
 		model.build_vocab(batch, update=update)
 
-def readOneSubredditTextFile(filename,saveToFile_vectors, saveToFile_model, subreddit,model, c=0):
+def readOneSubredditTextFile(filename,saveToFile_vectors, saveToFile_model, subreddit,model, count):
 
 	update = False
+	c=0
 	for batch in subredditSentenceIterator(filename):
 		#a batch is a list of sentences
 		#a sentence is a list of words.
-		if c == 1:
-			update = True # don't update the first model
+		update = True
+		if(c == 0 and count ==0):
+			update = False # don't update the first model
 		c += 1
-		#model.build_vocab(batch, update=update)
+		model.build_vocab(batch, update=update)
 		model.train(batch, total_examples=model.corpus_count, epochs=100)
 	#KeyedVectors.save_word2vec_format(model.wv, saveToFile , binary=False)
 	KeyedVectors.save_word2vec_format(model.wv, saveToFile_vectors , binary=False)# save the vectors for ease of use
@@ -182,8 +184,8 @@ def readAllSubredditText(subredditName, model):
 	print("/beegfs/avt237/data/data/d_"+subredditName+"RC*")
 	saveTo = "/beegfs/avt237/data/data/d_"+subredditName+"W2VModels/"
 	print(subredditFiles)
-	for i in range(len(subredditFiles)):
-		buildVocabForSubreddit(model,subredditFiles[i], i )
+	#for i in range(len(subredditFiles)):
+	#	buildVocabForSubreddit(model,subredditFiles[i], i )
 	for i in range(len(subredditFiles)):
 		print("doing "+str(i)+" iterations of suberddit")
 		if(i!=0):
@@ -203,17 +205,18 @@ def buildVocabForUsername(model, filename,i):
 		model.build_vocab(batch, update=update)
 
 
-def readOneUsernameTextFile(filename,saveToFile_vectors, saveToFile_model, subreddit, username, model, c=0):
+def readOneUsernameTextFile(filename,saveToFile_vectors, saveToFile_model, subreddit, username, model, count):
 
 	update = False
-
+	c= 0
 	for batch in usernameSentenceIterator(filename):
 		#a batch is a list of sentences
 		#a sentence is a list of words.
-		if(c == 1):
-			update = True # don't update the first model
+		update = True
+		if(c == 0 and count ==0):
+			update = False # don't update the first model
 		c += 1
-		#model.build_vocab(batch, update=update)
+		model.build_vocab(batch, update=update)
 		model.train(batch, total_examples=model.corpus_count, epochs=100)
 	KeyedVectors.save_word2vec_format(model.wv, saveToFile_vectors , binary=False)# save the vectors for ease of use
 	model.save(saveToFile_model) # save the model information
@@ -225,15 +228,15 @@ def readAllUsernameText(subredditName,username, model):
 	saveTo = "/beegfs/avt237/data/data/d_"+subredditName+"W2VModels/"+username+"/"
 	print(usernameFiles)
 	print("we are in the user namesss")
-	for i in range(len(usernameFiles)):
-		buildVocabForUsername(model,usernameFiles[i], i)
+	#for i in range(len(usernameFiles)):
+	#	buildVocabForUsername(model,usernameFiles[i], i)
 	for i in range(len(usernameFiles)):
 		print("doing "+str(i)+" iterations of username")
 		if(i!=0):
 			#upload the previous model
 			model = Word2Vec.load(saveTo+"username_model"+str(i-1)+".txt") # load the previous model from text
 			#model = KeyedVectors.load_word2vec_format(saveTo+"usernameModel"+str(i-1)+".txt",binary = False)
-		readOneUsernameTextFile(usernameFiles[i], saveTo+"Username_vectors"+str(i)+".txt",saveTo+"username_model"+str(i)+".txt" ,  subredditName, username, model)
+		readOneUsernameTextFile(usernameFiles[i], saveTo+"Username_vectors"+str(i)+".txt",saveTo+"username_model"+str(i)+".txt" ,  subredditName, username, model,i )
 	return 
 
 

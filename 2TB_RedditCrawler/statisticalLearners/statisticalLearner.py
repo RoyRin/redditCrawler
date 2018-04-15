@@ -35,20 +35,32 @@ class usernameSentenceIterator: # need to read every line's body
 
 class subredditSentenceIterator: # need to read every other line
 	regex = re.compile("zz xx cc vv bb nn")
+	deleted = re.compile("[deleted]")
 	def __init__(self, inFile):
 		self.fId = open(inFile, "r")
 	def __iter__(self):
 		return self
 	def __next__(self):
-		line = self.fId.readline()
-		if(not line):
-			self.fId.close()
-			raise StopIteration
+		line = ""
+		while(True):
+			temp= self.fId.readline()
+			if(not temp):
+				self.fId.close()
+				raise StopIteration
+			if(self.regex.search(temp)):
+				break
+			if(self.deleted.search(temp[:len("[deleted]")+3])):
+				continue #ignore the [deleted] comments
+			line = line+" " + temp
+		sentences = gensim.summarization.textcleaner.split_sentences(line)
+		sentencewords = [list(gensim.summarization.textcleaner.tokenize_by_word(sent)) for sent in sentences]
+		'''
 		line2 = self.fId.readline()
 		if not line2:
 			self.fId.close()
 			raise StopIteration
-		if(bool(regex.search(line2)) and not bool(regex.search(line))):
+
+		if(bool(self.regex.search(line2)) and not bool(self.regex.search(line))):
 			# if it is in the correct order (first line "")
 			sentences = gensim.summarization.textcleaner.split_sentences(line)
 			sentencewords = [list(gensim.summarization.textcleaner.tokenize_by_word(sent)) for sent in sentences]
@@ -63,6 +75,7 @@ class subredditSentenceIterator: # need to read every other line
 			else: # if this doesn't work either - return none
 				print("neither lines contain zz xx cc vv bb nn, ABORT!")
 				return None
+				'''
 		return sentencewords
 
 def readUsernameCounts(filename, subredditName, n, dictionary):

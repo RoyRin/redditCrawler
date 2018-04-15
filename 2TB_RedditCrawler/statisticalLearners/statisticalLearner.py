@@ -152,9 +152,13 @@ def getSubreddits():
 		subs.append(folders[i][2:]) # the names are originally of form "d_pics", and must become "pics"
 	return subs
 
-def buildVocabForSubreddit(model, filename):
+def buildVocabForSubreddit(model, filename, i ):
+
 	for batch in subredditSentenceIterator(filename):
-		model.build_vocab(batch, update=True)
+		update =True
+		if(i ==0):
+			update = False
+		model.build_vocab(batch, update=update)
 
 def readOneSubredditTextFile(filename,saveToFile_vectors, saveToFile_model, subreddit,model, c=0):
 
@@ -179,7 +183,7 @@ def readAllSubredditText(subredditName, model):
 	saveTo = "/beegfs/avt237/data/data/d_"+subredditName+"W2VModels/"
 	print(subredditFiles)
 	for i in range(len(subredditFiles)):
-		buildVocabForSubreddit(model,subredditFiles[i])
+		buildVocabForSubreddit(model,subredditFiles[i], i )
 	for i in range(len(subredditFiles)):
 		print("doing "+str(i)+" iterations of suberddit")
 		if(i!=0):
@@ -190,9 +194,13 @@ def readAllSubredditText(subredditName, model):
 		readOneSubredditTextFile(subredditFiles[i], saveTo+"subreddit_vectors"+str(i)+".txt",saveTo+"subreddit_model"+str(i)+".txt", subredditName,model, i)
 	return
 
-def buildVocabForUsername(model, filename):
+def buildVocabForUsername(model, filename,i):
+	
 	for batch in usernameSentenceIterator(filename):
-		model.build_vocab(batch, update=True)
+		update = True
+		if(i ==0):
+			update = False
+		model.build_vocab(batch, update=update)
 
 
 def readOneUsernameTextFile(filename,saveToFile_vectors, saveToFile_model, subreddit, username, model, c=0):
@@ -218,7 +226,7 @@ def readAllUsernameText(subredditName,username, model):
 	print(usernameFiles)
 	print("we are in the user namesss")
 	for i in range(len(usernameFiles)):
-		buildVocabForUsername(model,usernameFiles[i])
+		buildVocabForUsername(model,usernameFiles[i], i)
 	for i in range(len(usernameFiles)):
 		print("doing "+str(i)+" iterations of username")
 		if(i!=0):

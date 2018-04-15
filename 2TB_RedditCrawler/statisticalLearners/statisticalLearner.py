@@ -177,7 +177,8 @@ def readAllSubredditText(subredditName, model):
 		print("doing "+str(i)+" iterations of suberddit")
 		if(i!=0):
 			#upload the previous model
-			model = Word2Vec.load(saveTo+"subredditModel"+str(i-1)+".txt")
+			#model = Word2Vec.load(saveTo+"subredditModel"+str(i-1)+".txt")
+			model = KeyedVectors.load_word2vec_format(saveTo+"subredditModel"+str(i-1)+".txt")
 		readOneSubredditTextFile(subredditFiles[i], saveTo+"subredditModel"+str(i)+".txt", subredditName,model, i)
 	return
 
@@ -194,6 +195,7 @@ def readOneUsernameTextFile(filename,saveToFile, subreddit, username, model, c=0
 		model.train(batch, total_examples=model.corpus_count, epochs=100)
 	KeyedVectors.save_word2vec_format(model.wv, saveToFile , binary=False)
 
+
 def readAllUsernameText(subredditName,username, model):
 	usernameFiles = glob.glob("/beegfs/avt237/data/data/d_"+subredditName+"/"+username+"/*") # files to read to do w2v reading on
 	usernameFiles.sort()
@@ -204,7 +206,8 @@ def readAllUsernameText(subredditName,username, model):
 		print("doing "+str(i)+" iterations of username")
 		if(i!=0):
 			#upload the previous model
-			model = Word2Vec.load(saveTo+"usernameModel"+str(i-1)+".txt")
+			#model = Word2Vec.load(saveTo+"usernameModel"+str(i-1)+".txt")
+			model = KeyedVectors.load_word2vec_format(saveTo+"usernameModel"+str(i-1)+".txt")
 		readOneUsernameTextFile(usernameFiles[i], saveTo+"usernameModel"+str(i)+".txt", subredditName, username, model)
 	return 
 

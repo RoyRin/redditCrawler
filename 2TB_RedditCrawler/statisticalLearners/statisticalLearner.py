@@ -287,12 +287,14 @@ if __name__ == '__main__': # takes 3 arguements,
 	userOrSubredditBool = True
 	print(userOrSubreddit)
 	if(userOrSubreddit == "user"):
-		print("in user mode")
 		userOrSubredditBool= True
 		userIndex = int(sys.argv[3])%250 # the index of the user
+		print("in user mode "+ str(userIndex))
+		printOut("/beegfs/avt237/data/finishedWithUsernameW2V.txt", str(subredditIndex)+" - "+str(userIndex)+"\n" )
 	else:
-		print("in subreddit mode")
+		print("in subreddit mode " + str(subredditIndex))
 		userOrSubredditBool = False
+		printOut("/beegfs/avt237/data/finishedWithSubredditW2V.txt",str(subredditIndex)+"\n" )
 
 
 	subs = getSubreddits() # get list of subreddits used

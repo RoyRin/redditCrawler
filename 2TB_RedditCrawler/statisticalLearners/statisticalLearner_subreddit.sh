@@ -1,6 +1,6 @@
 #!/bin/bash
-#SBATCH --job-name=UsernameStatisticalLearner
-#SBATCH --nodes=2
+#SBATCH --job-name=subredditStatisticalLearner
+#SBATCH --nodes=1
 #SBATCH --tasks-per-node=1
 #SBATCH --cpus-per-task=25
 #SBATCH --mem=2Gb

@@ -92,9 +92,10 @@ def printOut(toFile, text):
     else:
         append_write = 'w' # make a new file if not
     with open(toFile, append_write) as f:
+    	f.write(text)
                 #print(text, file=f)
                 #f.write(unicode(text, errors= ignore))
-            f.write(text.encode('utf-8'))
+        #    f.write(text.encode('utf-8'))
 
 def readUsernameCounts(filename, subredditName, n, dictionary):
 	counter = 0
@@ -160,7 +161,8 @@ def printOut(toFile, text):
 	with open(toFile, append_write) as f:
 		#print(text, file=f)
 		#f.write(unicode(text, errors= ignore))
-		f.write(text.encode('utf-8'))
+		f.write(text)# for this one, don't worry about encoding, because it should just be numbers
+		#f.write(text.encode('utf-8'))
 
 
 # returns a list of the names of the subreddit folder names
@@ -290,11 +292,13 @@ if __name__ == '__main__': # takes 3 arguements,
 		userOrSubredditBool= True
 		userIndex = int(sys.argv[3])%250 # the index of the user
 		print("in user mode "+ str(userIndex))
-		printOut("/beegfs/avt237/data/finishedWithUsernameW2V.txt", str(subredditIndex)+" - "+str(userIndex)+"\n" )
+		print(str(str(subredditIndex)+" - "+str(userIndex)+"\n" ))
+		#printOut("/beegfs/avt237/data/finishedWithUsernameW2V.txt", str(subredditIndex)+" - "+str(userIndex)+"\n" )
 	else:
 		print("in subreddit mode " + str(subredditIndex))
 		userOrSubredditBool = False
-		printOut("/beegfs/avt237/data/finishedWithSubredditW2V.txt",str(subredditIndex)+"\n" )
+		print(str("/beegfs/avt237/data/finishedWithSubredditW2V.txt",str(subredditIndex)+"\n"))
+		#printOut("/beegfs/avt237/data/finishedWithSubredditW2V.txt",str(subredditIndex)+"\n" )
 
 
 	subs = getSubreddits() # get list of subreddits used

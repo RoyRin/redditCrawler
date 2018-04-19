@@ -314,6 +314,7 @@ if __name__ == '__main__': # takes 3 arguements,
 	# make all the directories for the usernames w2v models
 	makeDirectoriesForUsernameModels(dic) # make folders for the users, if they don't yet exist
 	print("all the subs "+ str(len(subs)))
+	print(" sub we are following "+ subredditIndex+ " " + subs[subredditIndex])
 	print(subs)
 	print("got to here")
 	model = Word2Vec(size=250, window=8, min_count=1, workers=4)
@@ -323,13 +324,15 @@ if __name__ == '__main__': # takes 3 arguements,
 	else:
 		usersInSubreddit = getUsersInSubreddit(subs[subredditIndex])
 		print(usersInSubreddit)
+		print("user we are following "+ str(userIndex)+ usersInSubreddit[userIndex])
+
 		readAllUsernameText(subs[subredditIndex],usersInSubreddit[userIndex], model)
 	if(userOrSubredditBool):		
 		printOut("/beegfs/avt237/data/finishedWithUsernameW2V.txt", str(subs[subredditIndex])+"_"+str(usersInSubreddit[userIndex])+"\n" )
 	else:
 		printOut("/beegfs/avt237/data/finishedWithSubredditW2V.txt",str(subs[subredditIndex])+"\n" )
 	
-
+	print("\n\n\n===================\n==============\n\n")
 
 
 

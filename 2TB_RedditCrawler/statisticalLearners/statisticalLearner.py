@@ -6,7 +6,7 @@ import re
 import os
 import glob
 import sys
-
+# is this updated?
 #Will take a folder
 #will learn a model for the first text file; reading line by line 
 	#- will store the loaded model into some text file
@@ -224,9 +224,11 @@ def readAllSubredditText(subredditName, model):
 		if(i!=0):
 			#upload the previous model
 			#model = Word2Vec.load(saveTo+"subredditModel"+str(i-1)+".txt")
-			model = Word2Vec.load(saveTo+"subreddit_model"+str(i-1)+".txt")
+			model = Word2Vec.load(saveTo+subredditFiles[i][:-8]+"subreddit_model"+str(i-1)+".txt")
 			#model = KeyedVectors.load_word2vec_format(saveTo+"subredditModel"+str(i-1)+".txt", binary = False)
-		readOneSubredditTextFile(subredditFiles[i], saveTo+"subreddit_vectors"+str(i)+".txt",saveTo+"subreddit_model"+str(i)+".txt", subredditName,model, i)
+		#most things in the format "$username$subredditRC_date.txt.txt" # so want to print to preserve name and sub information
+		readOneSubredditTextFile(subredditFiles[i], saveTo+subredditFiles[i][:-8]+"subreddit_vectors"+str(i)+".txt",
+			saveTo+subredditFiles[i][:-8]+"subreddit_model"+str(i)+".txt", subredditName,model, i)
 	return
 
 def buildVocabForUsername(model, filename,i):
@@ -267,9 +269,11 @@ def readAllUsernameText(subredditName,username, model):
 		print("doing "+str(i)+" iterations of username: " + username)
 		if(i!=0):
 			#upload the previous model
-			model = Word2Vec.load(saveTo+"username_model"+str(i-1)+".txt") # load the previous model from text
+			model = Word2Vec.load(saveTo+subredditFiles[i][:-8]+"username_model"+str(i-1)+".txt") # load the previous model from text
 			#model = KeyedVectors.load_word2vec_format(saveTo+"usernameModel"+str(i-1)+".txt",binary = False)
-		readOneUsernameTextFile(usernameFiles[i], saveTo+"Username_vectors"+str(i)+".txt",saveTo+"username_model"+str(i)+".txt" ,  subredditName, username, model,i )
+
+		readOneUsernameTextFile(usernameFiles[i], saveTo+subredditFiles[i][:-8]+"_Username_vectors"+str(i)+".txt",
+			saveTo+subredditFiles[i][:-8]+"username_model"+str(i)+".txt" ,  subredditName, username, model,i )
 	return 
 
 
@@ -314,7 +318,7 @@ if __name__ == '__main__': # takes 3 arguements,
 	# make all the directories for the usernames w2v models
 	makeDirectoriesForUsernameModels(dic) # make folders for the users, if they don't yet exist
 	print("all the subs "+ str(len(subs)))
-	print(" sub we are following "+ subredditIndex+ " " + subs[subredditIndex])
+	print(" sub we are following "+ str(subredditIndex)+ " " + subs[subredditIndex])
 	print(subs)
 	print("got to here")
 	model = Word2Vec(size=250, window=8, min_count=1, workers=4)

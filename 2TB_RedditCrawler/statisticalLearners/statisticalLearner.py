@@ -220,7 +220,7 @@ def readAllSubredditText(subredditName, model):
 	#for i in range(len(subredditFiles)):
 	#	buildVocabForSubreddit(model,subredditFiles[i], i )
 	for i in range(len(subredditFiles)):
-		print("doing "+str(i)+" iterations of suberddit")
+		print("doing "+str(i)+" iterations of subreddit: "+ subredditName)
 		if(i!=0):
 			#upload the previous model
 			#model = Word2Vec.load(saveTo+"subredditModel"+str(i-1)+".txt")
@@ -264,7 +264,7 @@ def readAllUsernameText(subredditName,username, model):
 	#for i in range(len(usernameFiles)):
 	#	buildVocabForUsername(model,usernameFiles[i], i)
 	for i in range(len(usernameFiles)):
-		print("doing "+str(i)+" iterations of username")
+		print("doing "+str(i)+" iterations of username: " + username)
 		if(i!=0):
 			#upload the previous model
 			model = Word2Vec.load(saveTo+"username_model"+str(i-1)+".txt") # load the previous model from text
@@ -297,7 +297,7 @@ if __name__ == '__main__': # takes 3 arguements,
 	else:
 		print("in subreddit mode " + str(subredditIndex))
 		userOrSubredditBool = False
-		print(str("/beegfs/avt237/data/finishedWithSubredditW2V.txt",str(subredditIndex)+"\n"))
+		print(str("/beegfs/avt237/data/finishedWithSubredditW2V.txt"+str(subredditIndex)+"\n"))
 		#printOut("/beegfs/avt237/data/finishedWithSubredditW2V.txt",str(subredditIndex)+"\n" )
 
 

@@ -216,19 +216,23 @@ def readAllSubredditText(subredditName, model):
 	subredditFiles.sort()
 	print("/beegfs/avt237/data/data/d_"+subredditName+"RC*")
 	saveTo = "/beegfs/avt237/data/data/d_"+subredditName+"W2VModels/"
+
+	s  ="/beegfs/avt237/data/data/"
+	ll = len(s)
 	print(subredditFiles)
 	#for i in range(len(subredditFiles)):
 	#	buildVocabForSubreddit(model,subredditFiles[i], i )
 	for i in range(len(subredditFiles)):
+		savingName = subredditFiles[i][l:-8]
 		print("doing "+str(i)+" iterations of subreddit: "+ subredditName)
 		if(i!=0):
 			#upload the previous model
 			#model = Word2Vec.load(saveTo+"subredditModel"+str(i-1)+".txt")
-			model = Word2Vec.load(saveTo+subredditFiles[i][:-8]+"subreddit_model"+str(i-1)+".txt")
+			model = Word2Vec.load(saveTo+savingName+"subreddit_model"+str(i-1)+".txt")
 			#model = KeyedVectors.load_word2vec_format(saveTo+"subredditModel"+str(i-1)+".txt", binary = False)
 		#most things in the format "$username$subredditRC_date.txt.txt" # so want to print to preserve name and sub information
-		readOneSubredditTextFile(subredditFiles[i], saveTo+subredditFiles[i][:-8]+"subreddit_vectors"+str(i)+".txt",
-			saveTo+subredditFiles[i][:-8]+"subreddit_model"+str(i)+".txt", subredditName,model, i)
+		readOneSubredditTextFile(subredditFiles[i], saveTo+savingName+"subreddit_vectors"+str(i)+".txt",
+			saveTo+savingName+"subreddit_model"+str(i)+".txt", subredditName,model, i)
 	return
 
 def buildVocabForUsername(model, filename,i):
@@ -257,23 +261,29 @@ def readOneUsernameTextFile(filename,saveToFile_vectors, saveToFile_model, subre
 	model.save(saveToFile_model) # save the model information
 
 
-def readAllUsernameText(subredditName,username, model):
+def readAllUsernameText(subredditName,username, model): # for a single username
 	usernameFiles = glob.glob("/beegfs/avt237/data/data/d_"+subredditName+"/"+username+"/*") # files to read to do w2v reading on
 	usernameFiles.sort()
 	saveTo = "/beegfs/avt237/data/data/d_"+subredditName+"W2VModels/"+username+"/"
 	print(usernameFiles)
+	s = "/beegfs/avt237/data/data/d_"+subredditName+"/"+username+"/"
+	ll = len(s)
 	print("we are in the user namesss")
 	#for i in range(len(usernameFiles)):
 	#	buildVocabForUsername(model,usernameFiles[i], i)
 	for i in range(len(usernameFiles)):
+		savingName = usernameFiles[i][l:-8]
 		print("doing "+str(i)+" iterations of username: " + username)
 		if(i!=0):
 			#upload the previous model
-			model = Word2Vec.load(saveTo+subredditFiles[i][:-8]+"username_model"+str(i-1)+".txt") # load the previous model from text
+
+			#model = Word2Vec.load(saveTo+usernameFiles[i][:-8]+"username_model"+str(i-1)+".txt") # load the previous model from text
+			model = Word2Vec.load(saveTo+savingName+"username_model"+str(i-1)+".txt") # load the previous model from text
+			
 			#model = KeyedVectors.load_word2vec_format(saveTo+"usernameModel"+str(i-1)+".txt",binary = False)
 
-		readOneUsernameTextFile(usernameFiles[i], saveTo+subredditFiles[i][:-8]+"_Username_vectors"+str(i)+".txt",
-			saveTo+subredditFiles[i][:-8]+"username_model"+str(i)+".txt" ,  subredditName, username, model,i )
+		readOneUsernameTextFile(usernameFiles[i], saveTo+savingName+"_Username_vectors"+str(i)+".txt",
+			saveTo+savingName+"username_model"+str(i)+".txt" ,  subredditName, username, model,i )
 	return 
 
 

@@ -17,6 +17,7 @@ import sys
 # keep in mind that for the username text files - the entire JSONs are stores for each line
 #and for the subreddit files, it stores only the body of the comment line by line, separated by "|| zz xx cc vv bb nn ||"
 dataDir ='/beegfs/avt237/data/data'
+writeToBase = '/scratch/rr2635/data'
 
 class usernameSentenceIterator: # need to read every line's body
 	def __init__(self, inFile):
@@ -57,28 +58,6 @@ class subredditSentenceIterator: # need to read every other line
 		#print(line)
 		sentences = gensim.summarization.textcleaner.split_sentences(line)
 		sentencewords = [list(gensim.summarization.textcleaner.tokenize_by_word(sent)) for sent in sentences]
-		'''
-		line2 = self.fId.readline()
-		if not line2:
-			self.fId.close()
-			raise StopIteration
-
-		if(bool(self.regex.search(line2)) and not bool(self.regex.search(line))):
-			# if it is in the correct order (first line "")
-			sentences = gensim.summarization.textcleaner.split_sentences(line)
-			sentencewords = [list(gensim.summarization.textcleaner.tokenize_by_word(sent)) for sent in sentences]
-		else: 
-			temp = line2
-			line2 = line
-			line = temp
-			if(bool(regex.search(line2)) and not bool(regex.search(line))): #try flipping the order of the lines
-				# if it is in the correct order (first line "")
-				sentences = gensim.summarization.textcleaner.split_sentences(line)
-				sentencewords = [list(gensim.summarization.textcleaner.tokenize_by_word(sent)) for sent in sentences]
-			else: # if this doesn't work either - return none
-				print("neither lines contain zz xx cc vv bb nn, ABORT!")
-				return None
-				'''
 		return sentencewords
 
 def overWrite(toFile, text):
@@ -96,6 +75,7 @@ def printOut(toFile, text):
                 #print(text, file=f)
                 #f.write(unicode(text, errors= ignore))
         #    f.write(text.encode('utf-8'))
+
 
 def readUsernameCounts(filename, subredditName, n, dictionary):
 	counter = 0
@@ -132,16 +112,20 @@ def getAllTopUsers(subreddits, subredditFolders, n, dictionary):
 
 
 def makeDirectoriesForSubredditModels(subs):
+	global writeToBase
+	base  = writeToBase
 	for i in subs:
-		if not os.path.exists("data/"+"d_"+i):
+		if not os.path.exists(base+ "/data/"+"d_"+i):
 			#print(i)
-			os.makedirs("data/"+"d_"+i+"W2VModels")
+			os.makedirs(base+"/data/"+"d_"+i+"W2VModels")
 
 def makeDirectoriesForUsernameModel(username, usernameDictionary): # iterate through the username dictionary, and make a folder for each user
 	#for user in usernameDictionary:
+	global writeToBase
+	base  = writeToBase
 	for subs in usernameDictionary[username]:
 		# /beegfs/avt237/data/data/d_###subredddit###/#username#
-		s= "/beegfs/avt237/data/data/d_"+subs+"W2VModels/"+user
+		s= base+"/data/d_"+subs+"W2VModels/"+username
 		if not os.path.exists(s):
 			os.makedirs(s)
 
@@ -166,32 +150,15 @@ def getTopUsersInSubreddit(filename, subredditName, n, l = []): #give it the fil
 	return l
 
 def getUsersInSubreddit(subreddit,subredditFolder, n,l =[]):
+	
 	retUsers = l
 	base = "/beegfs/avt237/data/data/"
+
 	filename= base+subredditFolder+"/userNameCounts/"+subredditFolder+"TOTALUSERS.txt"
 	retUsers = getTopUsersInSubreddit(filename, subreddit,n,retUsers)
 	return retUsers
-'''
-def getUsersInSubreddit(subreddit):
-	users = glob.glob("/beegfs/avt237/data/data/d_"+subreddit+"/*")
-	retUsers= []
-	for i in range(len(users)):
-		if(users[i][-len("userNameCounts"):] == "userNameCounts"):
-			continue
-		retUsers.append(users[i][len("/beegfs/avt237/data/data/d_"+subreddit+"/"):])
-	return retUsers
-'''
 
-def printOut(toFile, text):
-	if os.path.exists(toFile):
-		append_write = 'a' # append if already exists
-	else:
-		append_write = 'w' # make a new file if not
-	with open(toFile, append_write) as f:
-		#print(text, file=f)
-		#f.write(unicode(text, errors= ignore))
-		f.write(text)# for this one, don't worry about encoding, because it should just be numbers
-		#f.write(text.encode('utf-8'))
+
 
 
 # returns a list of the names of the subreddit folder names
@@ -244,7 +211,9 @@ def readAllSubredditText(subredditName, model):
 	subredditFiles = glob.glob("/beegfs/avt237/data/data/d_"+subredditName+"RC*") # files to read to do w2v reading on
 	subredditFiles.sort()
 	print("/beegfs/avt237/data/data/d_"+subredditName+"RC*")
-	saveTo = "/beegfs/avt237/data/data/d_"+subredditName+"W2VModels/"
+	global writeToBase
+
+	saveTo = writeToBase+"/data/d_"+subredditName+"W2VModels/"
 
 	s  ="/beegfs/avt237/data/data/"
 	l = len(s)
@@ -296,9 +265,10 @@ def readOneUsernameTextFile(filename,saveToFile_vectors, saveToFile_model, subre
 def readAllUsernameText(subredditName,username, model): # for a single username
 	usernameFiles = glob.glob("/beegfs/avt237/data/data/d_"+subredditName+"/"+username+"/*") # files to read to do w2v reading on
 	usernameFiles.sort()
-	saveTo = "/beegfs/avt237/data/data/d_"+subredditName+"W2VModels/"+username+"/"
+	global writeToBase
+	saveTo = writeToBase+"/data/d_"+subredditName+"W2VModels/"+username+"/"
 	print(usernameFiles)
-	s = "/beegfs/avt237/data/data/d_"+subredditName+"/"+username+"/"
+	s = writeToBase+"/data/d_"+subredditName+"/"+username+"/"
 	l = len(s)
 	print("we are in the user namesss")
 	#for i in range(len(usernameFiles)):

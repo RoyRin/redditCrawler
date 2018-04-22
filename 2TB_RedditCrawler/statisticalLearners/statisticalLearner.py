@@ -145,6 +145,33 @@ def makeDirectoriesForUsernameModel(username, usernameDictionary): # iterate thr
 		if not os.path.exists(s):
 			os.makedirs(s)
 
+#create a list of the top usernames of a subreddit
+def getTopUsersInSubreddit(filename, subredditName, n, l = []): #give it the file of +subredditFolders[i]+"TOTALUSERS.txt"
+	counter = 0
+	if(not os.path.isfile(filename)):
+		return
+	with open(filename) as f:
+		f.readline()#[deleted]
+		f.readline()#automoderator (ignore first 2 lines)
+		while True:
+			line = f.readline()
+			if(not line):
+				break
+			if(counter>n):
+				break
+			counter+=1
+			auth = line[2: line.find(",")-1]
+			count = line[line.find(",")+2:-1]
+			l.append(auth)
+	return l
+
+def getUsersInSubreddit(subreddit,n,l =[]):
+	retUsers = l
+	base = "/beegfs/avt237/data/data/"
+	filename= base+subredditFolders[i]+"/userNameCounts/"+subredditFolders[i]+"TOTALUSERS.txt"
+	retUsers = getTopUsersInSubreddit(filename, subreddits[i],n,retUsers)
+	return retUsers
+'''
 def getUsersInSubreddit(subreddit):
 	users = glob.glob("/beegfs/avt237/data/data/d_"+subreddit+"/*")
 	retUsers= []
@@ -153,6 +180,8 @@ def getUsersInSubreddit(subreddit):
 			continue
 		retUsers.append(users[i][len("/beegfs/avt237/data/data/d_"+subreddit+"/"):])
 	return retUsers
+'''
+
 def printOut(toFile, text):
 	if os.path.exists(toFile):
 		append_write = 'a' # append if already exists
@@ -341,7 +370,7 @@ if __name__ == '__main__': # takes 3 arguements,
 		print("doint the subreddit stuff")
 		readAllSubredditText(subs[subredditIndex],model)
 	else:
-		usersInSubreddit = getUsersInSubreddit(subs[subredditIndex])
+		usersInSubreddit = getUsersInSubreddit(subs[subredditIndex], n , [])
 		print(usersInSubreddit)
 		print("user we are following "+ str(userIndex)+ usersInSubreddit[userIndex])
 		makeDirectoriesForUsernameModel(usersInSubreddit[userIndex], dic) # make folders for the user, if they don't yet exist

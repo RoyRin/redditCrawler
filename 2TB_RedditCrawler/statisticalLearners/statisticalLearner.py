@@ -165,11 +165,11 @@ def getTopUsersInSubreddit(filename, subredditName, n, l = []): #give it the fil
 			l.append(auth)
 	return l
 
-def getUsersInSubreddit(subreddit,n,l =[]):
+def getUsersInSubreddit(subreddit,subredditFolder, n,l =[]):
 	retUsers = l
 	base = "/beegfs/avt237/data/data/"
-	filename= base+subredditFolders[i]+"/userNameCounts/"+subredditFolders[i]+"TOTALUSERS.txt"
-	retUsers = getTopUsersInSubreddit(filename, subreddits[i],n,retUsers)
+	filename= base+subredditFolder+"/userNameCounts/"+subredditFolder+"TOTALUSERS.txt"
+	retUsers = getTopUsersInSubreddit(filename, subreddit,n,retUsers)
 	return retUsers
 '''
 def getUsersInSubreddit(subreddit):
@@ -370,7 +370,7 @@ if __name__ == '__main__': # takes 3 arguements,
 		print("doint the subreddit stuff")
 		readAllSubredditText(subs[subredditIndex],model)
 	else:
-		usersInSubreddit = getUsersInSubreddit(subs[subredditIndex], n , [])
+		usersInSubreddit = getUsersInSubreddit(subs[subredditIndex],subFolders[subredditIndex] , n , [])
 		print(usersInSubreddit)
 		print("user we are following "+ str(userIndex)+ usersInSubreddit[userIndex])
 		makeDirectoriesForUsernameModel(usersInSubreddit[userIndex], dic) # make folders for the user, if they don't yet exist

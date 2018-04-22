@@ -139,7 +139,7 @@ def makeDirectoriesForSubredditModels(subs):
 
 def makeDirectoriesForUsernameModel(username, usernameDictionary): # iterate through the username dictionary, and make a folder for each user
 	#for user in usernameDictionary:
-	for subs in usernameDictionary[user]:
+	for subs in usernameDictionary[username]:
 		# /beegfs/avt237/data/data/d_###subredddit###/#username#
 		s= "/beegfs/avt237/data/data/d_"+subs+"W2VModels/"+user
 		if not os.path.exists(s):
@@ -361,7 +361,7 @@ if __name__ == '__main__': # takes 3 arguements,
 		exit()
 	getAllTopUsers(subs,subFolders,n,dic) # create a dictionary containing all the top posters
 	# make all the directories for the usernames w2v models
-		print("all the subs "+ str(len(subs)))
+	print("all the subs "+ str(len(subs)))
 	print(" sub we are following "+ str(subredditIndex)+ " " + subs[subredditIndex])
 	print(subs)
 	print("got to here")

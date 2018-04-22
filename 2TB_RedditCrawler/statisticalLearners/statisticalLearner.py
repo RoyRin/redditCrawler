@@ -137,13 +137,13 @@ def makeDirectoriesForSubredditModels(subs):
 			#print(i)
 			os.makedirs("data/"+"d_"+i+"W2VModels")
 
-def makeDirectoriesForUsernameModels(usernameDictionary): # iterate through the username dictionary, and make a folder for each user
-	for user in usernameDictionary:
-		for subs in usernameDictionary[user]:
-			# /beegfs/avt237/data/data/d_###subredddit###/#username#
-			s= "/beegfs/avt237/data/data/d_"+subs+"W2VModels/"+user
-			if not os.path.exists(s):
-				os.makedirs(s)
+def makeDirectoriesForUsernameModel(username, usernameDictionary): # iterate through the username dictionary, and make a folder for each user
+	#for user in usernameDictionary:
+	for subs in usernameDictionary[user]:
+		# /beegfs/avt237/data/data/d_###subredddit###/#username#
+		s= "/beegfs/avt237/data/data/d_"+subs+"W2VModels/"+user
+		if not os.path.exists(s):
+			os.makedirs(s)
 
 def getUsersInSubreddit(subreddit):
 	users = glob.glob("/beegfs/avt237/data/data/d_"+subreddit+"/*")
@@ -285,7 +285,7 @@ def readAllUsernameText(subredditName,username, model): # for a single username
 			#model = Word2Vec.load(saveTo+savingName+"username_model"+str(i-1)+".txt") # load the previous model from text
 			model = Word2Vec.load(prevName)
 			#model = KeyedVectors.load_word2vec_format(saveTo+"usernameModel"+str(i-1)+".txt",binary = False)
-		preName = saveTo+savingName+"username_model"+str(i)+".txt"
+		prevName = saveTo+savingName+"username_model"+str(i)+".txt"
 		readOneUsernameTextFile(usernameFiles[i], saveTo+savingName+"_Username_vectors"+str(i)+".txt",
 			saveTo+savingName+"username_model"+str(i)+".txt" ,  subredditName, username, model,i )
 	return 
@@ -328,10 +328,11 @@ if __name__ == '__main__': # takes 3 arguements,
 
 	dic = {} # create a dictionary
 	n = 250
+	if(userIndex>n):
+		exit()
 	getAllTopUsers(subs,subFolders,n,dic) # create a dictionary containing all the top posters
 	# make all the directories for the usernames w2v models
-	makeDirectoriesForUsernameModels(dic) # make folders for the users, if they don't yet exist
-	print("all the subs "+ str(len(subs)))
+		print("all the subs "+ str(len(subs)))
 	print(" sub we are following "+ str(subredditIndex)+ " " + subs[subredditIndex])
 	print(subs)
 	print("got to here")
@@ -343,6 +344,7 @@ if __name__ == '__main__': # takes 3 arguements,
 		usersInSubreddit = getUsersInSubreddit(subs[subredditIndex])
 		print(usersInSubreddit)
 		print("user we are following "+ str(userIndex)+ usersInSubreddit[userIndex])
+		makeDirectoriesForUsernameModel(usersInSubreddit[userIndex], dic) # make folders for the user, if they don't yet exist
 
 		readAllUsernameText(subs[subredditIndex],usersInSubreddit[userIndex], model)
 	if(userOrSubredditBool):		

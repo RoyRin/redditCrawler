@@ -6,7 +6,7 @@ import re
 import os
 import glob
 import sys
-# is this updated?
+
 #Will take a folder
 #will learn a model for the first text file; reading line by line 
 	#- will store the loaded model into some text file
@@ -115,8 +115,7 @@ def makeDirectoriesForSubredditModels(subs):
 	global writeToBase
 	base  = writeToBase
 	for i in subs:
-		if not os.path.exists(base+ "/data/"+"d_"+i):
-			#print(i)
+		if not os.path.exists(base+ "/data/"+"d_"+i+"W2VModels"):
 			os.makedirs(base+"/data/"+"d_"+i+"W2VModels")
 
 def makeDirectoriesForUsernameModel(username, usernameDictionary): # iterate through the username dictionary, and make a folder for each user
@@ -305,9 +304,10 @@ if __name__ == '__main__': # takes 3 arguements,
 	subredditIndex = int(sys.argv[2]) # the index of the subreddit
 	userOrSubredditBool = True
 	print(userOrSubreddit)
+	userIndex = int(sys.argv[3])%250 # the index of the user
 	if(userOrSubreddit == "user"):
 		userOrSubredditBool= True
-		userIndex = int(sys.argv[3])%250 # the index of the user
+		
 		print("in user mode "+ str(userIndex))
 		print(str(str(subredditIndex)+" - "+str(userIndex)+"\n" ))
 		#printOut("/beegfs/avt237/data/finishedWithUsernameW2V.txt", str(subredditIndex)+" - "+str(userIndex)+"\n" )

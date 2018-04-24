@@ -1,10 +1,10 @@
 #!/bin/bash
 
-#SBATCH --job-name=UsernameStatisticalLearner
+#SBATCH --job-name=betti_numbers
 #SBATCH --nodes=1
 #SBATCH --tasks-per-node=1
 #SBATCH --cpus-per-task=1
-#SBATCH --mem=4GB
+#SBATCH --mem=10GB
 #SBATCH --time=48:00:00
 #SBATCH --mail-type=END
 #SBATCH --mail-user=rr2635@nyu.edu

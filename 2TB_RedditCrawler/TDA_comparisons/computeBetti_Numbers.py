@@ -76,6 +76,30 @@ def whichFolderToPrintTDA(sub1, sub2):#returns where to print the TDA for this p
 			return ("/scratch/rr2635/user_user_pairwiseTDA/"+i+"/")
 	
 def writePointCloud(f1, storeTo):
+	# abhinav's code for a approximation technique of dim reduction of distances
+	cloud = []
+
+	lines = open(f1).readlines()
+
+	for i in lines:
+	    j = list(map(float, i.strip().split()[1:]))
+	    cloud.append(j)
+
+	ndistances = distance_matrix(cloud, cloud)
+	distances = [[100000.00 for i in range(len(cloud))] for j in range(len(cloud))]
+	for i in range(len(cloud)):
+	    dList = [(ndistances[i][j], j) for j in range(len(cloud))]
+	    dList.sort()
+	    for j in range(min(len(cloud), args.num_neighbours+1)):
+	        distances[i][dList[j][1]] = dList[j][0]
+	        distances[dList[j][1]][i] = dList[j][0]
+
+	with open(storeTo, "w") as out:
+	    out.write("\n".join([" ".join(list(map(str, i))) for i in distances]))
+	    out.close()
+	return distances
+
+	'''
 	cloud = [] # point cloud
 	lines = open(args.f1).readlines()
 
@@ -90,10 +114,13 @@ def writePointCloud(f1, storeTo):
 	    out.close()
 
 	return distances
+	'''
+
+
 def computeBettiNumber(f1, Dimension, threshold, output):
 	ripser ="C:\Documents and Settings\flow_model\flow.exe")
 	#ripser --format distance --dim DIMENSION --threshold THRESHOLD_DISTANCE distance_file > tda_output_file
-	cmd = "ripser --format distance --dim " +str(Dimension)+ 
+	cmd = "/beegfs/avt237/data/ripser --format distance --dim " +str(Dimension)+ 
 	" --threshold " + str(threshold) +" " + f1 + " > " + output
 	os.system(cmd)
 	
@@ -129,6 +156,8 @@ if __name__ == '__main__':
 		bn = BettiFolder1+"BettiNumber"+user1+"_"+date+".txt"
 		if(os.path.isfile(bn) ): # if file already exists, carry on
 			continue
-		computeBettiNumber(dis, bn)
+		dim = 3
+		threshold = 10000 # very large number
+		computeBettiNumber(dis, dim, threshold, bn) #(f1, Dimension, threshold, output):
 
 

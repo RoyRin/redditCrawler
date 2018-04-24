@@ -75,7 +75,7 @@ def whichFolderToPrintTDA(sub1, sub2):#returns where to print the TDA for this p
 		if(bool(regex1.search(i)) and bool(regex2.search(i))):
 			return ("/scratch/rr2635/user_user_pairwiseTDA/"+i+"/")
 	
-def computeBettiNumber(f1, storeTo):
+def writePointCloud(f1, storeTo):
 	cloud = [] # point cloud
 	lines = open(args.f1).readlines()
 
@@ -89,8 +89,14 @@ def computeBettiNumber(f1, storeTo):
 	    out.write("\n".join([" ".join(list(map(str, i))) for i in distances]))
 	    out.close()
 
-	return 1
-
+	return distances
+def computeBettiNumber(f1, Dimension, threshold, output):
+	ripser ="C:\Documents and Settings\flow_model\flow.exe")
+	#ripser --format distance --dim DIMENSION --threshold THRESHOLD_DISTANCE distance_file > tda_output_file
+	cmd = "ripser --format distance --dim " +str(Dimension)+ 
+	" --threshold " + str(threshold) +" " + f1 + " > " + output
+	os.system(cmd)
+	
 
 if __name__ == '__main__':
 	# secondGoal  : make a list of each of the top posters for each date we care about, and store their name
@@ -115,7 +121,14 @@ if __name__ == '__main__':
 		user1 = getTopNPostersForAMonth(sub1, date , N)[u1]
 		
 		f1 = findUsernameVectorFilename(dir1,date)
-		if(os.path.isfile(BettiFolder1+user1+"_"+date+".txt") ): # if file already exists, carry on
+		pc = BettiFolder1+"PointCloud"+user1+"_"+date+".txt"
+		if(os.path.isfile( pc ) ): # if file already exists, carry on
 			continue
-		computeBettiNumber(f1, BettiFolder1+user1+"_"+date+".txt")
+		dis = writePointCloud(f1, pc )
+
+		bn = BettiFolder1+"BettiNumber"+user1+"_"+date+".txt"
+		if(os.path.isfile(bn) ): # if file already exists, carry on
+			continue
+		computeBettiNumber(dis, bn)
+
 

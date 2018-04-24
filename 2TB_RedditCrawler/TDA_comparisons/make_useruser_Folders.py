@@ -114,9 +114,9 @@ if __name__ == '__main__':
 	s = createSubList(20)
 	subs = ['The_Donald','politics','worldnews','news',
 	'books', 'television', 'movies',  'Music',  'blog',
-	'AskReddit','explainlikeimfive','askscience','todayilearned','LifeProTips', 
-	  'soccer', 'gaming', 'nfl', 'leagueoflegends','sports'
-	   'space','gadgets'] # handpicked list of the top 20 subreddits from a list of 40 (half by subscribers, half by activity)
+	'AskReddit','explainlikeimfive','askscience','todayilearned', 
+	  'soccer', 'gaming', 'leagueoflegends','sports'
+	   'space','gadgets', 'technology'] # handpicked list of the top 20 subreddits from a list of 40 (half by subscribers, half by activity)
 
 	#subs= getSubreddits()
 	l = len(subs)
@@ -124,6 +124,7 @@ if __name__ == '__main__':
 	outerLib = writeToBase+"user_user_pairwiseTDA/"
 	makeDirectory(writeToBase, "user_user_pairwiseTDA")
 	for i in range(l):
+		makeDirectory(outerLib,"subreddit_"+subs[i])
 		for j in range(i+1):
 			makeDirectory(outerLib,"subreddits_"+subs[i]+"_"+subs[j])
 

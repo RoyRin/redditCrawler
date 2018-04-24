@@ -81,8 +81,12 @@ if __name__ == '__main__':
 	N = 10 # how many users we are comparing in our TDA process
 	s1 = int(sys.argv[1])#index of the subreddit1
 	s2 = int(sys.argv[2])#index of the subreddit2
-	u1 = int(sys.argv[3]) #index of the user1
-	u2 = int(sys.argv[4])#index of the user2
+	users = int(sys.argv[3]) # this way, only takes 3 arguements, and this last one is from 0 to N(N-1)/2, and dictates what user 1 and user 2 are
+	# makes it easier to parallelize
+	u1 = int(users/N)
+	u2 = int(users%N)
+	#u1 = int(sys.argv[3]) #index of the user1
+	#u2 = int(sys.argv[4])#index of the user2
 	
 	subs= getSubreddits()
 	sub1 = subs[s1]
@@ -103,9 +107,11 @@ if __name__ == '__main__':
 		f1 = findUsernameVectorFilename(dir1,date)
 		f2 = findUsernameVectorFilename(dir2,date)
 
+		if(os.path.isfile(folder+"TDA_"+sub1+"_"+sub2+"_"+u1+"_"+u2+".txt") ): # if file already exists, carry on
+			continue
+
 		tda = DoTDA(f1,f2)
 
-
-		printOut(tda, folder+"TDA_"+sub1+"_"+sub2+"_"+u1+"_"+u2+".txt")
+		overWrite( folder+"TDA_"+sub1+"_"+sub2+"_"+u1+"_"+u2+".txt", tda) # write the TDA information to the file
 
 

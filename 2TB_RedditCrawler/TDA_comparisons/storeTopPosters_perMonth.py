@@ -108,3 +108,6 @@ if __name__ == '__main__':
 		for date in dates:
 			posters = getTopNPostersForAMonth(sub, date, 10)
 			storeTopPosters(posters, sub,date)
+
+
+

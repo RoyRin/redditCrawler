@@ -15,7 +15,7 @@ module load  python3/intel/3.6.3
 
 
 for((i=0; i<20; i++)); do
-    srun python useruserTDA.py $i $SLURM_ARRAY_TASK_ID # i is the subreddit index, the 2nd arguement is the username index
+    srun python computeBetti_Number.py $i $SLURM_ARRAY_TASK_ID # i is the subreddit index, the 2nd arguement is the username index
 
 done
 

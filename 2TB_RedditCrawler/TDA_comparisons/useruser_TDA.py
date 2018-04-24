@@ -6,6 +6,10 @@ import re
 import os
 import glob
 import sys
+# goal here is to do TDA between two different subreddits, pairwise on their users
+# takes arguement, sub1 , sub2 
+	# user 1 , user 2
+	# takes the users from that subreddit's top posters: stored in "/scratch/rr2635/user_user_pairwiseTDA/subreddit_$subredditname$"
 
 writeToBase = ""
 def overWrite(toFile, text):
@@ -21,35 +25,6 @@ def printOut(toFile, text):
         append_write = 'w' # make a new file if not
     with open(toFile, append_write) as f:
     	f.write(text)
-
-def getAllTopUsers(subreddits, subredditFolders, n, dictionary):
-	#/beegfs/avt237/data/data/d_###subredddit###/userNameCounts/
-	#d_###subreddit###TOTALUSERS.txt
-	base = "/beegfs/avt237/data/data/"
-	for i in range(len(subredditFolders)):
-		filename= base+subredditFolders[i]+"/userNameCounts/"+subredditFolders[i]+"TOTALUSERS.txt"
-		readUsernameCounts(filename, subreddits[i],n,dictionary)
-
-
-#create a list of the top usernames of a subreddit
-def getTopUsersInSubreddit(filename, subredditName, n, l = []): #give it the file of +subredditFolders[i]+"TOTALUSERS.txt"
-	counter = 0
-	if(not os.path.isfile(filename)):
-		return
-	with open(filename) as f:
-		f.readline()#[deleted]
-		f.readline()#automoderator (ignore first 2 lines)
-		while True:
-			line = f.readline()
-			if(not line):
-				break
-			if(counter>n):
-				break
-			counter+=1
-			auth = line[2: line.find(",")-1]
-			count = line[line.find(",")+2:-1]
-			l.append(auth)
-	return l
 
 # returns a list of the names of the subreddit folder names
 def getSubredditFolders():
@@ -68,43 +43,69 @@ def getSubreddits():
 		subs.append(folders[i][len("subreddit_"):]) # the names are originally of form "d_pics", and must become "pics"
 	return subs
 
-def getSizeOfFile(filename):
-	return os.stat(filename).st_size 
-
 def getTopNPostersForAMonth(subreddit,date, N =10): # subredit scripts in location "/beegfs/avt237/data/data/d_$subreddit$"
-	#date in format 2012-01
-	regex= re.compile(date)
-	AllPosters = [] 
-	loc = "/beegfs/avt237/data/data/d_"+subreddit+"/"
-	users = os.listdir(loc)
-	for i in users:
-		files = os.listdir(i)
-		for f in files:
-			if(bool(regex.search(f))):
-				size_ = getSizeOfFile(loc+i+"/"+f)
-				AllPosters.append([user,size_ ])
-				break # only the inner loop
-	AllPosters.sort(key = lambda x : x[1]) # sort by the 2nd element (the size)
-	N = min(N, len(AllPosters))
-	topPosters = []
-	for i in range(N):
-		topPosters.append(AllPosters[i][0])
+	topPosters = [] 
+	loc = "/scratch/rr2635/user_user_pairwiseTDA/subreddit_"+subreddit+"/"
+	filename = loc+"topPosters"+date+".txt"
+	with open(filename) as f:
+		while(True):
+			line = f.readline()
+			if( not line):
+				break
+			topPosters.append(line)
+	N = min(N, len(topPosters))
 	return topPosters[:N]
 
-def storeTopPosters(users,subreddit, date):
-	s = ""
-	for i in users:
-		s+= i+"\n"
-	printOut(s,"/scratch/rr2635/user_user_pairwiseTDA/subreddit_"+subreddit+"/topPosters"+date+".txt")
-if __name__ == '__main__':
-	# first goal : make a list of each of the top posters for each date we care about, and store their name
+def findUsernameVectorFilename(directory,date):
+	regex = re.compile(date+"_Username_vectors")
+	files = os.listdir(directory)
+	for i in files:
+		if(bool(regex.search(i))):
+			return (directory+i)
 
+def whichFolderToPrintTDA(sub1, sub2):#returns where to print the TDA for this pairwise comparison
+	regex1 =re.compile(sub1)
+	regex2 = re.compile(sub2)
+	folders = next(os.walk("/scratch/rr2635/user_user_pairwiseTDA/"))[1]
+	subs = []
+	for i in range(len(folders)):
+		if(bool(regex1.search(i)) and bool(regex2.search(i))):
+			return ("/scratch/rr2635/user_user_pairwiseTDA/"+i+"/")
+	
+def DoTDA(f1,f2):
+	return 1
+
+
+if __name__ == '__main__':
+	# secondGoal  : make a list of each of the top posters for each date we care about, and store their name
+	N = 10 # how many users we are comparing in our TDA process
+	s1 = int(sys.argv[1])#index of the subreddit1
+	s2 = int(sys.argv[2])#index of the subreddit2
+	u1 = int(sys.argv[3]) #index of the user1
+	u2 = int(sys.argv[4])#index of the user2
+	
 	subs= getSubreddits()
+	sub1 = subs[s1]
+	sub2 = subs[s2]
+	folder = whichFolderToPrintTDA(sub1, sub2)
 
 	dates = ["2011-03","2012-03","2013-03",
 	"2014-03","2015-03","2016-03","2017-03","2018-01"]
 
-	for sub in subs:
-		for date in dates:
-			posters = getTopNPostersForAMonth(sub, date, 10)
-			storeTopPosters(posters, sub,date)
+	base = "/scratch/rr2635/data/data/"
+	for date in dates:
+		user1 = getTopNPostersForAMonth(sub1, date , N)[u1]
+		user2 = getTopNPostersForAMonth(sub2, date , N)[u2]
+		
+		dir1 = base + "d_"+sub1+"W2VModels/"+user1+"/"
+		dir2 = base + "d_"+sub2+"W2VModels/"+user2+"/"
+
+		f1 = findUsernameVectorFilename(dir1,date)
+		f2 = findUsernameVectorFilename(dir2,date)
+
+		tda = DoTDA(f1,f2)
+
+
+		printOut(tda, folder+"TDA_"+sub1+"_"+sub2+"_"+u1+"_"+u2+".txt")
+
+

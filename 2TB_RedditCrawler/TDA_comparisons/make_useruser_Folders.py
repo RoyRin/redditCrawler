@@ -113,9 +113,9 @@ def getSubreddits():
 if __name__ == '__main__':
 	s = createSubList(20)
 	subs = ['The_Donald','politics','worldnews','news',
-	'books', 'television', 'movies',  'Music',  'blog',
+	'books', 'movies',  'Music',  'blog',
 	'AskReddit','explainlikeimfive','askscience','todayilearned', 
-	  'soccer', 'gaming', 'leagueoflegends','sports'
+	  'soccer', 'gaming', 'leagueoflegends','sports',
 	   'space','gadgets', 'technology'] # handpicked list of the top 20 subreddits from a list of 40 (half by subscribers, half by activity)
 
 	#subs= getSubreddits()

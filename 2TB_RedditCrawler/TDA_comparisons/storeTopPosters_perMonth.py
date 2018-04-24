@@ -7,6 +7,9 @@ import os
 import glob
 import sys
 
+# goal here, is to create a space such that we can store the top posters for a subreddit a particular month
+# so that we can break, and start up with the TDA
+
 writeToBase = ""
 def overWrite(toFile, text):
     with open(toFile, 'w') as f:
@@ -77,11 +80,11 @@ def getTopNPostersForAMonth(subreddit,date, N =10): # subredit scripts in locati
 	AllPosters = [] 
 	loc = "/beegfs/avt237/data/data/d_"+subreddit+"/"
 	users = os.listdir(loc)
-	for i in users:
-		files = os.listdir(i)
+	for user in users:
+		files = os.listdir(loc+ user)
 		for f in files:
 			if(bool(regex.search(f))):
-				size_ = getSizeOfFile(loc+i+"/"+f)
+				size_ = getSizeOfFile(loc+user+"/"+f)
 				AllPosters.append([user,size_ ])
 				break # only the inner loop
 	AllPosters.sort(key = lambda x : x[1]) # sort by the 2nd element (the size)
@@ -95,14 +98,14 @@ def storeTopPosters(users,subreddit, date):
 	s = ""
 	for i in users:
 		s+= i+"\n"
-	printOut(s,"/scratch/rr2635/user_user_pairwiseTDA/subreddit_"+subreddit+"/topPosters"+date+".txt")
+	overWrite("/scratch/rr2635/user_user_pairwiseTDA/subreddit_"+subreddit+"/topPosters"+date+".txt", s)
 if __name__ == '__main__':
 	# first goal : make a list of each of the top posters for each date we care about, and store their name
 
 	subs= getSubreddits()
 
 	dates = ["2011-03","2012-03","2013-03",
-	"2014-03","2015-03","2016-03","2017-03","2018-01"]
+	"2014-03","2015-03","2016-03","2017-03","2017-09"]
 
 	for sub in subs:
 		for date in dates:

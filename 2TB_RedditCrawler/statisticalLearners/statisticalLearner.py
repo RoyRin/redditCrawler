@@ -221,7 +221,7 @@ def readAllSubredditText(subredditName, model):
 	#	buildVocabForSubreddit(model,subredditFiles[i], i )
 	prevName = ""
 	for i in range(len(subredditFiles)):
-		savingName = subredditFiles[i][l:-8]
+		savingName = subredditFiles[i][l:-4]
 		print("doing "+str(i)+" iterations of subreddit: "+ subredditName)
 		if(i!=0):
 			#upload the previous model

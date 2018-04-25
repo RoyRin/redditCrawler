@@ -225,8 +225,13 @@ def readOneSubredditTextFile(filename,saveToFile_vectors, saveToFile_model, subr
 	
 def readAllSubredditText(subredditName, model):
 	print("subreddit name"+ subredditName)
-	subredditFiles = glob.glob("/beegfs/avt237/data/data/d_"+subredditName+"RC*") # files to read to do w2v reading on
-	subredditFiles.sort()
+	subredFiles = glob.glob("/beegfs/avt237/data/data/d_"+subredditName+"RC*") # files to read to do w2v reading on
+	subredFiles.sort()
+	subredditFiles =[]
+	for i in range(len(subredFiles)): # only work from every 3 months, rather than every month 
+		if(i%3 == 0):
+			subredditFiles.append(subredFiles[i])
+
 	print("/beegfs/avt237/data/data/d_"+subredditName+"RC*")
 	global writeToBase
 

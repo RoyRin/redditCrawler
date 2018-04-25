@@ -158,7 +158,7 @@ def getUsersInSubreddit(subreddit,subredditFolder, n,l =[]):
 	return retUsers
 
 
-
+'''
 
 # returns a list of the names of the subreddit folder names
 def getSubredditFolders():
@@ -178,6 +178,24 @@ def getSubreddits():
 	subs =[]
 	for i in range(len(folders)):
 		subs.append(folders[i][2:]) # the names are originally of form "d_pics", and must become "pics"
+	return subs
+'''
+# returns a list of the names of the subreddit folder names - the ones that we are using for 
+# the TDA pairwise - so only about the top 20 , which were hand picked
+def getSubredditFolders():
+	
+	folders = next(os.walk("/scratch/rr2635/user_user_pairwiseTDA"))[1]
+	subs = []
+	for i in range(len(folders)):
+		if(folders[i][:len("subreddit_")] == "subreddit_"):
+			subs.append(folders[i]) # the names are originally of form "d_pics", and must become "pics"
+	return subs
+
+def getSubreddits():
+	folders = getSubredditFolders()
+	subs =[]
+	for i in range(len(folders)):
+		subs.append(folders[i][len("subreddit_"):]) # the names are originally of form "d_pics", and must become "pics"
 	return subs
 
 def buildVocabForSubreddit(model, filename, i ):

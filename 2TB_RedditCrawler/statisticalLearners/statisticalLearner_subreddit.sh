@@ -8,7 +8,7 @@
 #SBATCH --time=167:00:00
 #SBATCH --mail-type=END
 #SBATCH --mail-user=rr2635@nyu.edu
-#SBATCH --array=0-45
+#SBATCH --array=0-22
 
 module purge
 module load python3/intel/3.6.3

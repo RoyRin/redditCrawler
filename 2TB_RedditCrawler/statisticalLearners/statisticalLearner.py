@@ -111,12 +111,45 @@ def getAllTopUsers(subreddits, subredditFolders, n, dictionary):
 		readUsernameCounts(filename, subreddits[i],n,dictionary)
 
 
+# get it, from the top posts by month - which is what was used for the betti computation
+def getTopNPostersForAMonth(subreddit,date, N =10): # subredit scripts in location "/beegfs/avt237/data/data/d_$subreddit$"
+	topPosters = [] 
+	loc = "/scratch/rr2635/user_user_pairwiseTDA/subreddit_"+subreddit+"/"
+	filename = loc+"topPosters"+date+".txt"
+	with open(filename) as f:
+		while(True):
+			line = f.readline()
+			if( not line):
+				break
+			topPosters.append(line)
+	N = min(N, len(topPosters))
+	return topPosters[:N]
+
+def getTopPostersForSeveralMonths(subreddit,dates,topPosters = {}, N=10):
+
+	for date in dates:
+		l = getTopNPostersForAMonth(subreddit, date, N)
+		for p in l:
+			if(p in topPosters):
+				topPosters[p].append([subreddit])
+			topPosters[p]= [subreddit]
+	return topPosters
+# get a list of all the top posters using the method assigned for computing betti numbers 
+#(which is to simply compare the length of the scripts, for given months)
+def getTopPostersforAllSubreddits(subreddits,dates,  N=10):# N = number of posters per subreddit per month
+
+	topPosters = {}
+	for sub in subreddits:
+		getTopPostersForSeveralMonths(sub, dates,topPosters, N)
+	return topPosters
+
 def makeDirectoriesForSubredditModels(subs):
 	global writeToBase
 	base  = writeToBase
 	for i in subs:
 		if not os.path.exists(base+ "/data/"+"d_"+i+"W2VModels"):
 			os.makedirs(base+"/data/"+"d_"+i+"W2VModels")
+
 
 def makeDirectoriesForUsernameModel(username, usernameDictionary): # iterate through the username dictionary, and make a folder for each user
 	#for user in usernameDictionary:
@@ -329,7 +362,7 @@ if __name__ == '__main__': # takes 3 arguements,
 	#3rd: the index of the user in question
 
 	#the point of args 2 and 3, is so that all these things can be run in parallel
-
+	dates = ["2011-03","2012-03","2013-03", "2014-03","2015-03","2016-03","2017-03","2018-01"]
 	userOrSubreddit = sys.argv[1]
 	subredditIndex = int(sys.argv[2]) # the index of the subreddit
 	userOrSubredditBool = True
@@ -360,7 +393,10 @@ if __name__ == '__main__': # takes 3 arguements,
 	n = 250
 	if(userIndex>n):
 		exit()
-	getAllTopUsers(subs,subFolders,n,dic) # create a dictionary containing all the top posters
+	##Beep boop baap
+	#getTopPostersforAllSubreddits(subreddits, N=10)
+	dic = getTopPostersforAllSubreddits(subs,dates,  N=10) # only the top 20 subreddits,
+	#getAllTopUsers(subs,subFolders,n,dic) # create a dictionary containing all the top posters
 	# make all the directories for the usernames w2v models
 	print("all the subs "+ str(len(subs)))
 	print(" sub we are following "+ str(subredditIndex)+ " " + subs[subredditIndex])
@@ -371,8 +407,14 @@ if __name__ == '__main__': # takes 3 arguements,
 		print("doint the subreddit stuff")
 		readAllSubredditText(subs[subredditIndex],model)
 	else:
-		usersInSubreddit = getUsersInSubreddit(subs[subredditIndex],subFolders[subredditIndex] , n , [])
+
+		usersInSubreddit= list(getTopPostersForSeveralMonths(subreddit,dates, {}, 10))
+
+		#usersInSubreddit = getUsersInSubreddit(subs[subredditIndex],subFolders[subredditIndex] , n , [])
 		print(usersInSubreddit)
+		if(userIndex > len(usersInSubreddit)):
+			exit() 
+			
 		print("user we are following "+ str(userIndex)+ usersInSubreddit[userIndex])
 		makeDirectoriesForUsernameModel(usersInSubreddit[userIndex], dic) # make folders for the user, if they don't yet exist
 

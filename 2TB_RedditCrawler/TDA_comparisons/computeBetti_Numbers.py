@@ -121,8 +121,7 @@ def writePointCloud(f1, storeTo):
 def computeBettiNumber(f1, Dimension, threshold, output):
 	ripser ="C:\Documents and Settings\flow_model\flow.exe"
 	#ripser --format distance --dim DIMENSION --threshold THRESHOLD_DISTANCE distance_file > tda_output_file
-	cmd = "/beegfs/avt237/data/ripser --format distance --dim " +str(Dimension)+ 
-	" --threshold " + str(threshold) +" " + f1 + " > " + output
+	cmd = "/beegfs/avt237/data/ripser --format distance --dim " +str(Dimension)+ " --threshold " + str(threshold) +" " + f1 + " > " + output
 	os.system(cmd)
 	
 

@@ -222,6 +222,8 @@ def readOneSubredditTextFile(filename,saveToFile_vectors, saveToFile_model, subr
 	#KeyedVectors.save_word2vec_format(model.wv, saveToFile , binary=False)
 	KeyedVectors.save_word2vec_format(model.wv, saveToFile_vectors , binary=False)# save the vectors for ease of use
 	model.save(saveToFile_model) # save the model information
+	return model
+
 	
 def readAllSubredditText(subredditName, model):
 	print("subreddit name"+ subredditName)
@@ -249,13 +251,15 @@ def readAllSubredditText(subredditName, model):
 		if(i!=0):
 			#upload the previous model
 			#model = Word2Vec.load(saveTo+"subredditModel"+str(i-1)+".txt")
-			model = Word2Vec.load(prevName)
+			
+			#model = Word2Vec.load(prevName)
+			
 			#model = Word2Vec.load(saveTo+savingName+"subreddit_model"+str(i-1)+".txt")
 			#model = KeyedVectors.load_word2vec_format(saveTo+"subredditModel"+str(i-1)+".txt", binary = False)
-		#most things in the format "$username$subredditRC_date.txt.txt" # so want to print to preserve name and sub information
 		prevName = saveTo+savingName+"subreddit_model"+str(i)+".txt"
-		readOneSubredditTextFile(subredditFiles[i], saveTo+savingName+"subreddit_vectors"+str(i)+".txt",
+		model = readOneSubredditTextFile(subredditFiles[i], saveTo+savingName+"subreddit_vectors"+str(i)+".txt",
 			saveTo+savingName+"subreddit_model"+str(i)+".txt", subredditName,model, i)
+		#most things in the format "$username$subredditRC_date.txt.txt" # so want to print to preserve name and sub information
 	return
 
 def buildVocabForUsername(model, filename,i):
@@ -282,6 +286,7 @@ def readOneUsernameTextFile(filename,saveToFile_vectors, saveToFile_model, subre
 		model.train(batch, total_examples=model.corpus_count, epochs=100)
 	KeyedVectors.save_word2vec_format(model.wv, saveToFile_vectors , binary=False)# save the vectors for ease of use
 	model.save(saveToFile_model) # save the model information
+	return model
 
 
 def readAllUsernameText(subredditName,username, model): # for a single username
@@ -304,10 +309,12 @@ def readAllUsernameText(subredditName,username, model): # for a single username
 
 			#model = Word2Vec.load(saveTo+usernameFiles[i][:-8]+"username_model"+str(i-1)+".txt") # load the previous model from text
 			#model = Word2Vec.load(saveTo+savingName+"username_model"+str(i-1)+".txt") # load the previous model from text
-			model = Word2Vec.load(prevName)
+			
+			#model = Word2Vec.load(prevName)
+			
 			#model = KeyedVectors.load_word2vec_format(saveTo+"usernameModel"+str(i-1)+".txt",binary = False)
 		prevName = saveTo+savingName+"username_model"+str(i)+".txt"
-		readOneUsernameTextFile(usernameFiles[i], saveTo+savingName+"_Username_vectors"+str(i)+".txt",
+		model = readOneUsernameTextFile(usernameFiles[i], saveTo+savingName+"_Username_vectors"+str(i)+".txt",
 			saveTo+savingName+"username_model"+str(i)+".txt" ,  subredditName, username, model,i )
 	return 
 

@@ -349,6 +349,7 @@ if __name__ == '__main__': # takes 3 arguements,
 
 
 	subs = getSubreddits() # get list of subreddits used
+	print("subs are :"+str(subs))
 	if(subredditIndex >= len(subs)):
 		exit()	
 	subFolders =getSubredditFolders() # get list of subreddit folders

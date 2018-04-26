@@ -60,6 +60,7 @@ def getTopNPostersForAMonth(subreddit,date, N =10): # subredit scripts in locati
 	return topPosters[:N]
 
 def findUsernameVectorFilename(directory,date):
+	#searches for the file of vectors, within the folder of all their vector data
 	regex = re.compile(date+"_Username_vectors")
 	files = os.listdir(directory)
 	for i in files:
@@ -137,16 +138,17 @@ if __name__ == '__main__':
 	
 	subs= getSubreddits()
 	sub1 = subs[s1]
-
+	print("sub is "+sub1)
 	BettiFolder1 ="/scratch/rr2635/user_user_pairwiseTDA/subreddit_"+ sub1+"/"
 
 	dates = ["2011-03","2012-03","2013-03",
 	"2014-03","2015-03","2016-03","2017-03","2018-01"]
 
-	base = "/scratch/rr2635/data/data/"
+	base = "/scratch/rr2635/data/data/d_"+sub1+"W2VModels/"
 	for date in dates:
 		user1 = getTopNPostersForAMonth(sub1, date , N)[u1]
-		
+		print("user is "+ user1)
+		dir1 = base + user1+"/"
 		f1 = findUsernameVectorFilename(dir1,date)
 		pc = BettiFolder1+"PointCloud"+user1+"_"+date+".txt"
 		if(os.path.isfile( pc ) ): # if file already exists, carry on

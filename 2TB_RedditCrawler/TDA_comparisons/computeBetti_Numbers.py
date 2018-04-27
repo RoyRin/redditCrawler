@@ -94,8 +94,9 @@ def writePointCloud(f1, storeTo):
 	for i in lines:
 	    j = list(map(float, i.strip().split()[1:]))
 	    cloud.append(j)
+	    print(len(j))
 	    cloud2.append(j)
-
+    print(len(cloud))
 	ndistances = distance_matrix(cloud, cloud2)
 	distances = [[100000.00 for i in range(len(cloud))] for j in range(len(cloud))]
 	for i in range(len(cloud)):

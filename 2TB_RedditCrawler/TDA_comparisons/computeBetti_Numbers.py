@@ -85,7 +85,7 @@ def whichFolderToPrintTDA(sub1, sub2):#returns where to print the TDA for this p
 		if(bool(regex1.search(i)) and bool(regex2.search(i))):
 			return ("/scratch/rr2635/user_user_pairwiseTDA/"+i+"/")
 	
-def writePointCloud(f1, storeTo):
+def writePointCloud(f1, storeTo, num_neighbours = 50):
 	# abhinav's code for a approximation technique of dim reduction of distances
 	cloud = []
 	cloud2 = []
@@ -103,7 +103,7 @@ def writePointCloud(f1, storeTo):
 	for i in range(len(cloud)):
 		dList = [(ndistances[i][j], j) for j in range(len(cloud))]
 		dList.sort()
-		for j in range(min(len(cloud), args.num_neighbours+1)):
+		for j in range(min(len(cloud), num_neighbours+1)):
 			distances[i][dList[j][1]] = dList[j][0]
 			distances[dList[j][1]][i] = dList[j][0]
 
@@ -170,7 +170,7 @@ if __name__ == '__main__':
 			pointcloud = BettiFolder1+"PointCloud"+user1+"_"+date+".txt"
 			if(os.path.isfile( pointcloud ) ): # if file already exists, carry on
 				continue
-			disMat = writePointCloud(f1, pointcloud )
+			disMat = writePointCloud(f1, pointcloud , 50)
 
 			bettiNumberFile = BettiFolder1+"BettiNumber"+user1+"_"+date+".txt"
 			if(os.path.isfile(bettiNumberFile) ): # if file already exists, carry on
@@ -186,7 +186,7 @@ if __name__ == '__main__':
 			if(os.path.isfile( pointcloud ) ): # if file already exists, carry on
 				continue
 
-			disMat = writePointCloud(f1, pointcloud )
+			disMat = writePointCloud(f1, pointcloud , 50)
 
 			bettiNumberFile = BettiFolder1+"BettiNumber"+user1+"_"+date+".txt"
 			if(os.path.isfile(bettiNumberFile) ): # if file already exists, carry on

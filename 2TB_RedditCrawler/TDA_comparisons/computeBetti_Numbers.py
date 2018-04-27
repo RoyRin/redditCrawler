@@ -88,14 +88,15 @@ def whichFolderToPrintTDA(sub1, sub2):#returns where to print the TDA for this p
 def writePointCloud(f1, storeTo):
 	# abhinav's code for a approximation technique of dim reduction of distances
 	cloud = []
-
+	cloud2 = []
 	lines = open(f1).readlines()
 
 	for i in lines:
 	    j = list(map(float, i.strip().split()[1:]))
 	    cloud.append(j)
+	    cloud2.append(j)
 
-	ndistances = distance_matrix(cloud, cloud)
+	ndistances = distance_matrix(cloud, cloud2)
 	distances = [[100000.00 for i in range(len(cloud))] for j in range(len(cloud))]
 	for i in range(len(cloud)):
 	    dList = [(ndistances[i][j], j) for j in range(len(cloud))]
@@ -138,7 +139,7 @@ if __name__ == '__main__':
 	# secondGoal  : make a list of each of the top posters for each date we care about, and store their name
 	N = 10 # how many users we are comparing in our TDA process
 	s1 = int(sys.argv[1])#index of the subreddit1
-	users = int(sys.argv[2]) # this way, only takes 3 arguements, and this last one is from 0 to N(N-1)/2, and dictates what user 1 and user 2 are
+	user = int(sys.argv[2]) # this way, only takes 3 arguements, and this last one is from 0 to N(N-1)/2, and dictates what user 1 and user 2 are
 	# makes it easier to parallelize
 
 	subs= getSubreddits()
@@ -155,7 +156,7 @@ if __name__ == '__main__':
 	print("sub is "+sub1)
 	if(user>= 0):
 		# this means that we are computing the betti number for the subreddit itself
-		u1 = int(users%N)
+		u1 = int(user%N)
 		#u1 = int(sys.argv[3]) #index of the user1
 		#u2 = int(sys.argv[4])#index of the user2
 		

@@ -121,7 +121,7 @@ def getTopNPostersForAMonth(subreddit,date, N =10): # subredit scripts in locati
 			line = f.readline()
 			if( not line):
 				break
-			topPosters.append(line)
+			topPosters.append(line[:-1])
 	N = min(N, len(topPosters))
 	return topPosters[:N]
 
@@ -281,7 +281,7 @@ def readAllSubredditText(subredditName, model):
 	for i in range(len(subredditFiles)):
 		savingName = subredditFiles[i][l:-4]
 		print("doing "+str(i)+" iterations of subreddit: "+ subredditName)
-		if(i!=0):
+		#if(i!=0):
 			#upload the previous model
 			#model = Word2Vec.load(saveTo+"subredditModel"+str(i-1)+".txt")
 			
@@ -337,7 +337,7 @@ def readAllUsernameText(subredditName,username, model): # for a single username
 	for i in range(len(usernameFiles)):
 		savingName = usernameFiles[i][l:-8]
 		print("doing "+str(i)+" iterations of username: " + username)
-		if(i!=0):
+		#if(i!=0):
 			#upload the previous model
 
 			#model = Word2Vec.load(saveTo+usernameFiles[i][:-8]+"username_model"+str(i-1)+".txt") # load the previous model from text
@@ -362,7 +362,7 @@ if __name__ == '__main__': # takes 3 arguements,
 	#3rd: the index of the user in question
 
 	#the point of args 2 and 3, is so that all these things can be run in parallel
-	dates = ["2011-03","2012-03","2013-03", "2014-03","2015-03","2016-03","2017-03","2018-01"]
+	dates = ["2011-03","2012-03","2013-03", "2014-03","2015-03","2016-03","2017-03","2017-09"]
 	userOrSubreddit = sys.argv[1]
 	subredditIndex = int(sys.argv[2]) # the index of the subreddit
 	userOrSubredditBool = True
@@ -408,13 +408,13 @@ if __name__ == '__main__': # takes 3 arguements,
 		readAllSubredditText(subs[subredditIndex],model)
 	else:
 
-		usersInSubreddit= list(getTopPostersForSeveralMonths(subreddit,dates, {}, 10))
+		usersInSubreddit= list(getTopPostersForSeveralMonths(subs[subredditIndex],dates, {}, 10))
 
 		#usersInSubreddit = getUsersInSubreddit(subs[subredditIndex],subFolders[subredditIndex] , n , [])
 		print(usersInSubreddit)
 		if(userIndex > len(usersInSubreddit)):
 			exit() 
-			
+
 		print("user we are following "+ str(userIndex)+ usersInSubreddit[userIndex])
 		makeDirectoriesForUsernameModel(usersInSubreddit[userIndex], dic) # make folders for the user, if they don't yet exist
 

@@ -55,13 +55,22 @@ def getTopNPostersForAMonth(subreddit,date, N =10): # subredit scripts in locati
 			line = f.readline()
 			if( not line):
 				break
-			topPosters.append(line)
+			topPosters.append(line[:-1])
 	N = min(N, len(topPosters))
 	return topPosters[:N]
 
+#searches in a directory of models and folders of vector reps
+# and it searches for the file containing the vector representations for a specific date
 def findUsernameVectorFilename(directory,date):
-	#searches for the file of vectors, within the folder of all their vector data
 	regex = re.compile(date+"_Username_vectors")
+	files = os.listdir(directory)
+	for i in files:
+		if(bool(regex.search(i))):
+			return (directory+i)
+
+#same as the findUsernameVectorFilename- except for a subreddit's data
+def findSubredditVectorFilename(dir1,date):
+	regex = re.compile(date+"subreddit_vectors")
 	files = os.listdir(directory)
 	for i in files:
 		if(bool(regex.search(i))):
@@ -131,10 +140,7 @@ if __name__ == '__main__':
 	s1 = int(sys.argv[1])#index of the subreddit1
 	users = int(sys.argv[2]) # this way, only takes 3 arguements, and this last one is from 0 to N(N-1)/2, and dictates what user 1 and user 2 are
 	# makes it easier to parallelize
-	u1 = int(users%N)
-	#u1 = int(sys.argv[3]) #index of the user1
-	#u2 = int(sys.argv[4])#index of the user2
-	
+
 	subs= getSubreddits()
 	sub1 = subs[s1]
 	print("sub is "+sub1)
@@ -144,21 +150,52 @@ if __name__ == '__main__':
 	"2014-03","2015-03","2016-03","2017-03","2018-01"]
 
 	base = "/scratch/rr2635/data/data/d_"+sub1+"W2VModels/"
-	for date in dates:
-		user1 = getTopNPostersForAMonth(sub1, date , N)[u1]
-		print("user is "+ user1)
-		dir1 = base + user1+"/"
-		f1 = findUsernameVectorFilename(dir1,date)
-		pc = BettiFolder1+"PointCloud"+user1+"_"+date+".txt"
-		if(os.path.isfile( pc ) ): # if file already exists, carry on
-			continue
-		dis = writePointCloud(f1, pc )
 
-		bn = BettiFolder1+"BettiNumber"+user1+"_"+date+".txt"
-		if(os.path.isfile(bn) ): # if file already exists, carry on
-			continue
-		dim = 3
-		threshold = 10000 # very large number
-		computeBettiNumber(dis, dim, threshold, bn) #(f1, Dimension, threshold, output):
+	sub1 = subs[s1]
+	print("sub is "+sub1)
+	if(user>= 0):
+		# this means that we are computing the betti number for the subreddit itself
+		u1 = int(users%N)
+		#u1 = int(sys.argv[3]) #index of the user1
+		#u2 = int(sys.argv[4])#index of the user2
+		
+		for date in dates:
+			user1 = getTopNPostersForAMonth(sub1, date , N)[u1]
+			print("user is "+ user1)
+			dir1 = base + user1+"/"
+			f1 = findUsernameVectorFilename(dir1,date)
+			pointcloud = BettiFolder1+"PointCloud"+user1+"_"+date+".txt"
+			if(os.path.isfile( pointcloud ) ): # if file already exists, carry on
+				continue
+			disMat = writePointCloud(f1, pointcloud )
+
+			bettiNumberFile = BettiFolder1+"BettiNumber"+user1+"_"+date+".txt"
+			if(os.path.isfile(bettiNumberFile) ): # if file already exists, carry on
+				continue
+			dim = 3
+			threshold = 10000 # very large number
+			computeBettiNumber(disMat, dim, threshold, bettiNumberFile) #(f1, Dimension, threshold, output):
+	else:
+		for date in dates:
+			f1 = findSubredditVectorFilename(base,date)
+			pointcloud = BettiFolder1+"PointCloud"+user1+"_"+date+".txt"
+
+			if(os.path.isfile( pointcloud ) ): # if file already exists, carry on
+				continue
+
+			disMat = writePointCloud(f1, pointcloud )
+
+			bettiNumberFile = BettiFolder1+"BettiNumber"+user1+"_"+date+".txt"
+			if(os.path.isfile(bettiNumberFile) ): # if file already exists, carry on
+				continue
+			dim = 3
+			threshold = 10000 # very large number
+			computeBettiNumber(disMat, dim, threshold, bettiNumberFile) #(f1, Dimension, threshold, output):
+
+
+
+
+
+
 
 

@@ -96,15 +96,15 @@ def writePointCloud(f1, storeTo):
 		cloud.append(j)
 		print(len(j))
 		cloud2.append(j)
-    print(len(cloud))
+	print(len(cloud))
 	ndistances = distance_matrix(cloud, cloud2)
 	distances = [[100000.00 for i in range(len(cloud))] for j in range(len(cloud))]
 	for i in range(len(cloud)):
-	    dList = [(ndistances[i][j], j) for j in range(len(cloud))]
-	    dList.sort()
-	    for j in range(min(len(cloud), args.num_neighbours+1)):
-	        distances[i][dList[j][1]] = dList[j][0]
-	        distances[dList[j][1]][i] = dList[j][0]
+		dList = [(ndistances[i][j], j) for j in range(len(cloud))]
+		dList.sort()
+		for j in range(min(len(cloud), args.num_neighbours+1)):
+			distances[i][dList[j][1]] = dList[j][0]
+			distances[dList[j][1]][i] = dList[j][0]
 
 	with open(storeTo, "w") as out:
 	    out.write("\n".join([" ".join(list(map(str, i))) for i in distances]))

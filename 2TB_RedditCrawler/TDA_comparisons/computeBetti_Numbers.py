@@ -95,7 +95,7 @@ def writePointCloud(f1, storeTo, num_neighbours = 50):
 		line = lines[i]
 		j = list(map(float, line.strip().split()[1:]))
 		cloud.append(j)
-		print(len(j))
+		#print(len(j))
 		cloud2.append(j)
 	print(len(cloud))
 	ndistances = distance_matrix(cloud, cloud2)
@@ -133,7 +133,7 @@ def writePointCloud(f1, storeTo, num_neighbours = 50):
 def computeBettiNumber(f1, Dimension, threshold, output):
 	ripser ="C:\Documents and Settings\flow_model\flow.exe"
 	#ripser --format distance --dim DIMENSION --threshold THRESHOLD_DISTANCE distance_file > tda_output_file
-	cmd = "/beegfs/avt237/data/ripser --format distance --dim " +str(Dimension)+ " --threshold " + str(threshold) +" " + f1 + " > " + output
+	cmd = str("/beegfs/avt237/data/ripser --format distance --dim " +str(Dimension)+ " --threshold " + str(threshold) +" " + str(f1) + " > " + str(output))
 	os.system(cmd)
 	
 

@@ -99,7 +99,7 @@ def writePointCloud(f1, storeTo, num_neighbours = 50):
 		cloud2.append(j)
 	print(len(cloud))
 	ndistances = distance_matrix(cloud, cloud2)
-	distances = [[100000.00 for i in range(len(cloud))] for j in range(len(cloud))]
+	distances = [[10000.00 for i in range(len(cloud))] for j in range(len(cloud))]
 	for i in range(len(cloud)):
 		dList = [(ndistances[i][j], j) for j in range(len(cloud))]
 		dList.sort()
@@ -134,7 +134,12 @@ def computeBettiNumber(f1, Dimension, threshold, output):
 	ripser ="C:\Documents and Settings\flow_model\flow.exe"
 	#ripser --format distance --dim DIMENSION --threshold THRESHOLD_DISTANCE distance_file > tda_output_file
 	cmd = str("/beegfs/avt237/data/ripser --format distance --dim " +str(Dimension)+ " --threshold " + str(threshold) +" " + str(f1) + " > " + str(output))
-	os.system(cmd)
+	print("cmd is "+ cmd)
+
+	#os.system('pdv -t %s > 123.txt' % epoch_name)
+	os.system('/beegfs/avt237/data/ripser --format distances --dim  %s --threshold %s %s > %s' %str(Dimension) %str(threshold) %str(f1) %str(output) )
+	#os.system(cmd)
+	#printOut(os.system(cmd), output)
 	
 
 if __name__ == '__main__':
@@ -176,7 +181,7 @@ if __name__ == '__main__':
 			if(os.path.isfile(bettiNumberFile) ): # if file already exists, carry on
 				continue
 			dim = 3
-			threshold = 10000 # very large number
+			threshold = 500 # very large number
 			computeBettiNumber(disMat, dim, threshold, bettiNumberFile) #(f1, Dimension, threshold, output):
 	else:
 		for date in dates:
@@ -192,7 +197,8 @@ if __name__ == '__main__':
 			if(os.path.isfile(bettiNumberFile) ): # if file already exists, carry on
 				continue
 			dim = 3
-			threshold = 10000 # very large number
+			threshold =  # very large number
+			print("betti number here")
 			computeBettiNumber(disMat, dim, threshold, bettiNumberFile) #(f1, Dimension, threshold, output):
 
 

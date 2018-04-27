@@ -91,8 +91,9 @@ def writePointCloud(f1, storeTo):
 	cloud2 = []
 	lines = open(f1).readlines()
 
-	for i in lines:
-		j = list(map(float, i.strip().split()[1:]))
+	for i in range(1,len(lines)-1): # first one , and last one are somehow different.
+		line = lines[i]
+		j = list(map(float, line.strip().split()[1:]))
 		cloud.append(j)
 		print(len(j))
 		cloud2.append(j)

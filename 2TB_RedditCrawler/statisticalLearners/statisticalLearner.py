@@ -353,9 +353,6 @@ def readAllUsernameText(subredditName,username, model): # for a single username
 
 
 
-
-
-
 if __name__ == '__main__': # takes 3 arguements, 
 	#1st : "user" or "subreddit" #indicates which model it is training
 	#2nd: the index of the subreddit in question
@@ -374,11 +371,13 @@ if __name__ == '__main__': # takes 3 arguements,
 		print("in user mode "+ str(userIndex))
 		print(str(str(subredditIndex)+" - "+str(userIndex)+"\n" ))
 		#printOut("/beegfs/avt237/data/finishedWithUsernameW2V.txt", str(subredditIndex)+" - "+str(userIndex)+"\n" )
+
 	else:
 		print("in subreddit mode " + str(subredditIndex))
 		userOrSubredditBool = False
 		print(str("/beegfs/avt237/data/finishedWithSubredditW2V.txt"+str(subredditIndex)+"\n"))
 		#printOut("/beegfs/avt237/data/finishedWithSubredditW2V.txt",str(subredditIndex)+"\n" )
+
 
 
 	subs = getSubreddits() # get list of subreddits used
@@ -416,6 +415,14 @@ if __name__ == '__main__': # takes 3 arguements,
 			exit() 
 
 		print("user we are following "+ str(userIndex)+ usersInSubreddit[userIndex])
+		user = usersInSubreddit[userIndex]
+
+
+		#use this to find if the username vectors have already begun being calculated - if so, then we can exit
+		if(os.path.exists("/scratch/rr2635/data/data/d_"+sub1+"W2VModels/" + user+"/")):
+			print("we've already calcualted this before, can exit ->")
+			exit()
+			
 		makeDirectoriesForUsernameModel(usersInSubreddit[userIndex], dic) # make folders for the user, if they don't yet exist
 
 		readAllUsernameText(subs[subredditIndex],usersInSubreddit[userIndex], model)

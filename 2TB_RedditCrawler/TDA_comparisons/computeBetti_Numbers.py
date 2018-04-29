@@ -133,11 +133,12 @@ def writePointCloud(f1, storeTo, num_neighbours = 50):
 def computeBettiNumber(f1, Dimension, threshold, output):
 	ripser ="C:\Documents and Settings\flow_model\flow.exe"
 	#ripser --format distance --dim DIMENSION --threshold THRESHOLD_DISTANCE distance_file > tda_output_file
-	cmd = str("/beegfs/avt237/data/ripser --format distance --dim " +str(Dimension)+ " --threshold " + str(threshold) +" " + str(f1) + " > " + str(output))
+	#cmd = str("/beegfs/avt237/data/ripser --format distance --dim " +str(Dimension)+ " --threshold " + str(threshold) +" " + str(f1) + " > " + str(output))
+	cmd = ('/beegfs/avt237/data/ripser --format distance --dim  %s --threshold %s %s > %s' %(str(Dimension), str(threshold) ,str(f1), str(output)))
 	print("cmd is "+ cmd)
 
 	#os.system('pdv -t %s > 123.txt' % epoch_name)
-	os.system('/beegfs/avt237/data/ripser --format distances --dim  %s --threshold %s %s > %s' %str(Dimension) %str(threshold) %str(f1) %str(output) )
+	os.system('/beegfs/avt237/data/ripser --format distance --dim  %s --threshold %s %s > %s' %(str(Dimension), str(threshold) ,str(f1), str(output)) )
 	#os.system(cmd)
 	#printOut(os.system(cmd), output)
 	
@@ -146,8 +147,7 @@ if __name__ == '__main__':
 	# secondGoal  : make a list of each of the top posters for each date we care about, and store their name
 	N = 10 # how many users we are comparing in our TDA process
 	s1 = int(sys.argv[1])#index of the subreddit1
-	user = int(sys.argv[2]) # this way, only takes 3 arguements, and this last one is from 0 to N(N-1)/2, and dictates what user 1 and user 2 are
-	# makes it easier to parallelize
+	user = int(sys.argv[2]) # index of the user
 
 	subs= getSubreddits()
 	sub1 = subs[s1]
@@ -182,7 +182,9 @@ if __name__ == '__main__':
 				continue
 			dim = 3
 			threshold = 500 # very large number
-			computeBettiNumber(disMat, dim, threshold, bettiNumberFile) #(f1, Dimension, threshold, output):
+			print("betti number here")
+			computeBettiNumber(pointcloud, dim, threshold, bettiNumberFile)
+			#computeBettiNumber(disMat, dim, threshold, bettiNumberFile) #(f1, Dimension, threshold, output):
 	else:
 		for date in dates:
 			f1 = findSubredditVectorFilename(base,date)
@@ -197,9 +199,10 @@ if __name__ == '__main__':
 			if(os.path.isfile(bettiNumberFile) ): # if file already exists, carry on
 				continue
 			dim = 3
-			threshold =  # very large number
+			threshold = 500 # very large number
 			print("betti number here")
-			computeBettiNumber(disMat, dim, threshold, bettiNumberFile) #(f1, Dimension, threshold, output):
+			computeBettiNumber(pointcloud, dim, threshold, bettiNumberFile)
+			#computeBettiNumber(disMat, dim, threshold, bettiNumberFile) #(f1, Dimension, threshold, output):
 
 
 

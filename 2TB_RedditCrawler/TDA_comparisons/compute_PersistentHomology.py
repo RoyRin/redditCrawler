@@ -298,7 +298,7 @@ if __name__ == '__main__':
 			dir1 = base + user1+"/"
 			
 			if(not os.path.exists(dir1)): # if there is no data for the word 2 vec representations - then make it
-				model = Word2Vec(size=250, window=8, min_count=1, workers=4)
+				model = Word2Vec(size=250, window=8, min_count=5, workers=4)
 				readAllUsernameText(sub1,user1, model)
 
 			f1 = findUsernameVectorFilename(dir1,date)

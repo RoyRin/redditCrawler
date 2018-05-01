@@ -401,7 +401,7 @@ if __name__ == '__main__': # takes 3 arguements,
 	print(" sub we are following "+ str(subredditIndex)+ " " + subs[subredditIndex])
 	print(subs)
 	print("got to here")
-	model = Word2Vec(size=250, window=8, min_count=1, workers=4)
+	model = Word2Vec(size=250, window=8, min_count=5, workers=4)
 	if(not userOrSubredditBool): #if in subreddit mode
 		print("doint the subreddit stuff")
 		readAllSubredditText(subs[subredditIndex],model)
@@ -422,7 +422,7 @@ if __name__ == '__main__': # takes 3 arguements,
 		if(os.path.exists("/scratch/rr2635/data/data/d_"+sub1+"W2VModels/" + user+"/")):
 			print("we've already calcualted this before, can exit ->")
 			exit()
-			
+
 		makeDirectoriesForUsernameModel(usersInSubreddit[userIndex], dic) # make folders for the user, if they don't yet exist
 
 		readAllUsernameText(subs[subredditIndex],usersInSubreddit[userIndex], model)

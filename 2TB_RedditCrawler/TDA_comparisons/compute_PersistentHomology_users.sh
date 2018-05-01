@@ -15,7 +15,7 @@ module load  python3/intel/3.6.3
 
 
 for((i=0; i<10; i++)); do
-    srun python compute_PersistentHomology.py $SLURM_ARRAY_TASK_ID  # the 1st arguement is the subreddit index, i is the username index
+    srun python compute_PersistentHomology.py $SLURM_ARRAY_TASK_ID $i # the 1st arguement is the subreddit index, i is the username index
 done
 
 exit

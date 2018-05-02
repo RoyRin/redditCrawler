@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH --job-name=persistent_homology
+#SBATCH --job-name=statLearner_problematics
 #SBATCH --nodes=1
 #SBATCH --tasks-per-node=1
 #SBATCH --cpus-per-task=1
@@ -15,7 +15,7 @@ module load  python3/intel/3.6.3
 
 
 for((i=0; i<10; i++)); do
-    srun python compute_PersistentHomology.py $SLURM_ARRAY_TASK_ID $i # the 1st arguement is the subreddit index, i is the username index
+    srun python statisticalLearner_only_problematic_users.py $SLURM_ARRAY_TASK_ID $i # the 1st arguement is the subreddit index, i is the username index
 done
 
 exit

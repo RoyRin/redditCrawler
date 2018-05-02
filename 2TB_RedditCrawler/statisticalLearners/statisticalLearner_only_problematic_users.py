@@ -359,82 +359,40 @@ if __name__ == '__main__': # takes 3 arguements,
 	#3rd: the index of the user in question
 
 	#the point of args 2 and 3, is so that all these things can be run in parallel
-	dates = ["2011-03","2012-03","2013-03", "2014-03","2015-03","2016-03","2017-03","2017-09"]
-	userOrSubreddit = sys.argv[1]
-	subredditIndex = int(sys.argv[2]) # the index of the subreddit
-	userOrSubredditBool = True
-	print(userOrSubreddit)
-	userIndex = int(sys.argv[3])%250 # the index of the user
-	if(userOrSubreddit == "user"):
-		userOrSubredditBool= True
+	N = 10 # how many users we are comparing in our TDA process
+	s1 = int(sys.argv[1])#index of the subreddit1
+	user = int(sys.argv[2]) # index of the user
+
+	subs= getSubreddits()
+	sub1 = subs[s1]
+	print("sub is "+sub1)
+	PersistentHomologyFolder1 ="/scratch/rr2635/user_user_pairwiseTDA/subreddit_"+ sub1+"/"
+
+	dates = ["2011-03","2012-03","2013-03",
+	"2014-03","2015-03","2016-03","2017-03","2018-01"]
+
+	base = "/scratch/rr2635/data/data/d_"+sub1+"W2VModels/"
+
+	if(user>= 0):
+		# this means that we are computing the Persistent Homology for the subreddit itself
+		u1 = int(user%N)
+		#u1 = int(sys.argv[3]) #index of the user1
+		#u2 = int(sys.argv[4])#index of the user2
 		
-		print("in user mode "+ str(userIndex))
-		print(str(str(subredditIndex)+" - "+str(userIndex)+"\n" ))
-		#printOut("/beegfs/avt237/data/finishedWithUsernameW2V.txt", str(subredditIndex)+" - "+str(userIndex)+"\n" )
-
-	else:
-		print("in subreddit mode " + str(subredditIndex))
-		userOrSubredditBool = False
-		print(str("/beegfs/avt237/data/finishedWithSubredditW2V.txt"+str(subredditIndex)+"\n"))
-		#printOut("/beegfs/avt237/data/finishedWithSubredditW2V.txt",str(subredditIndex)+"\n" )
-
-
-
-	subs = getSubreddits() # get list of subreddits used
-	print("subs are :"+str(subs))
-	if(subredditIndex >= len(subs)):
-		exit()	
-	subFolders =getSubredditFolders() # get list of subreddit folders
-	# make all the directories for the subreddits data for w2v models
-	makeDirectoriesForSubredditModels(subs)
-
-	dic = {} # create a dictionary
-	n = 250
-	if(userIndex>n):
-		exit()
-	##Beep boop baap
-	#getTopPostersforAllSubreddits(subreddits, N=10)
-	dic = getTopPostersforAllSubreddits(subs,dates,  N=10) # only the top 20 subreddits,
-	#getAllTopUsers(subs,subFolders,n,dic) # create a dictionary containing all the top posters
-	# make all the directories for the usernames w2v models
-	print("all the subs "+ str(len(subs)))
-	print(" sub we are following "+ str(subredditIndex)+ " " + subs[subredditIndex])
-	print(subs)
-	print("got to here")
-	model = Word2Vec(size=250, window=8, min_count=5, workers=4)
-	if(not userOrSubredditBool): #if in subreddit mode
-		print("doint the subreddit stuff")
-		readAllSubredditText(subs[subredditIndex],model)
-	else:
-
-		usersInSubreddit= list(getTopPostersForSeveralMonths(subs[subredditIndex],dates, {}, 10))
-
-		#usersInSubreddit = getUsersInSubreddit(subs[subredditIndex],subFolders[subredditIndex] , n , [])
-		print(usersInSubreddit)
-		if(userIndex > len(usersInSubreddit)):
-			exit() 
-
-		print("user we are following "+ str(userIndex)+ usersInSubreddit[userIndex])
-		user = usersInSubreddit[userIndex]
-
-
+		for date in dates:#user mode
+			user1 = getTopNPostersForAMonth(sub1, date , N)[u1]
 		#use this to find if the username vectors have already begun being calculated - if so, then we can exit
-		if(os.path.exists("/scratch/rr2635/data/data/d_"+subs[subredditIndex]+"W2VModels/" + user+"/")):
-			print("we've already calcualted this before, can exit ->")
-			exit()
+			if(os.path.exists("/scratch/rr2635/data/data/d_"+sub1+"W2VModels/" + user+"/")):
+				print("we've already calcualted this before, can exit ->")
+				exit()
 
-		makeDirectoriesForUsernameModel(usersInSubreddit[userIndex], dic) # make folders for the user, if they don't yet exist
+			makeDirectoriesForUsernameModel(usersInSubreddit[userIndex], dic) # make folders for the user, if they don't yet exist
 
-		readAllUsernameText(subs[subredditIndex],usersInSubreddit[userIndex], model)
-	if(userOrSubredditBool):		
-		printOut("/beegfs/avt237/data/finishedWithUsernameW2V.txt", str(subs[subredditIndex])+"_"+str(usersInSubreddit[userIndex])+"\n" )
-	else:
-		printOut("/beegfs/avt237/data/finishedWithSubredditW2V.txt",str(subs[subredditIndex])+"\n" )
+			readAllUsernameText(subs[subredditIndex],usersInSubreddit[userIndex], model)
+
+
+
+
+
+
 	
-	print("\n\n\n===================\n==============\n\n")
-
-
-
-
-
-

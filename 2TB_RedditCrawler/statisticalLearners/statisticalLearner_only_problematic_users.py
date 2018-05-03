@@ -363,7 +363,7 @@ if __name__ == '__main__': # takes 3 arguements,
 	N = 10 # how many users we are comparing in our TDA process
 	s1 = int(sys.argv[1])#index of the subreddit1
 	user = int(sys.argv[2]) # index of the user
-
+	print("s1: " + str(s1) + "\n user 1: "+  str(user))
 	subs= getSubreddits()
 	sub1 = subs[s1]
 	print("sub is "+sub1)

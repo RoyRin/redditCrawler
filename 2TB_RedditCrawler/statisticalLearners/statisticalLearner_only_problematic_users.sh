@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH --job-name=statLearner_problematics
+#SBATCH --job-name=U_statLearner_problematics
 #SBATCH --nodes=1
 #SBATCH --tasks-per-node=1
 #SBATCH --cpus-per-task=1

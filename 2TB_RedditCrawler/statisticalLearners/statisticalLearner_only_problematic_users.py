@@ -381,14 +381,15 @@ if __name__ == '__main__': # takes 3 arguements,
 		
 		for date in dates:#user mode
 			user1 = getTopNPostersForAMonth(sub1, date , N)[u1]
+			print("user is "+user1)
 		#use this to find if the username vectors have already begun being calculated - if so, then we can exit
-			if(os.path.exists("/scratch/rr2635/data/data/d_"+sub1+"W2VModels/" + user+"/")):
+			if(os.path.exists("/scratch/rr2635/data/data/d_"+sub1+"W2VModels/" + user1+"/")):
 				print("we've already calcualted this before, can exit ->")
 				exit()
 
-			makeDirectoriesForUsernameModel(usersInSubreddit[userIndex], dic) # make folders for the user, if they don't yet exist
+			makeDirectoriesForUsernameModel(user1, dic) # make folders for the user, if they don't yet exist
 
-			readAllUsernameText(subs[subredditIndex],usersInSubreddit[userIndex], model)
+			readAllUsernameText(subs[subredditIndex],user1, model)
 
 
 

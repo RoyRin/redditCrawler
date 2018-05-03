@@ -144,6 +144,7 @@ def getTopPostersforAllSubreddits(subreddits,dates,  N=10):# N = number of poste
 	return topPosters
 
 def makeDirectoriesForSubredditModels(subs):
+
 	global writeToBase
 	base  = writeToBase
 	for i in subs:
@@ -151,15 +152,15 @@ def makeDirectoriesForSubredditModels(subs):
 			os.makedirs(base+"/data/"+"d_"+i+"W2VModels")
 
 
-def makeDirectoriesForUsernameModel(username, usernameDictionary): # iterate through the username dictionary, and make a folder for each user
+def makeDirectoryForOneUsernameModel(username): # iterate through the username dictionary, and make a folder for each user
 	#for user in usernameDictionary:
+	dataDir ='/beegfs/avt237/data/data'
+	writeToBase = '/scratch/rr2635/data'
 	global writeToBase
 	base  = writeToBase
-	for subs in usernameDictionary[username]:
-		# /beegfs/avt237/data/data/d_###subredddit###/#username#
-		s= base+"/data/d_"+subs+"W2VModels/"+username
-		if not os.path.exists(s):
-			os.makedirs(s)
+	s= base+"/data/d_"+subs+"W2VModels/"+username
+	if not os.path.exists(s):
+		os.makedirs(s)
 
 #create a list of the top usernames of a subreddit
 def getTopUsersInSubreddit(filename, subredditName, n, l = []): #give it the file of +subredditFolders[i]+"TOTALUSERS.txt"
@@ -386,10 +387,12 @@ if __name__ == '__main__': # takes 3 arguements,
 			if(os.path.exists("/scratch/rr2635/data/data/d_"+sub1+"W2VModels/" + user1+"/")):
 				print("we've already calcualted this before, can exit ->")
 				exit()
+			
+			#dic = getTopPostersforAllSubreddits(subs,dates,  N=10) # only the top 20 subreddits,
 
-			makeDirectoriesForUsernameModel(user1, dic) # make folders for the user, if they don't yet exist
-
-			readAllUsernameText(subs[subredditIndex],user1, model)
+			makeDirectoryForOneUsernameModel(user1) # make folders for the user, if they don't yet exist
+			model = Word2Vec(size=250, window=8, min_count=5, workers=4)
+			readAllUsernameText(sub1,user1, model)
 
 
 

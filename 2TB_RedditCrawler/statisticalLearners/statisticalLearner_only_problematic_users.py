@@ -121,7 +121,10 @@ def getTopNPostersForAMonth(subreddit,date, N =10): # subredit scripts in locati
 			line = f.readline()
 			if( not line):
 				break
-			topPosters.append(line[:-1])
+			line = line[:-1]
+			if(line == 'userNameCounts'):
+				continue
+			topPosters.append(line)
 	N = min(N, len(topPosters))
 	return topPosters[:N]
 

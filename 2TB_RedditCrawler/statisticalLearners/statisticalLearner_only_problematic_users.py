@@ -156,7 +156,7 @@ def makeDirectoryForOneUsernameModel(username): # iterate through the username d
 	#for user in usernameDictionary:
 	dataDir ='/beegfs/avt237/data/data'
 	writeToBase = '/scratch/rr2635/data'
-	global writeToBase
+	#global writeToBase
 	base  = writeToBase
 	s= base+"/data/d_"+subs+"W2VModels/"+username
 	if not os.path.exists(s):
@@ -381,7 +381,10 @@ if __name__ == '__main__': # takes 3 arguements,
 		#u2 = int(sys.argv[4])#index of the user2
 		
 		for date in dates:#user mode
-			user1 = getTopNPostersForAMonth(sub1, date , N)[u1]
+			users = getTopNPostersForAMonth(sub1, date , N)
+			print(users)
+			print("length of users" + str(len(users)))
+			user1 = users[u1]
 			print("user is "+user1)
 		#use this to find if the username vectors have already begun being calculated - if so, then we can exit
 			if(os.path.exists("/scratch/rr2635/data/data/d_"+sub1+"W2VModels/" + user1+"/")):

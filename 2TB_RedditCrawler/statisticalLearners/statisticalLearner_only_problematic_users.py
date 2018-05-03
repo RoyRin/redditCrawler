@@ -155,13 +155,13 @@ def makeDirectoriesForSubredditModels(subs):
 			os.makedirs(base+"/data/"+"d_"+i+"W2VModels")
 
 
-def makeDirectoryForOneUsernameModel(username): # iterate through the username dictionary, and make a folder for each user
+def makeDirectoryForOneUsernameModel(subreddit, username): # iterate through the username dictionary, and make a folder for each user
 	#for user in usernameDictionary:
 	dataDir ='/beegfs/avt237/data/data'
 	writeToBase = '/scratch/rr2635/data'
 	#global writeToBase
 	base  = writeToBase
-	s= base+"/data/d_"+subs+"W2VModels/"+username
+	s= base+"/data/d_"+subreddit+"W2VModels/"+username
 	if not os.path.exists(s):
 		os.makedirs(s)
 
@@ -398,7 +398,7 @@ if __name__ == '__main__': # takes 3 arguements,
 			
 			#dic = getTopPostersforAllSubreddits(subs,dates,  N=10) # only the top 20 subreddits,
 
-			makeDirectoryForOneUsernameModel(user1) # make folders for the user, if they don't yet exist
+			makeDirectoryForOneUsernameModel(sub1, user1) # make folders for the user, if they don't yet exist
 			model = Word2Vec(size=250, window=8, min_count=5, workers=4)
 			readAllUsernameText(sub1,user1, model)
 

@@ -387,6 +387,8 @@ if __name__ == '__main__': # takes 3 arguements,
 			users = getTopNPostersForAMonth(sub1, date , N)
 			print(users)
 			print("length of users" + str(len(users)))
+			if(u1 >=len(users)): # if there are not that many top users (this is soemthing that shouldn't happen, but does)
+				exit()
 			user1 = users[u1]
 			print("user is "+user1)
 		#use this to find if the username vectors have already begun being calculated - if so, then we can exit

@@ -394,7 +394,8 @@ if __name__ == '__main__': # takes 3 arguements,
 			user1 = users[u1]
 			print("user is "+user1)
 		#use this to find if the username vectors have already begun being calculated - if so, then we can exit
-			if(os.path.exists("/scratch/rr2635/data/data/d_"+sub1+"W2VModels/" + user1+"/")):
+			files = glob.glob("/scratch/rr2635/data/data/d_"+sub1+"W2VModels/" + user1+"/*")
+			if(len(files)>0):
 				print("we've already calcualted this before, can exit ->")
 				continue
 			

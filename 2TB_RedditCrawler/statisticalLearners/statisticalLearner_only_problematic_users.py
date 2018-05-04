@@ -343,15 +343,6 @@ def readAllUsernameText(subredditName,username, model): # for a single username
 	for i in range(len(usernameFiles)):
 		savingName = usernameFiles[i][l:-8]
 		print("doing "+str(i)+" iterations of username: " + username)
-		#if(i!=0):
-			#upload the previous model
-
-			#model = Word2Vec.load(saveTo+usernameFiles[i][:-8]+"username_model"+str(i-1)+".txt") # load the previous model from text
-			#model = Word2Vec.load(saveTo+savingName+"username_model"+str(i-1)+".txt") # load the previous model from text
-			
-			#model = Word2Vec.load(prevName)
-			
-			#model = KeyedVectors.load_word2vec_format(saveTo+"usernameModel"+str(i-1)+".txt",binary = False)
 		prevName = saveTo+savingName+"username_model"+str(i)+".txt"
 		model = readOneUsernameTextFile(usernameFiles[i], saveTo+savingName+"_Username_vectors"+str(i)+".txt",
 			saveTo+savingName+"username_model"+str(i)+".txt" ,  subredditName, username, model,i )
@@ -381,9 +372,7 @@ if __name__ == '__main__': # takes 3 arguements,
 	if(user>= 0):
 		# this means that we are computing the Persistent Homology for the subreddit itself
 		u1 = int(user%N)
-		#u1 = int(sys.argv[3]) #index of the user1
-		#u2 = int(sys.argv[4])#index of the user2
-		
+
 		for date in dates:#user mode
 
 			users = getTopNPostersForAMonth(sub1, date , N)
@@ -402,7 +391,7 @@ if __name__ == '__main__': # takes 3 arguements,
 			#dic = getTopPostersforAllSubreddits(subs,dates,  N=10) # only the top 20 subreddits,
 
 			makeDirectoryForOneUsernameModel(sub1, user1) # make folders for the user, if they don't yet exist
-			model = Word2Vec(size=250, window=8, min_count=5, workers=4)
+			model = Word2Vec(size=250, window=8, min_count=1, workers=4)
 			readAllUsernameText(sub1,user1, model)
 
 

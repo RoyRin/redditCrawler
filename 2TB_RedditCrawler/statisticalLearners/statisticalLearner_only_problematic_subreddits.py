@@ -301,7 +301,7 @@ if __name__ == '__main__': # takes 1 arguements,
 
 	base = "/scratch/rr2635/data/data/d_"+sub1+"W2VModels/"
 
-	model = Word2Vec(size=250, window=8, min_count=5, workers=4)
+	model = Word2Vec(size=250, window=8, min_count=1, workers=4)
 	readAllSubredditText_ifnotmadeyet(sub1,model) 
 	
 

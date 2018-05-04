@@ -116,6 +116,8 @@ def getTopNPostersForAMonth(subreddit,date, N =10): # subredit scripts in locati
 	topPosters = [] 
 	loc = "/scratch/rr2635/user_user_pairwiseTDA/subreddit_"+subreddit+"/"
 	filename = loc+"topPosters"+date+".txt"
+	if(not os.path.exists(filename)): # if there is no "Top Posters" for that date
+		return [] 
 	with open(filename) as f:
 		while(True):
 			line = f.readline()
@@ -372,8 +374,7 @@ if __name__ == '__main__': # takes 3 arguements,
 	print("sub is "+sub1)
 	PersistentHomologyFolder1 ="/scratch/rr2635/user_user_pairwiseTDA/subreddit_"+ sub1+"/"
 
-	dates = ["2011-03","2012-03","2013-03",
-	"2014-03","2015-03","2016-03","2017-03","2018-01"]
+	dates = ["2011-03","2012-03","2013-03",	"2014-03","2015-03","2016-03","2017-03","2017-09"]
 
 	base = "/scratch/rr2635/data/data/d_"+sub1+"W2VModels/"
 
@@ -384,17 +385,18 @@ if __name__ == '__main__': # takes 3 arguements,
 		#u2 = int(sys.argv[4])#index of the user2
 		
 		for date in dates:#user mode
+
 			users = getTopNPostersForAMonth(sub1, date , N)
 			print(users)
 			print("length of users" + str(len(users)))
 			if(u1 >=len(users)): # if there are not that many top users (this is soemthing that shouldn't happen, but does)
-				exit()
+				continue
 			user1 = users[u1]
 			print("user is "+user1)
 		#use this to find if the username vectors have already begun being calculated - if so, then we can exit
 			if(os.path.exists("/scratch/rr2635/data/data/d_"+sub1+"W2VModels/" + user1+"/")):
 				print("we've already calcualted this before, can exit ->")
-				exit()
+				continue
 			
 			#dic = getTopPostersforAllSubreddits(subs,dates,  N=10) # only the top 20 subreddits,
 

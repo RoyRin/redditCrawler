@@ -246,7 +246,7 @@ def findModelsComputed(sub,saveTofolder):
 
 def readAllSubredditText_ifnotmadeyet(sub1,model):
 	# reads up until the last month that has been computed, and starts learning from the last model computed
-
+	subredditName = sub1
 	print("subreddit name"+ subredditName)
 	subredFiles = glob.glob("/beegfs/avt237/data/data/d_"+subredditName+"RC*") # files to read to do w2v reading on
 	subredFiles.sort()
@@ -268,7 +268,7 @@ def readAllSubredditText_ifnotmadeyet(sub1,model):
 
 	s  ="/beegfs/avt237/data/data/"
 	l = len(s)
-	print(subredditFiles) beep boop baap
+	print(subredditFiles) #beep boop baap
 	#for i in range(len(subredditFiles)):
 	#	buildVocabForSubreddit(model,subredditFiles[i], i )
 	prevName = ""

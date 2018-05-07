@@ -271,8 +271,10 @@ def readAllUsernameText(subredditName,username, model): # for a single username
 if __name__ == '__main__':
 	# secondGoal  : make a list of each of the top posters for each date we care about, and store their name
 	N = 10 # how many users we are comparing in our TDA process
-	s1 = int(sys.argv[1])#index of the subreddit1
-	user = int(sys.argv[2]) # index of the user
+	
+	inp = int(sys.argv[1])
+	s1 =  inp/18 #int(sys.argv[1])#index of the subreddit1
+	user = inp%18 #int(sys.argv[2]) # index of the user
 
 	subs= getSubreddits()
 	sub1 = subs[s1]
@@ -280,7 +282,7 @@ if __name__ == '__main__':
 	PersistentHomologyFolder1 ="/scratch/rr2635/user_user_pairwiseTDA/subreddit_"+ sub1+"/"
 
 	dates = ["2011-03","2012-03","2013-03",
-	"2014-03","2015-03","2016-03","2017-03","2018-01"]
+	"2014-03","2015-03","2016-03","2017-03","2017-09"]
 
 	base = "/scratch/rr2635/data/data/d_"+sub1+"W2VModels/"
 

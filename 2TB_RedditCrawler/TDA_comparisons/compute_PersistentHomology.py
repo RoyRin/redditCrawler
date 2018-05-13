@@ -273,10 +273,12 @@ if __name__ == '__main__':
 	N = 10 # how many users we are comparing in our TDA process
 	
 	inp = int(sys.argv[1])
-	s1 =  inp/18 #int(sys.argv[1])#index of the subreddit1
-	user = inp%18 #int(sys.argv[2]) # index of the user
-
 	subs= getSubreddits()
+
+	s1 =  inp/len(subs) #int(sys.argv[1])#index of the subreddit1
+	user = inp%len(subs) #int(sys.argv[2]) # index of the user
+
+	
 	sub1 = subs[s1]
 	print("sub is "+sub1)
 	PersistentHomologyFolder1 ="/scratch/rr2635/user_user_pairwiseTDA/subreddit_"+ sub1+"/"

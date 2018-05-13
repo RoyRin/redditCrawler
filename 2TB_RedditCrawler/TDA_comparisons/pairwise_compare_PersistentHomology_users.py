@@ -88,7 +88,8 @@ def whichFolderToPrintTDA(sub1, sub2):#returns where to print the TDA for this p
 
 def getBaseHomologies(subreddit,persistentHomologyFolder, date):
 	regex1= re.compile(date)
-	folders = next(os.walk(persistentHomologyFolder))[1]
+	#folders = next(os.walk(persistentHomologyFolder))[1]
+	files = os.listdir(persistentHomologyFolder)
 	relevantHomologies = []
 	for i in folders:
 		if(bool(regex1.search(i))):
@@ -117,7 +118,7 @@ if __name__ == '__main__':
 	"2014-03","2015-03","2016-03","2017-03","2017-09"]
 
 	users = getBaseHomologies(sub1, PersistentHomologyFolder1, dates[date_index]) 
-
+	print(users)
 
 
 '''

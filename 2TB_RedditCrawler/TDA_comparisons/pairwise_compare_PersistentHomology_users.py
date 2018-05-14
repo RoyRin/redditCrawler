@@ -76,7 +76,16 @@ def findSubredditVectorFilename(dir1,date):
 		if(bool(regex.search(i))):
 			return (directory+i)
 
-def whichFolderToPrintTDA(sub1, sub2):#returns where to print the TDA for this pairwise comparison
+def makeDirectoriesForSubredditModels(subs):
+	global writeToBase
+	base  = writeToBase
+	for i in subs:
+		if not os.path.exists(base+ "/data/"+"d_"+i+"W2VModels"):
+			os.makedirs(base+"/data/"+"d_"+i+"W2VModels")
+
+
+
+def whichFolderToPrintTDA(sub1, sub2 ):#returns where to print the TDA for this pairwise comparison
 	regex1 =re.compile(sub1)
 	regex2 = re.compile(sub2)
 	folders = next(os.walk("/scratch/rr2635/user_user_pairwiseTDA/"))[1]
@@ -84,102 +93,139 @@ def whichFolderToPrintTDA(sub1, sub2):#returns where to print the TDA for this p
 	for i in folders:
 		if(bool(regex1.search(i)) and bool(regex2.search(i))):
 			return ("/scratch/rr2635/user_user_pairwiseTDA/"+i+"/")
-	
 
+# make a folder for each date, to store the distances
+def makeDateFolders(sub1,sub2,dates):
+	base = whichFolderToPrintTDA(sub1,sub2)
+	for i in dates:
+		if not os.path.exists(base+ i):
+			os.makedirs(base+i)
+
+def whichFolderToPrintTDA_withDate(TDAFolder, date):
+	regex1 = re.compile(date)
+	folders = next(os.walk(TDAFolder))[1]
+	for i in folders:
+		if(bool(regex1.search(i)) ):
+			return (TDAFolder+i)
+
+#return the list of homologies for a specific subreddit, for a specific date - so that it can do a pairwise comparison
 def getBaseHomologies(subreddit,persistentHomologyFolder, date):
 	regex1= re.compile(date)
 	regex2 = re.compile("PersistentHomology")
 	#folders = next(os.walk(persistentHomologyFolder))[1]
-	files = os.listdir(persistentHomologyFolder)
-	print(files)
+	#files = os.listdir(persistentHomologyFolder)
+	files = glob.glob(persistentHomologyFolder)
+	#print(files)
 	relevantHomologies = []
 	for i in files:
 		if(bool(regex1.search(i)) and bool(regex2.search(i) )):
 			relevantHomologies.append(i)
-	return relevantHomologies
+	return relevantHomologies # returns the full files address of the persistent homologies we have computed
 
 
+def computePersistentHomology(f1, Dimension, threshold, output):
+	ripser ="C:\Documents and Settings\flow_model\flow.exe"
+	cmd = ('/beegfs/avt237/data/ripser --format distance --dim  %s --threshold %s %s > %s' %(str(Dimension), str(threshold) ,str(f1), str(output)))
+	print("cmd is "+ cmd)
+	os.system('/beegfs/avt237/data/ripser --format distance --dim  %s --threshold %s %s > %s' %(str(Dimension), str(threshold) ,str(f1), str(output)) )
 
+	
+
+#the bottleneck distance can only take 1 dimension, so we need to copy things into a different file
+def persistentHomologyOnlyOneDim(file1, dim=2):
+	s = "persistence intervals in dim 2:"
+	regex1 = re.compile("dim "+str(dim)+":")
+	regex2 = re.compile("dim "+str(dim+1)+":")
+	onlyOneDim = ""
+	start = False
+	with open(filename) as f:
+		while True:
+			line = f.readline()
+			if(not line):
+				break
+			if(bool(regex1.search(line))):
+				start =True
+			if(bool(regex2.search(line))):
+				start =False
+				break
+			if(start):
+				onlyOneDim += line +"\n"
+	filename = file1[:-3]+"_dim "+str(dim)+".txt"
+	printOut(name,onlyOneDim)
+	return filename
+
+#assuming that things are in the correct format, it applies bottle neck distance across 2 files
+def compare_PersistentHomologies_simple(file1, file2,toWhere):
+	outFile = toWhere+file1[len("PersistentHomology"): -3]+"__"+file2[len("PersistentHomology"): -3]+".txt"
+	cmd = ("/scratch/rr2635/bottleneck/bottleneck "+ file1 + " "+ file2+ " > "+outFile)
+	os.system(cmd)
+
+def compare_PersistentHomologies(file1,file2, toWhere, dim =2 ):
+	outFile = toWhere+file1[len("PersistentHomology"): -3]+"__"+file2[len("PersistentHomology"): -3]+".txt"
+	if(os.path.exists(outFile)): 
+		return
+
+	f1 = persistentHomologyOnlyOneDim(file1, dim) # get persistent homologies into the correct format (only 1 dim)
+	f2 = persistentHomologyOnlyOneDim(file2,dim)# get things into the correct format (only 1 dim)
+
+	compare_PersistentHomologies_simple(f1,f2,toWhere)
+	
 ###########################
 
 if __name__ == '__main__':
-	# secondGoal  : make a list of each of the top posters for each date we care about, and store their name
-	N = 10 # how many users we are comparing in our TDA process
-	
+
 	inp = int(sys.argv[1])
-	date_index = int(sys.argv[2])
+	#date_index = int(sys.argv[2]) # 0 through 7
 
 	subs= getSubreddits()
-	s1 =  inp%len(subs) #int(sys.argv[1])#index of the subreddit1
-	sub1 = subs[s1]
+	count = 0
+	for i in range(len(subs)):
+		for j in range(i+1):
+			if(count == inp):
+				s1 =i
+				s2 = j
+			count+=1
+	sub1= subs[s1]
+	sub2= subs[s2]
+
 	print("sub is "+sub1)
+
+	print("sub is "+sub2)
 
 	PersistentHomologyFolder1 ="/scratch/rr2635/user_user_pairwiseTDA/subreddit_"+ sub1+"/"
 
 	dates = ["2011-03","2012-03","2013-03",
 	"2014-03","2015-03","2016-03","2017-03","2017-09"]
+	#date = dates[date_index]
 
-	users = getBaseHomologies(sub1, PersistentHomologyFolder1, dates[date_index]) 
+	firstTime = True
+	if(firstTime):
+		for i in range(len(subs)):
+			for j in range(i):
+				makeDateFolders(subs[i],subs[j])
+
+
+'''
+	for date in dates:
+		users1 = getBaseHomologies(sub1, PersistentHomologyFolder1, date) 
+		users2 = getBaseHomologies(sub2, PersistentHomologyFolder1, date)
+		#the base of where to print the output to:
+		printTo = whichFolderToPrintTDA_withDate(whichFolderToPrintTDA(sub1, sub2 ), date)
+		for user1 in users1:
+			for user2 in users2:
+				compare_PersistentHomologies(user1,user2,printTo)
 	print(users)
 
 
-'''
-	if(user>= 0):
-		# this means that we are computing the Persistent Homology for the subreddit itself
-		u1 = int(user%N)
-		#u1 = int(sys.argv[3]) #index of the user1
-		#u2 = int(sys.argv[4])#index of the user2
-		
-		for date in dates:#user mode
-			user1 = getTopNPostersForAMonth(sub1, date , N)[u1]
-			print("user is "+ user1 + "date : "+ date)
-			dir1 = base + user1+"/"
-			
-			if(not os.path.exists(dir1)): # if there is no data for the word 2 vec representations - then make it
-				model = Word2Vec(size=250, window=8, min_count=5, workers=4)
-				readAllUsernameText(sub1,user1, model)
-
-			f1 = findUsernameVectorFilename(dir1,date)
-			pointcloud = PersistentHomologyFolder1+"PointCloud"+user1+"_"+date+".txt"
-			if(os.path.isfile( pointcloud ) ): # if file already exists, carry on
-				continue
-
-			disMat = writePointCloud(f1, pointcloud , 50)
-
-			persistentHomologyFile = PersistentHomologyFolder1+"PersistentHomology_"+user1+"_"+date+".txt"
-			if(os.path.isfile(persistentHomologyFile) ): # if file already exists, carry on
-				continue
-			dim = 3
-			threshold = 500 # very large number
-			print("computing the PersistentHomology here")
-			computePersistentHomology(pointcloud, dim, threshold, persistentHomologyFile)
-			
-	else:#subreddit mode
-		for date in dates:
-			print("subreddit is "+ sub1+ " date : " + date)
-			dir1 = base + user1+"/"
-			if(not os.path.exists(dir1)): # if there is no data for the word 2 vec representations - then make it
-				model = Word2Vec(size=250, window=8, min_count=1, workers=4)
-				readAllSubredditText(sub1, model)
-
-			f1 = findSubredditVectorFilename(base,date)
-			pointcloud = PersistentHomologyFolder1+"PointCloud"+user1+"_"+date+".txt"
-
-			if(os.path.isfile( pointcloud ) ): # if file already exists, carry on
-				continue
-
-			disMat = writePointCloud(f1, pointcloud , 50)
-
-			persistentHomologyFile = PersistentHomologyFolder1+"PersistentHomology_"+user1+"_"+date+".txt"
-			if(os.path.isfile(persistentHomologyFile) ): # if file already exists, carry on
-				continue
-			dim = 3
-			threshold = 500 # very large number
-			print("persistent Hom number here")
-			computePersistentHomology(pointcloud, dim, threshold, persistentHomologyFile)
-			
 
 '''
+
+
+
+
+
+
+
 
 
 

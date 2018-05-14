@@ -4,11 +4,11 @@
 #SBATCH --nodes=1
 #SBATCH --tasks-per-node=1
 #SBATCH --cpus-per-task=1
-#SBATCH --mem=12GB
+#SBATCH --mem=4GB
 #SBATCH --time=47:00:00
 #SBATCH --mail-type=END
 #SBATCH --mail-user=rr2635@nyu.edu
-#SBATCH --array=0-160
+#SBATCH --array=0-180
 
 module purge
 module load  python3/intel/3.6.3

@@ -114,7 +114,7 @@ def getBaseHomologies(subreddit,persistentHomologyFolder, date):
 	regex2 = re.compile("PersistentHomology")
 	#folders = next(os.walk(persistentHomologyFolder))[1]
 	#files = os.listdir(persistentHomologyFolder)
-	files = glob.glob(persistentHomologyFolder)
+	files = glob.glob(persistentHomologyFolder+"*")
 	#print(files)
 	relevantHomologies = []
 	for i in files:
@@ -138,7 +138,7 @@ def persistentHomologyOnlyOneDim(file1, dim=2):
 	regex2 = re.compile("dim "+str(dim+1)+":")
 	onlyOneDim = ""
 	start = False
-	with open(filename) as f:
+	with open(file1) as f:
 		while True:
 			line = f.readline()
 			if(not line):
@@ -197,20 +197,14 @@ if __name__ == '__main__':
 	dates = ["2011-03","2012-03","2013-03",
 	"2014-03","2015-03","2016-03","2017-03","2017-09"]
 	#date = dates[date_index]
-'''
-	firstTime = True
-	if(firstTime):
-		for i in range(len(subs)):
-			for j in range(i):
-				makeDateFolders(subs[i],subs[j] , dates)
 
-
-'''
 	for date in dates:
 
 		users1 = getBaseHomologies(sub1, PersistentHomologyFolder1, date) 
 		users2 = getBaseHomologies(sub2, PersistentHomologyFolder2, date)
 		print("date "+ date)
+		print(users1)
+		print(users2)
 		#the base of where to print the output to:
 		printTo = whichFolderToPrintTDA_withDate(whichFolderToPrintTDA(sub1, sub2 ), date)
 		print("outfile is "+ printTo)
@@ -222,7 +216,15 @@ if __name__ == '__main__':
 				compare_PersistentHomologies(user1,user2,printTo)
 	#print(users)
 
+'''
+	firstTime = True
+	if(firstTime):
+		for i in range(len(subs)):
+			for j in range(i):
+				makeDateFolders(subs[i],subs[j] , dates)
 
+
+'''
 
 
 

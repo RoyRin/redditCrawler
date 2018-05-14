@@ -151,7 +151,7 @@ def persistentHomologyOnlyOneDim(file1, dim=2):
 			if(start):
 				onlyOneDim += line +"\n"
 	filename = file1[:-3]+"_dim "+str(dim)+".txt"
-	printOut(name,onlyOneDim)
+	printOut(filename,onlyOneDim)
 	return filename
 
 #assuming that things are in the correct format, it applies bottle neck distance across 2 files
@@ -161,7 +161,11 @@ def compare_PersistentHomologies_simple(file1, file2,toWhere):
 	os.system(cmd)
 
 def compare_PersistentHomologies(file1,file2, toWhere, dim =2 ):
-	outFile = toWhere+file1[len("PersistentHomology"): -3]+"__"+file2[len("PersistentHomology"): -3]+".txt"
+	regex1 = re.compile("PersistentHomology")
+	reg1 = re.search(file1)
+	reg2 = re.search(file2)
+
+	outFile = toWhere+file1[reg1.end(0) : -3]+"__"+file2[ reg2.end(0) : -3]+".txt"
 	if(os.path.exists(outFile)): 
 		return
 

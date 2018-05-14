@@ -156,21 +156,23 @@ def persistentHomologyOnlyOneDim(file1, dim=2):
 
 #assuming that things are in the correct format, it applies bottle neck distance across 2 files
 def compare_PersistentHomologies_simple(file1, file2,outFile):
-	cmd = ("/scratch/rr2635/bottleneck/bottleneck "+ file1 + " "+ file2+ " > "+outFile)
+	cmd = ('/scratch/rr2635/bottleneck/bottleneck  %s %s > %s' %(str(file1), str(file2) ,str(outFile)))
 	os.system(cmd)
 
 def compare_PersistentHomologies(file1,file2, toWhere, dim =2 ):
 	regex1 = re.compile("PersistentHomology")
 	reg1 = regex1.search(file1)
 	reg2 = regex1.search(file2)
-
+	regex2 = re.compile("dim")
+	if(bool(regex2.search(file1)) or bool(regex1.search(file1)) ) # we don't want do this same process for files that we already took a dimensional slice of 
+		return 
 	outFile = toWhere+file1[reg1.end(0) : -4]+"__"+file2[ reg2.end(0) : -4]+".txt"
 	if(os.path.exists(outFile)): 
 		return
-
+	print("we are comparing :")
 	f1 = persistentHomologyOnlyOneDim(file1, dim) # get persistent homologies into the correct format (only 1 dim)
 	f2 = persistentHomologyOnlyOneDim(file2,dim)# get things into the correct format (only 1 dim)
-
+	print(f1 +" and "+ f2)
 	compare_PersistentHomologies_simple(f1,f2,outFile)
 	
 ###########################
@@ -213,9 +215,10 @@ if __name__ == '__main__':
 		print("outfile is "+ printTo)
 		for user1 in users1:
 			for user2 in users2:
-						
+				print("comparing :")						
 				print(user1)
 				print(user2)
+				print("entering the comparison")
 				compare_PersistentHomologies(user1,user2,printTo)
 	#print(users)
 

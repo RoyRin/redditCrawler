@@ -193,32 +193,36 @@ if __name__ == '__main__':
 	print("sub is "+sub2)
 
 	PersistentHomologyFolder1 ="/scratch/rr2635/user_user_pairwiseTDA/subreddit_"+ sub1+"/"
-
+	PersistentHomologyFolder2 ="/scratch/rr2635/user_user_pairwiseTDA/subreddit_"+ sub2+"/"
 	dates = ["2011-03","2012-03","2013-03",
 	"2014-03","2015-03","2016-03","2017-03","2017-09"]
 	#date = dates[date_index]
-
+'''
 	firstTime = True
 	if(firstTime):
 		for i in range(len(subs)):
 			for j in range(i):
-				makeDateFolders(subs[i],subs[j])
+				makeDateFolders(subs[i],subs[j] , dates)
 
 
 '''
 	for date in dates:
+
 		users1 = getBaseHomologies(sub1, PersistentHomologyFolder1, date) 
-		users2 = getBaseHomologies(sub2, PersistentHomologyFolder1, date)
+		users2 = getBaseHomologies(sub2, PersistentHomologyFolder2, date)
+		print("date "+ date)
 		#the base of where to print the output to:
 		printTo = whichFolderToPrintTDA_withDate(whichFolderToPrintTDA(sub1, sub2 ), date)
+		print("outfile is "+ printTo)
 		for user1 in users1:
 			for user2 in users2:
+						
+				print(user1)
+				print(user2)
 				compare_PersistentHomologies(user1,user2,printTo)
-	print(users)
+	#print(users)
 
 
-
-'''
 
 
 

@@ -106,7 +106,7 @@ def whichFolderToPrintTDA_withDate(TDAFolder, date):
 	folders = next(os.walk(TDAFolder))[1]
 	for i in folders:
 		if(bool(regex1.search(i)) ):
-			return (TDAFolder+i)
+			return (TDAFolder+i+"/")
 
 #return the list of homologies for a specific subreddit, for a specific date - so that it can do a pairwise comparison
 def getBaseHomologies(subreddit,persistentHomologyFolder, date):
@@ -164,7 +164,7 @@ def compare_PersistentHomologies(file1,file2, toWhere, dim =2 ):
 	reg1 = regex1.search(file1)
 	reg2 = regex1.search(file2)
 
-	outFile = toWhere+file1[reg1.end(0) : -3]+"__"+file2[ reg2.end(0) : -3]+".txt"
+	outFile = toWhere+file1[reg1.end(0) : -4]+"__"+file2[ reg2.end(0) : -4]+".txt"
 	if(os.path.exists(outFile)): 
 		return
 

@@ -136,9 +136,9 @@ def persistentHomologyOnlyOneDim(file1, dim=2):
 	s = "persistence intervals in dim 2:"
 	regex1 = re.compile("dim "+str(dim)+":")
 	regex2 = re.compile("dim "+str(dim+1)+":")
-	reg_left = re.compile("[")
-	reg_middle = re.compile(",")
-	reg_right = re.compile(")")
+	#reg_left = re.compile("[")
+	#reg_middle = re.compile(",")
+	#reg_right = re.compile(")")
 
 	onlyOneDim = ""
 	start = False
@@ -154,8 +154,9 @@ def persistentHomologyOnlyOneDim(file1, dim=2):
 				bra = line.find("[")+1
 				mid = line.find(",")
 				ket = line.find(")")
-				newFormat = line[bra:mid] + " " + line[mid+1,ket] +"\n"
-				onlyOneDim += line[1:-1] #+"\n"
+				#print(bra + " " + mid + " "+ ket)
+				newFormat = line[int(bra):int(mid)] + " " + line[int(mid)+1:int(ket)] +"\n"
+				onlyOneDim += newFormat #  line[1:-1] #+"\n"
 			if(bool(regex1.search(line))):
 				start =True
 
@@ -210,7 +211,7 @@ if __name__ == '__main__':
 	PersistentHomologyFolder2 ="/scratch/rr2635/user_user_pairwiseTDA/subreddit_"+ sub2+"/"
 	dates = ["2011-03","2012-03","2013-03",
 	"2014-03","2015-03","2016-03","2017-03","2017-09"]
-	dates = ["2011-03"]
+	#dates = ["2011-03"]
 	#date = dates[date_index]
 
 	for date in dates:

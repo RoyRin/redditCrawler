@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH --job-name=pairwise_homologies_wasserstein
+#SBATCH --job-name=pairwise_bottleneck_homology_comparison
 #SBATCH --nodes=1
 #SBATCH --tasks-per-node=1
 #SBATCH --cpus-per-task=1

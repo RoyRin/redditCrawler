@@ -112,13 +112,14 @@ def whichFolderToPrintTDA_withDate(TDAFolder, date):
 def getBaseHomologies(subreddit,persistentHomologyFolder, date):
 	regex1= re.compile(date)
 	regex2 = re.compile("PersistentHomology")
+	regex3 = re.compile("dim")
 	#folders = next(os.walk(persistentHomologyFolder))[1]
 	#files = os.listdir(persistentHomologyFolder)
 	files = glob.glob(persistentHomologyFolder+"*")
 	#print(files)
 	relevantHomologies = []
 	for i in files:
-		if(bool(regex1.search(i)) and bool(regex2.search(i) )):
+		if(bool(regex1.search(i)) and bool(regex2.search(i) ) and(not bool(regex3.search(i))) ):
 			relevantHomologies.append(i)
 	return relevantHomologies # returns the full files address of the persistent homologies we have computed
 
@@ -132,7 +133,7 @@ def computePersistentHomology(f1, Dimension, threshold, output):
 	
 
 #the bottleneck distance can only take 1 dimension, so we need to copy things into a different file
-def persistentHomologyOnlyOneDim(file1, dim=2):
+def persistentHomologyOnlyOneDim(file1, dim=2): # takes the slice - does not compute the persistent homology
 	s = "persistence intervals in dim 2:"
 	regex1 = re.compile("dim "+str(dim)+":")
 	regex2 = re.compile("dim "+str(dim+1)+":")
@@ -173,9 +174,10 @@ def compare_PersistentHomologies(file1,file2, toWhere, dim =2 ):
 	regex1 = re.compile("PersistentHomology")
 	reg1 = regex1.search(file1)
 	reg2 = regex1.search(file2)
-	regex2 = re.compile("dim")
-	if(bool(regex2.search(file1)) or bool(regex2.search(file2)) ): # we don't want do this same process for files that we already took a dimensional slice of 
-		return 
+	#regex2 = re.compile("dim")
+
+	#if(bool(regex2.search(file1)) or bool(regex2.search(file2)) ): # we don't want do this same process (of taking the 2nd dimension slice) for files that we already took a dimensional slice of 
+	#	return 
 	outFile = toWhere+file1[reg1.end(0) : -4]+"__"+file2[ reg2.end(0) : -4]+".txt"
 	if(os.path.exists(outFile)): 
 		return
@@ -188,19 +190,22 @@ def compare_PersistentHomologies(file1,file2, toWhere, dim =2 ):
 ###########################
 
 if __name__ == '__main__':
+	#So the way it works is that i give the program 2 subreddits 
+	#(this way i parallelize the 19*18 pairwise subreddit operations across different CPUS),
+	# and it does each of the n^2 pairwise comparisons between the users within those two subreddits
 
 	inp = int(sys.argv[1])
 	#date_index = int(sys.argv[2]) # 0 through 7
 
 	subs= getSubreddits()
 	count = 0
-	for i in range(len(subs)):
+	for i in range(len(subs)): # this is a way to compute a unique subreddit subreddit pair to compute
 		for j in range(i+1):
 			if(count == inp):
 				s1 =i
 				s2 = j
 			count+=1
-	sub1= subs[s1]
+	sub1= subs[s1] 
 	sub2= subs[s2]
 
 	print("sub is "+sub1)

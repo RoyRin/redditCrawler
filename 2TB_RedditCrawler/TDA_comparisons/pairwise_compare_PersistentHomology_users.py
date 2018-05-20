@@ -179,8 +179,8 @@ def compare_PersistentHomologies(file1,file2, toWhere, dim =2 ):
 	#if(bool(regex2.search(file1)) or bool(regex2.search(file2)) ): # we don't want do this same process (of taking the 2nd dimension slice) for files that we already took a dimensional slice of 
 	#	return 
 	outFile = toWhere+file1[reg1.end(0) : -4]+"__"+file2[ reg2.end(0) : -4]+".txt"
-	if(os.path.exists(outFile)): 
-		return
+	#if(os.path.exists(outFile)): # Uncomment if want to avoid repeating the same tasks
+	#	return
 	print("we are comparing :")
 	f1 = persistentHomologyOnlyOneDim(file1, dim) # get persistent homologies into the correct format (only 1 dim)
 	f2 = persistentHomologyOnlyOneDim(file2,dim)# get things into the correct format (only 1 dim)

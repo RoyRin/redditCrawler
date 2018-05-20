@@ -129,10 +129,10 @@ def getDistanceFile(base, user1,user2,userDict,date):
 	for f in folders:
 		half = int((len(f) -baseLen)/2)
 		# if you have the sub1 in the first half, and sub 2 in the second half, or vice versa
-		if(bool(r1.search(f[-half:])) and bool(r2.search(f[baseLen: baseLen+half]))):
+		if( bool(r1.search(f[-half:])) and bool(r2.search(f[baseLen: baseLen+half]) ) ):
 			folder_folder = f
 			break
-		if(bool(r1.search(f[baseLen: baseLen + half])) and bool(r2.search(f[-half:]))):
+		if(bool(r1.search(f[baseLen: baseLen + half])) and bool(r2.search(f[-half:])) ):
 			folder_folder = f
 			break
 	#print(f)
@@ -145,10 +145,10 @@ def getDistanceFile(base, user1,user2,userDict,date):
 	for f in folders:
 		half = int((len(f)-l)/2)
 		# if you have the user in the first half, and user 2 in the second half, or vice versa
-		if(bool(r3.search( f[l:l+half] ) ) ) and bool(r4.search( f[-half:] ) )  )):
+		if(bool(r3.search( f[l:l+half] ) )  and bool(r4.search( f[-half:] ) )   ):
 			useruserFile = f
 			break
-		if(bool(r3.search( f[-half:] ) ) ) and bool(r4.search( f[l:l+half] ) )  )):
+		if(bool(r3.search( f[-half:] ) )  and bool(r4.search( f[l:l+half] ) )  ):
 			useruserFile = f
 			break
 	#print(useruserFile)

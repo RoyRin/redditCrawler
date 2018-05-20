@@ -54,34 +54,11 @@ def getTopNPostersForAMonth(subreddit,date, N =10): # subredit scripts in locati
 			if( not line):
 				break
 			topPosters.append(line[:-1])
-	N = min(N, len(topPosters))
+	#N = min(N, len(topPosters))
 	return topPosters[:N]
 
-#searches in a directory of models and folders of vector reps
-# and it searches for the file containing the vector representations for a specific date
-def findUsernameVectorFilename(directory,date):
-	regex = re.compile(date+"_Username_vectors")
-	files = os.listdir(directory)
-	for i in files:
-		if(bool(regex.search(i))):
-			return (directory+i)
 
-#same as the findUsernameVectorFilename- except for a subreddit's data
-def findSubredditVectorFilename(dir1,date):
-	regex = re.compile(date+"subreddit_vectors")
-	files = os.listdir(directory)
-	for i in files:
-		if(bool(regex.search(i))):
-			return (directory+i)
 
-def whichFolderToPrintTDA(sub1, sub2):#returns where to print the TDA for this pairwise comparison
-	regex1 =re.compile(sub1)
-	regex2 = re.compile(sub2)
-	folders = next(os.walk("/scratch/rr2635/user_user_pairwiseTDA/"))[1]
-	subs = []
-	for i in range(len(folders)):
-		if(bool(regex1.search(i)) and bool(regex2.search(i))):
-			return ("/scratch/rr2635/user_user_pairwiseTDA/"+i+"/")
 
 def getTopPosters(fn):
 	posters = []
@@ -92,22 +69,24 @@ def getTopPosters(fn):
 				break
 			posters.append(line[:-1])
 	return(posters)
+
 def readTopPosters(base, date):
 	regexDate = re.compile(date)
 	#posterSet = {}
 	posterDictionary = {}
-	folders = glob.glob(base+"/*")
+	folders = glob.glob(base+"*")
 	for f in folders: # iterate through each subreddit
 		#print(f)
 		#print(f[len(base+"/subreddit_"):])
 		subreddit_name = f[len(base+"subreddit_"):]
-		topPosterFolders = glob.glob(f+"/*") 
+		topPosterFolders = glob.glob(f+"*") 
 
 		for tpf in topPosterFolders: #  add in the top users for the date, for that one specific subreddit
 			if(bool(regexDate.search(tpf))):
 				topPosters = getTopPosters(tpf)
 				for poster in topPosters:
 					posterDictionary[poster] = subreddit_name
+	print(posterDictionary)
 	return posterDictionary
 def getListOfPosters(d):#takes in a dictionary of users, returns a list
 	l = []
@@ -193,17 +172,10 @@ def load_obj(name ):
 
 if __name__ == '__main__':
 	base = "/Users/Roy/Research/BudMishra/redditCrawler/2TB_RedditCrawler/pairwiseBottleneckDistances_Data/"
-
+	base = "/scratch/rr2635/user_user_pairwiseTDA/"
 	dates = ["2011-03","2012-03","2013-03",
 	"2014-03","2015-03","2016-03","2017-03","2017-09"]
-	'''
-	mats =[]
-	for date in dates:
-		mats.append( np.zeros((len(topPosters_list),len(topPosters_list))) )
-	
-	i  =10
-	j = 100
-	'''
+
 	#print(topPosters_list[i], topPosters_list[j], dates[3])
 	#print(getDistanceFile(base, topPosters_list[i], topPosters_list[j], topPosters_dict, dates[3]))
 	

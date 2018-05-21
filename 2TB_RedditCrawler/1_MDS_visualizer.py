@@ -95,7 +95,7 @@ def getListOfPosters(d):#takes in a dictionary of users, returns a list
 	return l
 
 def getDistanceFile(base, user1,user2,userDict,date):
-	r1 = re.compile(userDict[user1])
+	r1 = re.compile(userDict[user1]) #searching for the proper 
 	r2 = re.compile(userDict[user2])
 
 	r3 = re.compile(user1)
@@ -104,57 +104,47 @@ def getDistanceFile(base, user1,user2,userDict,date):
 	folders = glob.glob(base+"*")
 	#print(folders)
 	folder_folder = ""
-	baseLen = len(base)
+	#folders in the style of : subreddits_AskReddit_blog
+	baseLen = len(base+"/subreddits_")
 	for f in folders:
-		half = int((len(f) -baseLen)/2)
+		names = f[baseLen:]
+		mid = names.find("_")
+		firstHalf = names[:mid]
+		secondHalf = names[mid+1:]
 		# if you have the sub1 in the first half, and sub 2 in the second half, or vice versa
-		if( bool(r1.search(f[-half:])) and bool(r2.search(f[baseLen: baseLen+half]) ) ):
+		print("first half: "+ firstHalf+ " second half "+ secondHalf)
+		if( bool(r1.search(firstHalf)) and bool(r2.search(secondHalf) ) ):
 			folder_folder = f
 			break
-		if(bool(r1.search(f[baseLen: baseLen + half])) and bool(r2.search(f[-half:])) ):
+		if(bool(r1.search(secondHalf)) and bool(r2.search(firstHalf) )):
 			folder_folder = f
 			break
-	#print(f)
+	print("inside folder: "+ folder_folder)
 
 	folders = glob.glob(folder_folder+"/"+date+"/*")
 	#print(folders)
 	#return ""
-	l = len(folder_folder+"/"+date+"/")
+	l = len(folder_folder+"/"+date+"/_")
+	#files in the style of : _bubbal_2011-03___Dacvak_2011-03
 	useruserFile = ""
 	for f in folders:
-		half = int((len(f)-l)/2)
+		date1 = f.find(date)
+		firstName = f[:date1-1]
+		ff = f[date1 + len(date)+3:]# plus 3 because there are 3 _'s after 1st date
+		date2 = ff.find(date)
+		secondName = ff[:date2-1]
 		# if you have the user in the first half, and user 2 in the second half, or vice versa
-		if(bool(r3.search( f[l:l+half] ) )  and bool(r4.search( f[-half:] ) )   ):
+		if(bool(r3.search( firstName) )  and bool(r4.search( secondName) )   ):
 			useruserFile = f
 			break
-		if(bool(r3.search( f[-half:] ) )  and bool(r4.search( f[l:l+half] ) )  ):
+		if(bool(r3.search( secondName ) )  and bool(r4.search( firstName ) )  ):
 			useruserFile = f
 			break
 	#print(useruserFile)
 	return useruserFile
 
-	'''
-	a=  (base +"subreddits_"+userDict[user1]+"_"+userDict[user2]+"/"+date+"/")
-	if(not os.path.exists(a)) :
-		a=  (base +"subreddits_"+userDict[user2]+"_"+userDict[user1]+"/"+date+"/")
-	#print(a)
-	if(not os.path.exists(a)) :
-		#print(a)
-		#print("problem child")
-		return -1
-	#print("1_____it actually computes it ever...")
-	#print(a)
-	b= a +"/_"+user1+"_"+date+"__"+user2+date+".txt"
-	if(not os.path.exists(b)) :
-		b= a +"/_"+user2+"_"+date+"__"+user1+date+".txt"
-	if(not os.path.exists(b)) :
-		return -1
 
-	print("2_____1!!!!!!!it actually computes it ever...")
-	print(b)
-	return b
-	'''
-def readFileDistance(fn):
+def readFileDistance(fn): # I've confirmed this works.
     with open(fn, 'r') as f:
     	i = f.readline()
     	if(not i):

@@ -74,13 +74,12 @@ def readTopPosters(base, date):
 	regexDate = re.compile(date)
 	#posterSet = {}
 	posterDictionary = {}
-	folders = glob.glob(base+"*")
+	folders = glob.glob(base+"subreddit_*")
 	for f in folders: # iterate through each subreddit
 		#print(f)
 		#print(f[len(base+"/subreddit_"):])
 		subreddit_name = f[len(base+"subreddit_"):]
 		topPosterFolders = glob.glob(f+"*") 
-
 		for tpf in topPosterFolders: #  add in the top users for the date, for that one specific subreddit
 			if(bool(regexDate.search(tpf))):
 				topPosters = getTopPosters(tpf)
@@ -88,6 +87,7 @@ def readTopPosters(base, date):
 					posterDictionary[poster] = subreddit_name
 	print(posterDictionary)
 	return posterDictionary
+
 def getListOfPosters(d):#takes in a dictionary of users, returns a list
 	l = []
 	for key, value in d.items():
@@ -109,7 +109,11 @@ def getDistanceFile(base, user1,user2,userDict,date):
 	for f in folders:
 		names = f[baseLen:]
 		mid = names.find("_")
+		#note "The_Donald" has an underscore
 		firstHalf = names[:mid]
+		if(names[len("The_Donald")]== The_Donald):
+			firstHalf ="The_Donald"
+			mid = len("The_Donald")
 		secondHalf = names[mid+1:]
 		# if you have the sub1 in the first half, and sub 2 in the second half, or vice versa
 		print("first half: "+ firstHalf+ " second half "+ secondHalf)

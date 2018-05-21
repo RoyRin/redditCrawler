@@ -75,11 +75,13 @@ def readTopPosters(base, date):
 	#posterSet = {}
 	posterDictionary = {}
 	folders = glob.glob(base+"subreddit_*")
+	print(folders)
 	for f in folders: # iterate through each subreddit
 		#print(f)
 		#print(f[len(base+"/subreddit_"):])
 		subreddit_name = f[len(base+"subreddit_"):]
-		topPosterFolders = glob.glob(f+"*") 
+		topPosterFolders = glob.glob(f+"/topPosters*")
+		print(topPosterFolders) 
 		for tpf in topPosterFolders: #  add in the top users for the date, for that one specific subreddit
 			if(bool(regexDate.search(tpf))):
 				topPosters = getTopPosters(tpf)
@@ -97,21 +99,19 @@ def getListOfPosters(d):#takes in a dictionary of users, returns a list
 def getDistanceFile(base, user1,user2,userDict,date):
 	r1 = re.compile(userDict[user1]) #searching for the proper 
 	r2 = re.compile(userDict[user2])
-
 	r3 = re.compile(user1)
 	r4 = re.compile(user2)
-
 	folders = glob.glob(base+"*")
 	#print(folders)
 	folder_folder = ""
 	#folders in the style of : subreddits_AskReddit_blog
-	baseLen = len(base+"/subreddits_")
+	baseLen = len(base+"subreddits_")
 	for f in folders:
 		names = f[baseLen:]
 		mid = names.find("_")
 		#note "The_Donald" has an underscore
 		firstHalf = names[:mid]
-		if(names[len("The_Donald")]== The_Donald):
+		if(names[len("The_Donald"):]== "The_Donald"):
 			firstHalf ="The_Donald"
 			mid = len("The_Donald")
 		secondHalf = names[mid+1:]
@@ -124,25 +124,28 @@ def getDistanceFile(base, user1,user2,userDict,date):
 			folder_folder = f
 			break
 	print("inside folder: "+ folder_folder)
-
-	folders = glob.glob(folder_folder+"/"+date+"/*")
+	folders = glob.glob(folder_folder+"/"+date+"/_"+user1+"*")
+	folders2 = glob.glob(folder_folder+"/"+date+"/_"+user2+"*")
+	folders.extend(folders2)
 	#print(folders)
 	#return ""
 	l = len(folder_folder+"/"+date+"/_")
 	#files in the style of : _bubbal_2011-03___Dacvak_2011-03
 	useruserFile = ""
-	for f in folders:
+	for fi in folders:
+		f = fi[l:] # only want the end of it
 		date1 = f.find(date)
 		firstName = f[:date1-1]
-		ff = f[date1 + len(date)+3:]# plus 3 because there are 3 _'s after 1st date
+		ff = f[date1 + len(date)+1:]# plus 3 because there are 3 _'s after 1st date
 		date2 = ff.find(date)
 		secondName = ff[:date2-1]
+		print("ile + "+ f + " names :" +firstName+ " "+ secondName)
 		# if you have the user in the first half, and user 2 in the second half, or vice versa
 		if(bool(r3.search( firstName) )  and bool(r4.search( secondName) )   ):
-			useruserFile = f
+			useruserFile = fi
 			break
 		if(bool(r3.search( secondName ) )  and bool(r4.search( firstName ) )  ):
-			useruserFile = f
+			useruserFile = fi
 			break
 	#print(useruserFile)
 	return useruserFile
@@ -169,10 +172,10 @@ if __name__ == '__main__':
 	base = "/scratch/rr2635/user_user_pairwiseTDA/"
 	dates = ["2011-03","2012-03","2013-03",
 	"2014-03","2015-03","2016-03","2017-03","2017-09"]
-
+	#modulo = int(sys.argv[1])
 	#print(topPosters_list[i], topPosters_list[j], dates[3])
 	#print(getDistanceFile(base, topPosters_list[i], topPosters_list[j], topPosters_dict, dates[3]))
-	
+	count = 0
 	for date in dates:
 		topPosters_dict = readTopPosters(base+"topPosters/", date)
 		topPosters_list = getListOfPosters(topPosters_dict)
@@ -185,6 +188,7 @@ if __name__ == '__main__':
 		mat = np.zeros((len(topPosters_list),len(topPosters_list)))
 		for i in range(len(topPosters_list)):
 			for j in range(len(topPosters_list)):
+				count+=1
 				distFile = getDistanceFile(base, topPosters_list[i],topPosters_list[j],topPosters_dict,date)
 				if(distFile == ""):	
 					mat[i][j] = -1

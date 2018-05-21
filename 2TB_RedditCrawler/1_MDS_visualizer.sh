@@ -8,12 +8,13 @@
 #SBATCH --time=12:00:00
 #SBATCH --mail-type=END
 #SBATCH --mail-user=rr2635@nyu.edu
+#SBATCH --array=0-100
 
 
 module purge
 module load  python3/intel/3.6.3
 
-srun python -u 1_MDS_visualizer.py #$i # the 1st arguement is the subreddit index, i is the username index
+srun python -u 1_MDS_visualizer.py # $SLURM_ARRAY_TASK_ID #$i # the 1st arguement is the subreddit index, i is the username index
 #done
 
 exit

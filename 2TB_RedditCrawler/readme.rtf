@@ -2,7 +2,7 @@
 {\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 Menlo-Regular;}
 {\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red255\green255\blue255;}
 {\*\expandedcolortbl;;\csgray\c0;\csgray\c100000;}
-\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\margl1440\margr1440\vieww12480\viewh9480\viewkind0
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 
 \f0\fs24 \cf0 This readme is a description of the code, it presumes that you already know the goal of the code (a real, more in-depth readme will be added when the code is prepared for the public through a publication). \
@@ -32,17 +32,17 @@ usernameCounterPerSubreddit.sh\
 		topUsersPerSubreddit.py/.sh will read the text file from usernameCoutnPerSubreddit and produce a text file containing the top posters\'92 usernames\
 \
 \'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
-	MDS_Data\
+5	MDS_Data\
 \
 plot.py\
 \
-		This folder is used, once there is the proper file structure for the pairwise user-user comparisons between subreddits, and internal to subreddits. (This also requires that the file structure is populated with values of the pairwise TDA distances (text files containing a list of betti numbers)).\
+		This folder is used, once there is the proper file structure for the pairwise user-user comparisons between subreddits, and internal to subreddits. (This also requires that the file structure is populated with values of the pairwise TDA distances (text files containing a list of betti numbers)). HOWEVER, this code is still a WIP I never got it to run without bugs - so it should be edited before use.\
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 \cf0 \'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 \cf0 \
-	Statistical Learners \
+3	Statistical Learners \
 \
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
 
@@ -56,28 +56,45 @@ statisticalLearner_user.sh\
 	\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 
-\f0\fs24 \cf0 \cb1 \CocoaLigature1 	- this is the theoretical 
-\f1\fs22 \cf2 \cb3 \CocoaLigature0 \
+\f0\fs24 \cf0 \cb1 \CocoaLigature1 	The only necessary files are : 
+\f1\fs22 \cf2 \cb3 \CocoaLigature0 statisticalLearner_subreddit.sh, statisticalLearner_user.sh, which run statisticalLearner.py . The rest of the files are scrap files. statisticalLearner.py will run on either a sub reddit text file or a username text file (depending on the arguments provided), and it will learn a word2vec model (using gensim) for the file, and then at the end print out the model to specific directory (entirely automated).\
+\
 
 \f0\fs24 \cf0 \cb1 \CocoaLigature1 \'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 \cf0 \
-	TDA_Comparisons \
+4	TDA_Comparisons \
 \
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
 
 \f1\fs22 \cf2 \cb3 \CocoaLigature0 bottleneck					\
 pairwise_compare_PersistentHomology_users.py\
-compute_PersistentHomology.py			pairwise_compare_PersistentHomology_users.sh\
+compute_PersistentHomology.py			\
+pairwise_compare_PersistentHomology_users.sh\
 compute_PersistentHomology_users.sh\
-
-\f0\fs24 \cf0 \cb1 \CocoaLigature1 \
+\
+	I BELIEVE, but I am not confident, that the only relevant files are pairwise_compare_PersistentHomology_users.sh and pairwise_compare_PersistentHomology_users.py . \
+\
+\
+pairwise_compare_PersistentHomology_users.sh
+\f0\fs24 \cf0 \cb1 \CocoaLigature1 :\
+The goal here is to do pairwise TDA on a bunch of different learned models.\
+The models: for the subreddits (~45), there are ~150 months of models for each subreddit; for 1 subreddit, there are ~250 top users, and each has a model for each month.\
+\
+# Step 0 - create a directory to store the betti numbers\
+# step 1 - compute the betti number for each learned models for subreddits\
+# step 2 - compute the betti number for each of the top k users of a subreddit\
+	# need to find the top k commenters\
+#step 3 - need to create a directory to store each TDA comparison\
+	# subdirectory - user to user comparisons\
+\
+	For each pairwise comparison between users, It will print into the respective folder inside of : /scratch/rr2635/user_user_pairwiseTDA/\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 \cf0 \'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
-\cf0 2	writeSubredditScripts\
+\cf0 2.a	writeSubredditScripts\
 \
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
 
@@ -91,7 +108,7 @@ subredditScriptWriter.sh\
 \
 \
 \'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
-2	WriteUsernameScripts\
+2.b	WriteUsernameScripts\
 \
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
 
